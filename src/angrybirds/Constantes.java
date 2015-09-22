@@ -9,13 +9,9 @@ package angrybirds;
  *
  * @author Pierre
  */
-public class AngryBirds {
-
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String[] args) {
-        
-    }
+public class Constantes {
+    
+    
+    
     
 }
