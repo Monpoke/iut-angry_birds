@@ -53,8 +53,7 @@ public class Frame extends JFrame implements ComponentListener {
 	 */
 	@Override
 	public void componentResized(ComponentEvent e) {
-		Component c = e.getComponent();
-		dimension = c.getSize();
+		dimension = e.getComponent().getSize();
 	}
 
 	@Override
