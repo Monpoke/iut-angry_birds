@@ -83,10 +83,11 @@ public class Frame extends JFrame implements ComponentListener {
                 Bird b = new Bird(new Point(100, 100), new Vector(r
                         .nextInt(2000) - 1000, r.nextInt(2000) - 1000));
                 b.draw(g2d);
+                Obstacle obs = new Obstacle(new Point(400, 180), new Dimension(50,60));
+                obs.paint(g2d);
+                
             }
         });
-        //Obstacle obs = new Obstacle(new Point(400, 180), new Dimension(50,60));
-        //f.getContentPane().add(obs);
 
     }
 
