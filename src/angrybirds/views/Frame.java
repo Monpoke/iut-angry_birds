@@ -6,13 +6,14 @@ import java.awt.Graphics;
 import java.awt.Point;
 import java.awt.event.ComponentEvent;
 import java.awt.event.ComponentListener;
-import java.util.ArrayList;
+import java.util.Random;
 
 import javax.swing.JComponent;
 import javax.swing.JFrame;
 
 import angrybirds.models.Bird;
 import angrybirds.models.Vector;
+import java.awt.Graphics2D;
 
 /**
  *
@@ -26,11 +27,6 @@ public class Frame extends JFrame implements ComponentListener {
      * Taille de la fenetre
      */
     Dimension dimension = new Dimension(800, 450);
-
-    /**
-     * Contient la liste des objets à dessiner.
-     */
-    ArrayList<IDrawable> drawables = new ArrayList<>();
 
     /**
      * crée une fenetre pour afficher le jeu
@@ -75,15 +71,6 @@ public class Frame extends JFrame implements ComponentListener {
         // TODO Auto-generated method stub
     }
 
-    @Override
-    public void paint(Graphics g) {
-        super.paint(g);
-        for (IDrawable drawable : drawables) {
-            drawable.draw(g);
-        }
-    }
-
-/*
     public static void main(String[] args) {
         Frame f = new Frame();
         f.setVisible(true);
@@ -92,10 +79,13 @@ public class Frame extends JFrame implements ComponentListener {
             @Override
             public void paint(Graphics g) {
                 Graphics2D g2d = (Graphics2D) g;
-                Bird b = new Bird(new Point(100, 100), new Vector(1, 1));
+                Random r = new Random();
+                Bird b = new Bird(new Point(100, 100), new Vector(r
+                        .nextInt(2000) - 1000, r.nextInt(2000) - 1000));
                 b.draw(g2d);
             }
         });
 
-    }*/
+    }
+
 }
