@@ -1,6 +1,5 @@
 package angrybirds.views;
 
-import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.event.ComponentEvent;
 import java.awt.event.ComponentListener;
@@ -9,7 +8,8 @@ import javax.swing.JFrame;
 
 /**
  * 
- * @author messiaek
+ * @author Messiaen kevin
+ * @author Dumont paul
  *
  */
 public class Frame extends JFrame implements ComponentListener {
