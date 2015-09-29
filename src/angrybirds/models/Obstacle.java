@@ -1,21 +1,24 @@
 package angrybirds.models;
 
+import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.Graphics;
 import java.awt.Point;
+
+import javax.swing.JFrame;
 
 /**
  * 
  * @author Samuel - Antoine
  *
  */
+
 public class Obstacle {
 	
 	private Dimension dimension;
-	private String forme;
 	private Point centre;
 	
-	public Obstacle(String forme,Point centre,Dimension dimension) {
-		this.forme = forme;	
+	public Obstacle(Point centre, Dimension dimension) {
 		this.centre = centre;
 		this.dimension = dimension;
 	}
@@ -26,11 +29,23 @@ public class Obstacle {
 	
 	public void setDimension(Dimension dimension) { this.dimension = dimension;}
 	
-	public String getForme() { return forme;}
-	
-	public void setForme(String forme) { this.forme = forme;}
-	
 	public Point getCentre() { return centre;}
 	
 	public void setCentre(Point point) {this.centre = centre;}
+	
+	public boolean collides() {
+		
+		//En attente
+		return false;
+		
+	}
+	
+	public void paint (Graphics g) {
+		
+		g.drawRect((int) centre.getX(), (int) centre.getY(), (int) dimension.getWidth(), (int) dimension.getHeight());
+		g.fillRect((int) centre.getX(), (int) centre.getY(), (int) dimension.getWidth(), (int) dimension.getHeight());
+		g.setColor(Color.BLUE);
+		
+	}
+	
 }
