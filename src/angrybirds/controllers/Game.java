@@ -39,7 +39,6 @@ public class Game {
 
         frame.setVisible(true);
 
-        
         // lance le refresh
         this.refresh();
     }
@@ -48,7 +47,9 @@ public class Game {
      * La fonction ajoute un oiseau.
      */
     private void addBird() {
-      bird = new Bird(new Point(60, 60), new Vector(2, 1));
+        Point p = new Point(60, 60);
+        
+        bird = new Bird(p, new Vector(2, 1));
         contentPane.add(new JComponent() {
             @Override
             public void paint(Graphics g) {
@@ -58,7 +59,6 @@ public class Game {
         });
     }
 
-    
     /**
      * Rafraîchit le content pane via un thread.
      */
@@ -70,8 +70,8 @@ public class Game {
                 while (true) {
                     contentPane.repaint();
                     Point p = bird.getPosition();
-                    
-                    bird.getPosition().setLocation(p.getX()+2, p.getY());
+
+                    bird.getPosition().setLocation(p.getX() + 2, p.getY());
                     try {
                         Thread.sleep(Constants.REFRESH_TIME);
                     } catch (InterruptedException ex) {
