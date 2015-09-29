@@ -15,75 +15,76 @@ import angrybirds.models.Bird;
 import angrybirds.models.Vector;
 
 /**
- * 
+ *
  * @author Messiaen kevin
  * @author Dumont paul
  *
  */
 public class Frame extends JFrame implements ComponentListener {
-	
-	/**
-	 * Taille de la fenetre
-	 */
-	Dimension dimension = new Dimension(800, 450);
-	
-	/**
-	 * crée une fenetre pour afficher le jeu
-	 */
-	public Frame() {
-		this.setTitle("Angry Birds");
-		this.setSize(new Dimension(800, 450));
-		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		this.setLocationRelativeTo(null);
-		this.addComponentListener(this);
-	}
-	
-	/**
-	 * renvoie la taille actuelle de la fenetre
-	 * @return dimension
-	 */
-	public Dimension getDimension() {
-		return dimension;
-	}
 
-	@Override
-	public void componentHidden(ComponentEvent e) {
-		// TODO Auto-generated method stub
-	}
+    /**
+     * Taille de la fenetre
+     */
+    Dimension dimension = new Dimension(800, 450);
 
-	@Override
-	public void componentMoved(ComponentEvent e) {
-		// TODO Auto-generated method stub
-	}
+    /**
+     * crée une fenetre pour afficher le jeu
+     */
+    public Frame() {
+        this.setTitle("Angry Birds");
+        this.setSize(new Dimension(800, 450));
+        this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        this.setLocationRelativeTo(null);
+        this.addComponentListener(this);
+    }
 
-	/**
-	 * actualise la taille de la fenetre lors des modifications
-	 */
-	@Override
-	public void componentResized(ComponentEvent e) {
-		dimension = e.getComponent().getSize();
-	}
+    /**
+     * renvoie la taille actuelle de la fenetre
+     *
+     * @return dimension
+     */
+    public Dimension getDimension() {
+        return dimension;
+    }
 
-	@Override
-	public void componentShown(ComponentEvent e) {
-		// TODO Auto-generated method stub
-	}
-	
-	public static void main(String[] args) {
-		Frame f = new Frame();
-		f.setVisible(true);
-		f.getContentPane().add(new JComponent() {
-			
-			@Override
-			public void paint(Graphics g) {
-				Graphics2D g2d = (Graphics2D) g;
-				Random r = new Random();
-				Bird b = new Bird(new Point(100, 100), new Vector(r
-						.nextInt(2000) - 1000, r.nextInt(2000) - 1000));
-				b.draw(g2d);
-			}
-		});
-		
-	}
+    @Override
+    public void componentHidden(ComponentEvent e) {
+        // TODO Auto-generated method stub
+    }
+
+    @Override
+    public void componentMoved(ComponentEvent e) {
+        // TODO Auto-generated method stub
+    }
+
+    /**
+     * actualise la taille de la fenetre lors des modifications
+     */
+    @Override
+    public void componentResized(ComponentEvent e) {
+        dimension = e.getComponent().getSize();
+    }
+
+    @Override
+    public void componentShown(ComponentEvent e) {
+        // TODO Auto-generated method stub
+    }
+
+    public static void main(String[] args) {
+        Frame f = new Frame();
+        f.setVisible(true);
+        f.getContentPane().add(new JComponent() {
+
+            @Override
+            public void paint(Graphics g) {
+                Graphics2D g2d = (Graphics2D) g;
+                Random r = new Random();
+                Bird b = new Bird(new Point(100, 100), new Vector(r
+                        .nextInt(2000) - 1000, r.nextInt(2000) - 1000));
+                b.draw(g2d);
+            }
+        });
+
+    }
 
 }
