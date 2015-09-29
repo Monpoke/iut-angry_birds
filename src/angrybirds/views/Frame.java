@@ -1,8 +1,8 @@
 package angrybirds.views;
 
-import angrybirds.models.IDrawable;
 import java.awt.Dimension;
 import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.awt.Point;
 import java.awt.event.ComponentEvent;
 import java.awt.event.ComponentListener;
@@ -13,7 +13,6 @@ import javax.swing.JFrame;
 
 import angrybirds.models.Bird;
 import angrybirds.models.Vector;
-import java.awt.Graphics2D;
 
 /**
  *

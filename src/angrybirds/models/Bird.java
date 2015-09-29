@@ -29,7 +29,7 @@ public class Bird implements IDrawable {
         g.fillOval(position.x - 25, position.y - 25, 50, 50);
         g.setColor(Color.BLACK);
         g.drawLine(position.x, position.y, position.x + (int) mouvement.getX(),
-                position.x + (int) mouvement.getY());
+                position.y + (int) mouvement.getY());
 
     }
 
