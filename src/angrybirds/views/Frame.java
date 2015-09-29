@@ -1,10 +1,17 @@
 package angrybirds.views;
 
 import java.awt.Dimension;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.Point;
 import java.awt.event.ComponentEvent;
 import java.awt.event.ComponentListener;
 
+import javax.swing.JComponent;
 import javax.swing.JFrame;
+
+import angrybirds.models.Bird;
+import angrybirds.models.Vector;
 
 /**
  * 
@@ -62,7 +69,18 @@ public class Frame extends JFrame implements ComponentListener {
 	}
 	
 	public static void main(String[] args) {
-		new Frame().setVisible(true);
+		Frame f = new Frame();
+		f.setVisible(true);
+		f.getContentPane().add(new JComponent() {
+			
+			@Override
+			public void paint(Graphics g) {
+				Graphics2D g2d = (Graphics2D) g;
+				Bird b = new Bird(new Point(100, 100), new Vector(1, 1));
+				b.draw(g2d);
+			}
+		});
+		
 	}
 
 }
