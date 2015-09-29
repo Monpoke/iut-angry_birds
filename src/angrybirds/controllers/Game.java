@@ -26,13 +26,14 @@ public class Game {
 
     private ArrayList<IDrawable> drawables = new ArrayList<>();
     private Bird bird;
+    private final Frame frame;
 
     /**
      * Constructeur temporaire.
      */
     public Game() {
 
-        Frame frame = new Frame();
+        frame = new Frame();
         contentPane = frame.getContentPane();
 
         this.addBird();
@@ -47,7 +48,8 @@ public class Game {
      * La fonction ajoute un oiseau.
      */
     private void addBird() {
-        Point p = new Point(60, 60);
+        
+        Point p = new Point(20, (int)(0.7*frame.getDimension().getHeight()));
         
         bird = new Bird(p, new Vector(2, 1));
         contentPane.add(new JComponent() {
@@ -83,4 +85,7 @@ public class Game {
         t.start();
     }
 
+    
+    
+    
 }
