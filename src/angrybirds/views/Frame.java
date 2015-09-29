@@ -6,6 +6,7 @@ import java.awt.Graphics2D;
 import java.awt.Point;
 import java.awt.event.ComponentEvent;
 import java.awt.event.ComponentListener;
+import java.util.Random;
 
 import javax.swing.JComponent;
 import javax.swing.JFrame;
@@ -76,7 +77,9 @@ public class Frame extends JFrame implements ComponentListener {
 			@Override
 			public void paint(Graphics g) {
 				Graphics2D g2d = (Graphics2D) g;
-				Bird b = new Bird(new Point(100, 100), new Vector(1, 1));
+				Random r = new Random();
+				Bird b = new Bird(new Point(100, 100), new Vector(r
+						.nextInt(2000) - 1000, r.nextInt(2000) - 1000));
 				b.draw(g2d);
 			}
 		});

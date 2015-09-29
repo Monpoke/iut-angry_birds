@@ -15,8 +15,10 @@ public class Bird implements IDrawable {
 	}
 
 	public void setNormalizedMouvement(Vector mouvement) {
-		float movementRatio = 75.0f / (float) Math.sqrt(mouvement.getX()
-				* mouvement.getX() + mouvement.getY() * mouvement.getY());
+		float pyt = (float) Math.sqrt(mouvement.getX() * mouvement.getX()
+				+ mouvement.getY() * mouvement.getY());
+		System.out.println(pyt);
+		float movementRatio = 50.0f / pyt;
 		this.mouvement = new Vector(mouvement.getX() * movementRatio,
 				mouvement.getY() * movementRatio);
 	}
@@ -24,8 +26,10 @@ public class Bird implements IDrawable {
 	@Override
 	public void draw(Graphics g) {
 		g.setColor(Color.RED);
-		g.fillOval(position.x, position.y, 50, 50);
-
+		g.fillOval(position.x - 25, position.y - 25, 50, 50);
+		g.setColor(Color.BLACK);
+		g.drawLine(position.x, position.y, position.x + (int) mouvement.getX(),
+				position.x + (int) mouvement.getY());
 	}
 
 }
