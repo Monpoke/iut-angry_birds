@@ -12,6 +12,7 @@ import javax.swing.JComponent;
 import javax.swing.JFrame;
 
 import angrybirds.models.Bird;
+import angrybirds.models.Obstacle;
 import angrybirds.models.Vector;
 
 /**
@@ -69,5 +70,4 @@ public class Frame extends JFrame implements ComponentListener {
     public void componentShown(ComponentEvent e) {
         // TODO Auto-generated method stub
     }
-
 }
