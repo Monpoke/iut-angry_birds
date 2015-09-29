@@ -1,6 +1,7 @@
 package angrybirds.models;
 
 import java.awt.Color;
+import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Point;
@@ -13,7 +14,7 @@ import javax.swing.JFrame;
  *
  */
 
-public class Obstacle {
+public class Obstacle extends Component{
 	
 	private Dimension dimension;
 	private Point centre;
@@ -33,7 +34,7 @@ public class Obstacle {
 	
 	public void setCentre(Point point) {this.centre = centre;}
 	
-	public boolean collides() {
+	public boolean collides(Bird bird) {
 		
 		//En attente
 		return false;

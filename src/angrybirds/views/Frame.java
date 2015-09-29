@@ -12,6 +12,7 @@ import javax.swing.JComponent;
 import javax.swing.JFrame;
 
 import angrybirds.models.Bird;
+import angrybirds.models.Obstacle;
 import angrybirds.models.Vector;
 
 /**
@@ -84,6 +85,8 @@ public class Frame extends JFrame implements ComponentListener {
                 b.draw(g2d);
             }
         });
+        //Obstacle obs = new Obstacle(new Point(400, 180), new Dimension(50,60));
+        //f.getContentPane().add(obs);
 
     }
 
