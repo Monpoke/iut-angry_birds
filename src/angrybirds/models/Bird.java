@@ -3,8 +3,9 @@ package angrybirds.models;
 import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.Point;
+import javax.swing.JPanel;
 
-public class Bird implements Drawable {
+public class Bird  extends JPanel implements Drawable {
 	
 	private Point position;
 	
