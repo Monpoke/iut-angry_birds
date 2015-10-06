@@ -22,9 +22,8 @@ public class Bird implements IDrawable {
 	 *            vecteur tangante a la courbe pendant le mouvement de l'oiseau
 	 *            après normalisation
 	 */
-	public Bird(Vector mouvement) {
-		this.position = position;
-		this.setPosition(mouvement);
+	public Bird(Vector position) {
+		this.setPosition(position);
 	}
 
 	/**
@@ -33,9 +32,9 @@ public class Bird implements IDrawable {
 	 * @param mouvement
 	 *            vecteur tangante a la courbe pendant le mouvement de l'oiseau
 	 */
-	public void setPosition(Vector mouvement) {
-		mouvement.scale(50.0f);
-		this.mouvement = mouvement;
+	public void setPosition(Vector position) {
+		position.scale(50.0f);
+		this.position = position;
 	}
 
 	@Override
@@ -43,7 +42,7 @@ public class Bird implements IDrawable {
 
 		drawBeak(g);
 		g.setColor(Color.RED);
-		g.fillOval(position.x - 25, position.y - 25, 50, 50);
+		g.fillOval((int) position.getX() - 25, (int) position.getY() - 25, 50, 50);
 
 	}
 
@@ -56,13 +55,13 @@ public class Bird implements IDrawable {
 	private void drawBeak(Graphics g) {
 		g.setColor(Color.ORANGE);
 
-		Vector perp = mouvement.getPerpendicular();
-		int pointsX[] = { position.x + (int) mouvement.getLength(),
-				position.x + (int) (perp.getLength() * 0.5f),
-				position.x - (int) (perp.getLength() * 0.5f) };
-		int pointsY[] = { position.y + (int) mouvement.getWidth(),
-				position.y + (int) (perp.getWidth() * 0.5f),
-				position.y - (int) (perp.getWidth() * 0.5f) };
+		Vector perp = position.getPerpendicular();
+		int pointsX[] = { (int) position.getX() + (int) position.getLength(),
+				(int) position.getX() + (int) (perp.getLength() * 0.5f),
+				(int) position.getX() - (int) (perp.getLength() * 0.5f) };
+		int pointsY[] = { (int) position.getY() + (int) position.getWidth(),
+				(int) position.getY() + (int) (perp.getWidth() * 0.5f),
+				(int) position.getY() - (int) (perp.getWidth() * 0.5f) };
 
 		g.fillPolygon(pointsX, pointsY, 3);
 	}
@@ -72,7 +71,7 @@ public class Bird implements IDrawable {
 	 * 
 	 * @return la position
 	 */
-	public Point getPosition() {
+	public Vector getPosition() {
 		return position;
 	}
 

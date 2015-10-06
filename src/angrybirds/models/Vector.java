@@ -68,4 +68,9 @@ public class Vector {
 		this.width = width;
 	}
 
+	public void setLocation(int x, int y) {
+		this.x = x;
+		this.y = y;
+	}
+
 }
