@@ -76,7 +76,7 @@ public class Game {
                     Vector p = bird.getPosition();
 
                     int x = (int) (p.getX() + 2);
-                    int y = (int) (Trajectory.parabolic(x, (int) p.getY())) + startY;
+                    int y = (int) (Trajectory.parabolic(x, contentPane.getHeight())) + startY;
 
                     bird.getPosition().setLocation(x, y);
 
@@ -92,13 +92,14 @@ public class Game {
             }
 
             private void checkPosition(Bird bird) {
+                System.out.println((int) bird.getPosition().getX() + ":" + (int) bird.getPosition().getY());
+
                 if (bird.getPosition().getY() < 0) {
                     // Si en dessous de la barre inférieure, repositionner
-                    bird.setPosition(new Vector(0, 50, 90, 1));
+                    bird.setPosition(new Vector(0, 100, 90, 1));
                 }
                 // affiche x y
-                System.out.println((int)bird.getPosition().getX()+":"+(int)bird.getPosition().getY());
-                
+
             }
         });
         t.start();

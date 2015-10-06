@@ -21,6 +21,10 @@ public class Vector {
 
 	public void scale(float size) {
 		float hypothenus = (float) Math.sqrt(length * length + width * width);
+		
+		if (hypothenus == 0)
+			return;
+		
 		float ratio = size / hypothenus;
 
 		length *= ratio;
@@ -71,6 +75,46 @@ public class Vector {
 	public void setLocation(int x, int y) {
 		this.x = x;
 		this.y = y;
+	}
+	
+	
+	
+	@Override
+	public String toString() {
+		return "Vector [x=" + x + ", y=" + y + ", length=" + length
+				+ ", width=" + width + "]";
+	}
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + Float.floatToIntBits(length);
+		result = prime * result + Float.floatToIntBits(width);
+		result = prime * result + Float.floatToIntBits(x);
+		result = prime * result + Float.floatToIntBits(y);
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Vector other = (Vector) obj;
+		
+		if (length != other.length)
+			return false;
+		if (width != other.width)
+			return false;
+		if (x != other.x)
+			return false;
+		if (y != other.y)
+			return false;
+		return true;
 	}
 
 }

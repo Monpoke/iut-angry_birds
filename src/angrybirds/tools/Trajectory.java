@@ -13,12 +13,14 @@ public abstract class Trajectory {
         
         x-=350;
         
+//        double a = -0.095f;
         double a = -0.095f;
-        double b = x/1f;
+        double b = x*1.2f;
         double c = 0;
 
         double y = a * Math.pow(x, 2) + b * x + c;
         y=h-y;
+        
         
         return (int) y/400;
     }
