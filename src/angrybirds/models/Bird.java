@@ -10,9 +10,8 @@ import java.awt.Point;
  * @author Dumont paul
  */
 public class Bird implements IDrawable {
-
-	private Point position;
-	private Vector mouvement;
+	
+	private Vector position;
 
 	/**
 	 * crée un nouvel oiseau
@@ -23,9 +22,9 @@ public class Bird implements IDrawable {
 	 *            vecteur tangante a la courbe pendant le mouvement de l'oiseau
 	 *            après normalisation
 	 */
-	public Bird(Point position, Vector mouvement) {
+	public Bird(Vector mouvement) {
 		this.position = position;
-		this.setNormalizedMouvement(mouvement);
+		this.setPosition(mouvement);
 	}
 
 	/**
@@ -34,37 +33,9 @@ public class Bird implements IDrawable {
 	 * @param mouvement
 	 *            vecteur tangante a la courbe pendant le mouvement de l'oiseau
 	 */
-	public void setNormalizedMouvement(Vector mouvement) {
-		this.mouvement = normalize(mouvement, 50f);
-	}
-
-	/**
-	 * normalise un vecteur en fonction d'une taille donnée
-	 * 
-	 * @param vecteur
-	 *            anormalisée
-	 * @param size
-	 *            taille donnée
-	 * @return vecteur normalisée
-	 */
-	private Vector normalize(Vector vecteur, float size) {
-		float pyt = (float) Math.sqrt(vecteur.getX() * vecteur.getX()
-				+ vecteur.getY() * vecteur.getY());
-		float movementRatio = size / pyt;
-		return new Vector(vecteur.getX() * movementRatio, vecteur.getY()
-				* movementRatio);
-	}
-
-	/**
-	 * renvoie le vecteur perpendiculaire au vecteur donnée
-	 * 
-	 * @param vector
-	 *            vecteur auquel on cherche la perpendiculaire
-	 * @return le vecteur perpendiculaire
-	 */
-	private Vector getPerpendicular(Vector vector) {
-		Vector perpendicular = new Vector(-vector.getY(), vector.getX());
-		return perpendicular;
+	public void setPosition(Vector mouvement) {
+		mouvement.scale(50.0f);
+		this.mouvement = mouvement;
 	}
 
 	@Override
@@ -85,13 +56,13 @@ public class Bird implements IDrawable {
 	private void drawBeak(Graphics g) {
 		g.setColor(Color.ORANGE);
 
-		Vector perp = normalize(getPerpendicular(mouvement), 50f);
-		int pointsX[] = { position.x + (int) mouvement.getX(),
-				position.x + (int) (perp.getX() * 0.5f),
-				position.x - (int) (perp.getX() * 0.5f) };
-		int pointsY[] = { position.y + (int) mouvement.getY(),
-				position.y + (int) (perp.getY() * 0.5f),
-				position.y - (int) (perp.getY() * 0.5f) };
+		Vector perp = mouvement.getPerpendicular();
+		int pointsX[] = { position.x + (int) mouvement.getLength(),
+				position.x + (int) (perp.getLength() * 0.5f),
+				position.x - (int) (perp.getLength() * 0.5f) };
+		int pointsY[] = { position.y + (int) mouvement.getWidth(),
+				position.y + (int) (perp.getWidth() * 0.5f),
+				position.y - (int) (perp.getWidth() * 0.5f) };
 
 		g.fillPolygon(pointsX, pointsY, 3);
 	}
