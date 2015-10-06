@@ -1,19 +1,10 @@
 package angrybirds.views;
 
 import java.awt.Dimension;
-import java.awt.Graphics;
-import java.awt.Graphics2D;
-import java.awt.Point;
 import java.awt.event.ComponentEvent;
 import java.awt.event.ComponentListener;
-import java.util.Random;
-
-import javax.swing.JComponent;
 import javax.swing.JFrame;
 
-import angrybirds.models.Bird;
-import angrybirds.models.Obstacle;
-import angrybirds.models.Vector;
 
 /**
  *

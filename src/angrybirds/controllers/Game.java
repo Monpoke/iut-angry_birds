@@ -77,8 +77,11 @@ public class Game {
 
                     int x = (int) (p.getX() + 2);
                     int y = (int) (Trajectory.parabolic(x, (int) p.getY())) + startY;
-                    System.out.println(y);
+
                     bird.getPosition().setLocation(x, y);
+
+                    checkPosition(bird);
+
                     try {
                         Thread.sleep(Constants.REFRESH_TIME);
                     } catch (InterruptedException ex) {
@@ -86,6 +89,16 @@ public class Game {
                                 Level.SEVERE, null, ex);
                     }
                 }
+            }
+
+            private void checkPosition(Bird bird) {
+                if (bird.getPosition().getY() < 0) {
+                    // Si en dessous de la barre inférieure, repositionner
+                    bird.setPosition(new Vector(0, 50, 90, 1));
+                }
+                // affiche x y
+                System.out.println((int)bird.getPosition().getX()+":"+(int)bird.getPosition().getY());
+                
             }
         });
         t.start();

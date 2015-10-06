@@ -11,15 +11,16 @@ public abstract class Trajectory {
  
     public static int parabolic(int x, int h) {
         
-        double a = -0.09f;
-        double b = x/2f;
-        double c = x;
+        x-=350;
+        
+        double a = -0.095f;
+        double b = x/1f;
+        double c = 0;
 
         double y = a * Math.pow(x, 2) + b * x + c;
-
-        y = h -y;
+        y=h-y;
         
-        return (int) y / 120;
+        return (int) y/400;
     }
 
 }
