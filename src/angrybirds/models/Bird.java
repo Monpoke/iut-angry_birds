@@ -18,9 +18,6 @@ public class Bird implements IDrawable {
 	 * 
 	 * @param position
 	 *            de l'oiseau
-	 * @param mouvement
-	 *            vecteur tangante a la courbe pendant le mouvement de l'oiseau
-	 *            après normalisation
 	 */
 	public Bird(Vector position) {
 		this.setPosition(position);
@@ -29,8 +26,6 @@ public class Bird implements IDrawable {
 	/**
 	 * change le vecteur du mouvement et le normalise de taille 50 !
 	 * 
-	 * @param mouvement
-	 *            vecteur tangante a la courbe pendant le mouvement de l'oiseau
 	 */
 	public void setPosition(Vector position) {
 		position.scale(50.0f);
