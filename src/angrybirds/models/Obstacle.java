@@ -64,8 +64,15 @@ public class Obstacle extends Component{
 	 * @return true si il y a collision, false sinon
 	 */
 	public boolean collides(Bird bird) {
+		//En attente 
+		double[] surfaceOccupee = new double[]{centre.getX()-dimension.getWidth(),centre.getX()+dimension.getWidth(),
+				centre.getY()-dimension.getHeight(),centre.getY()+dimension.getHeight()};
+		if(bird.getPosition().getX() >= surfaceOccupee[0] && bird.getPosition().getX() <= surfaceOccupee[1]) {
+			if(bird.getPosition().getY() >= surfaceOccupee[2] && bird.getPosition().getY() <= surfaceOccupee[3]) {
+				return true;
+			}
+		}
 		
-		//En attente
 		return false;
 		
 	}
