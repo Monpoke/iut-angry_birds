@@ -42,7 +42,7 @@ public class Bird implements IDrawable {
 
 		drawBeak(g);
 		g.setColor(Color.RED);
-		g.fillOval((int) position.getX() - 25, (int) position.getY() - 25, 50, 50);
+		g.fillOval((int) position.getX() - 25, 450 - (int) position.getY() - 25, 50, 50);
 
 	}
 
@@ -59,9 +59,9 @@ public class Bird implements IDrawable {
 		int pointsX[] = { (int) position.getX() + (int) position.getLength(),
 				(int) position.getX() + (int) (perp.getLength() * 0.5f),
 				(int) position.getX() - (int) (perp.getLength() * 0.5f) };
-		int pointsY[] = { (int) position.getY() + (int) position.getWidth(),
-				(int) position.getY() + (int) (perp.getWidth() * 0.5f),
-				(int) position.getY() - (int) (perp.getWidth() * 0.5f) };
+		int pointsY[] = { 450 - ((int) position.getY() + (int) position.getWidth()),
+				450 - ((int) position.getY() + (int) (perp.getWidth() * 0.5f)),
+				450 - ((int) position.getY() - (int) (perp.getWidth() * 0.5f)) };
 
 		g.fillPolygon(pointsX, pointsY, 3);
 	}

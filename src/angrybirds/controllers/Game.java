@@ -5,7 +5,6 @@ package angrybirds.controllers;
 
 import java.awt.Container;
 import java.awt.Graphics;
-import java.awt.Point;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -16,6 +15,7 @@ import angrybirds.Constants;
 import angrybirds.models.Bird;
 import angrybirds.models.IDrawable;
 import angrybirds.models.Vector;
+import angrybirds.tools.Trajectory;
 import angrybirds.views.Frame;
 
 /**
