@@ -9,7 +9,7 @@ import java.awt.Point;
  * @author Messiaen kevin
  * @author Dumont paul
  */
-public class Bird implements IDrawable {
+public class Bird extends GameObject implements IDrawable {
 	
 	private Vector position;
 

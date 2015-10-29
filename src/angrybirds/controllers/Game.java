@@ -75,12 +75,8 @@ public class Game {
                     contentPane.repaint();
                     Vector p = bird.getPosition();
 
-                    int x = (int) (p.getX() + 2);
-                    int y = (int) (Trajectory.parabolic(x, contentPane.getHeight())) + startY;
-
-                    bird.getPosition().setLocation(x, y);
-
                     checkPosition(bird);
+                    advancePosition(bird);
 
                     try {
                         Thread.sleep(Constants.REFRESH_TIME);
@@ -92,14 +88,21 @@ public class Game {
             }
 
             private void checkPosition(Bird bird) {
-                System.out.println((int) bird.getPosition().getX() + ":" + (int) bird.getPosition().getY());
 
                 if (bird.getPosition().getY() < 0) {
-                    // Si en dessous de la barre inférieure, repositionner
-                    bird.setPosition(new Vector(0, 100, 90, 1));
+//                 Si en dessous de la barre inférieure, repositionner
+                    bird.getPosition().setY(5f);
                 }
-                // affiche x y
+//                 affiche x y
+            }
 
+            private void advancePosition(Bird bird) {
+                Vector p = bird.getPosition();
+                int x = (int) (p.getX()) + 2;
+                bird.getPosition().setX(x);
+//                bird.getPosition().setY(p.getY() + Trajectory.parabolic(x, (int) p.getY()));
+                
+                
             }
         });
         t.start();
