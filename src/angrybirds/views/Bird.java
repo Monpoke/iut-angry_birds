@@ -1,5 +1,6 @@
 package angrybirds.views;
 
+import angrybirds.controllers.BirdController;
 import angrybirds.models.BirdModel;
 import angrybirds.models.GameObjectModel;
 import angrybirds.structures.Vector2d;
@@ -19,12 +20,12 @@ import java.util.Observer;
 public class Bird extends GameObjectView implements IDrawable, Observer {
 
     /**
-     * Takes bird model in parameter.
-     *
-     * @param model
+     * Creates a bird
+     * @param birdModel
+     * @param birdController 
      */
-    public Bird(BirdModel model) {
-        super(model);
+    public Bird(BirdModel birdModel, BirdController birdController) {
+        super(birdModel, birdController);
     }
 
     /**

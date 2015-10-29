@@ -4,7 +4,6 @@
  */
 package angrybirds;
 
-import angrybirds.views.Window;
 import javax.swing.SwingUtilities;
 
 /**

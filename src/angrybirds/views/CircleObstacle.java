@@ -4,6 +4,7 @@
  */
 package angrybirds.views;
 
+import angrybirds.controllers.GameObjectController;
 import angrybirds.models.GameObjectModel;
 import angrybirds.models.ObstacleModel;
 import java.awt.Color;
@@ -17,10 +18,9 @@ import java.util.Observer;
  */
 public class CircleObstacle extends GameObjectView implements Observer, IDrawable {
 
-    public CircleObstacle(ObstacleModel model) {
-        super(model);
+    public CircleObstacle(GameObjectModel model, GameObjectController controller) {
+        super(model, controller);
     }
-
 
     @Override
     public void draw(Graphics g) {

@@ -65,7 +65,8 @@ public class Window extends JFrame {
                     if (Constants.DEBUG_MODE == true && debugBoxModel != null) {
                         debugBoxModel.setRefreshTimes((refreshTimes++));
                     }
-
+                    
+                    game.updateElements();
                     repaint();
                 }
             }

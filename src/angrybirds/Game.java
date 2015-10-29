@@ -4,6 +4,9 @@
  */
 package angrybirds;
 
+import angrybirds.controllers.BirdController;
+import angrybirds.controllers.GameObjectController;
+import angrybirds.controllers.ObstacleController;
 import angrybirds.models.BirdModel;
 import angrybirds.models.ObstacleModel;
 import angrybirds.structures.Vector2d;
@@ -78,7 +81,8 @@ public class Game extends BaseGame {
                     500,
                     100 + i * ((10 + rnd.nextInt(80)) + Constants.OBSTACLE_DIAMETER)
             ));
-            CircleObstacle obsView = new CircleObstacle(obsModel);
+            ObstacleController obsController = new ObstacleController(obsModel);
+            CircleObstacle obsView = new CircleObstacle(obsModel, obsController);
             obsModel.addView(obsView);
             // add the view to object to draw
             objects.add(obsView);
@@ -87,7 +91,8 @@ public class Game extends BaseGame {
 
     private void createBird() {
         BirdModel birdModel = new BirdModel(new Vector2d(30, 30+rnd.nextInt(150)));
-        bird = new Bird(birdModel);
+        BirdController birdController = new BirdController(birdModel);
+        bird = new Bird(birdModel, birdController);
         birdModel.addView(bird);
     }
 
@@ -112,7 +117,23 @@ public class Game extends BaseGame {
     public Bird getBird() {
         return bird;
     }
-    
+
+    /**
+     * This function is called before repaint.
+     * It allows the processing of data.
+     */
+    public void updateElements() {
+        // update objects
+        for (GameObjectView object : objects) {
+            GameObjectController controller = object.getController();
+            if(controller!=null){
+                controller.update();
+            }
+        }
+        
+        // update bird
+        bird.getController().update();
+    }    
     
 
 }
