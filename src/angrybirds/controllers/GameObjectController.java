@@ -5,6 +5,7 @@
 package angrybirds.controllers;
 
 import angrybirds.models.GameObjectModel;
+import angrybirds.trajectories.MovementApplyer;
 
 /**
  *
@@ -13,6 +14,8 @@ import angrybirds.models.GameObjectModel;
 public abstract class GameObjectController {
     protected final GameObjectModel model;
 
+    protected MovementApplyer movement;
+    
     /**
      * Gets the model
      * @param model 
@@ -21,8 +24,23 @@ public abstract class GameObjectController {
         this.model = model;
     }
     
+    /**
+     * Adds a movement.
+     * @param mvt 
+     */
+    public void addMovement(MovementApplyer mvt){
+        movement = mvt;
+    }
     
-    
-    public abstract void update();
+    /**
+     * Update loop.
+     */
+    public void update(){
+        System.out.println("Apply mov");
+        if(movement!=null){
+            System.out.println("TROIP COOL");
+            movement.apply();
+        }
+    }
     
 }

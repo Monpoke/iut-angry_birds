@@ -6,6 +6,8 @@ package angrybirds.debugbox;
 
 import angrybirds.Game;
 import angrybirds.structures.Vector2d;
+import angrybirds.trajectories.LinearMovement;
+import angrybirds.trajectories.MovementApplyer;
 import java.util.Observable;
 import java.util.Observer;
 import javax.swing.DefaultComboBoxModel;
@@ -43,8 +45,6 @@ public class DebugBox extends javax.swing.JFrame implements Observer {
     public DebugBoxController getDebugBoxController() {
         return debugBoxController;
     }
-    
-    
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -67,6 +67,7 @@ public class DebugBox extends javax.swing.JFrame implements Observer {
         width = new javax.swing.JTextField();
         jSeparator2 = new javax.swing.JSeparator();
         blockGame = new javax.swing.JToggleButton();
+        parameterMovement = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("DebugBox");
@@ -83,6 +84,11 @@ public class DebugBox extends javax.swing.JFrame implements Observer {
         jComboBox1.setModel(moves);
 
         execBird.setText("exec on bird");
+        execBird.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                execBirdActionPerformed(evt);
+            }
+        });
 
         birdX.setText("coordX");
 
@@ -107,14 +113,18 @@ public class DebugBox extends javax.swing.JFrame implements Observer {
             }
         });
 
+        parameterMovement.setText("2");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(jSeparator1, javax.swing.GroupLayout.Alignment.TRAILING)
+            .addComponent(jSeparator2, javax.swing.GroupLayout.Alignment.TRAILING)
+            .addComponent(blockGame, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(refreshIte)
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
@@ -127,14 +137,13 @@ public class DebugBox extends javax.swing.JFrame implements Observer {
                         .addGroup(layout.createSequentialGroup()
                             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                                 .addComponent(length, javax.swing.GroupLayout.Alignment.LEADING)
-                                .addComponent(birdX, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 93, Short.MAX_VALUE))
+                                .addComponent(birdX, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 93, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addGap(18, 18, 18)
                             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                .addComponent(birdY, javax.swing.GroupLayout.DEFAULT_SIZE, 93, Short.MAX_VALUE)
-                                .addComponent(width)))))
+                                .addComponent(birdY)
+                                .addComponent(width, javax.swing.GroupLayout.PREFERRED_SIZE, 93, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                    .addComponent(parameterMovement))
                 .addContainerGap(19, Short.MAX_VALUE))
-            .addComponent(jSeparator2, javax.swing.GroupLayout.Alignment.TRAILING)
-            .addComponent(blockGame, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -148,6 +157,8 @@ public class DebugBox extends javax.swing.JFrame implements Observer {
                     .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(execBird))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(parameterMovement, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 24, Short.MAX_VALUE)
                 .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -163,7 +174,7 @@ public class DebugBox extends javax.swing.JFrame implements Observer {
                 .addComponent(jSeparator2, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(blockGame)
-                .addContainerGap(76, Short.MAX_VALUE))
+                .addGap(32, 32, 32))
         );
 
         pack();
@@ -187,6 +198,28 @@ public class DebugBox extends javax.swing.JFrame implements Observer {
         Game.BLOCK_STATUS = !Game.BLOCK_STATUS;
     }//GEN-LAST:event_blockGameActionPerformed
 
+    /**
+     * Execute a movement
+     *
+     * @param evt
+     */
+    private void execBirdActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_execBirdActionPerformed
+
+        if (moves.getSelectedItem().toString().equals("linear")) {
+            game.getBird().getController().addMovement(new MovementApplyer(
+                    new LinearMovement("vertical", Integer.parseInt(parameterMovement.getText())), // give a vertical movement by 2 by 2
+                    game.getBird().getModel() // give the model
+            )
+            );
+            System.out.println("Apply movement linear");
+        } 
+        
+        // PARABOLIC
+        else {
+            
+        }
+    }//GEN-LAST:event_execBirdActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton applyPosition;
@@ -198,6 +231,7 @@ public class DebugBox extends javax.swing.JFrame implements Observer {
     private javax.swing.JSeparator jSeparator1;
     private javax.swing.JSeparator jSeparator2;
     private javax.swing.JTextField length;
+    private javax.swing.JTextField parameterMovement;
     private javax.swing.JLabel refreshIte;
     private javax.swing.JButton resetScene;
     private javax.swing.JTextField width;
@@ -205,14 +239,16 @@ public class DebugBox extends javax.swing.JFrame implements Observer {
 
     @Override
     public void update(Observable o, Object arg) {
-        DebugBoxModel m = ((DebugBoxModel) o);
-        refreshIte.setText("Refresh #" + m.getRefresh());
-        
-        // Recup bird
-        Vector2d position = game.getBird().getModel().getPosition();
-        birdX.setText(position.getX()+"");
-        birdY.setText(position.getY()+"");
-        length.setText(position.getLength()+"");
-        width.setText(position.getWidth()+"");
+        if (o instanceof DebugBoxModel) {
+            DebugBoxModel m = ((DebugBoxModel) o);
+            refreshIte.setText("Refresh #" + m.getRefresh());
+
+            // Recup bird
+            Vector2d position = game.getBird().getModel().getPosition();
+            birdX.setText(position.getX() + "");
+            birdY.setText(position.getY() + "");
+            length.setText(position.getLength() + "");
+            width.setText(position.getWidth() + "");
+        }
     }
 }

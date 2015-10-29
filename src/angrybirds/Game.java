@@ -90,7 +90,7 @@ public class Game extends BaseGame {
     }
 
     private void createBird() {
-        BirdModel birdModel = new BirdModel(new Vector2d(30, 30+rnd.nextInt(150)));
+        BirdModel birdModel = new BirdModel(new Vector2d(30, Constants.WINDOW_HEIGHT));
         BirdController birdController = new BirdController(birdModel);
         bird = new Bird(birdModel, birdController);
         birdModel.addView(bird);
@@ -123,6 +123,10 @@ public class Game extends BaseGame {
      * It allows the processing of data.
      */
     public void updateElements() {
+        System.out.println("EFEFEFFEFEZFZEF");
+        // update bird
+        bird.getController().update();
+        
         // update objects
         for (GameObjectView object : objects) {
             GameObjectController controller = object.getController();
@@ -131,8 +135,6 @@ public class Game extends BaseGame {
             }
         }
         
-        // update bird
-        bird.getController().update();
     }    
     
 

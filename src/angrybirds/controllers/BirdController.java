@@ -16,11 +16,6 @@ public class BirdController extends GameObjectController {
     public BirdController(GameObjectModel model) {
         super(model);
     }
-
-    @Override
-    public void update() {
-    }
-
     
     
 }

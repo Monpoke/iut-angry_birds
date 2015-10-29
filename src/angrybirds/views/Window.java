@@ -35,7 +35,7 @@ public class Window extends JFrame {
         this.game = game;
 
         setTitle("Angry Birds");
-        setSize(800, 600);
+        setSize(800, Constants.WINDOW_HEIGHT);
         setLocationRelativeTo(null);
         setResizable(false);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -44,8 +44,8 @@ public class Window extends JFrame {
 
     }
 
-    public void setRefreshTimes(int refreshTimes) {
-        this.refreshTimes = refreshTimes;
+    public void setRefreshTimes(int refreshTimes_) {
+        this.refreshTimes = refreshTimes_;
     }
 
     /**
