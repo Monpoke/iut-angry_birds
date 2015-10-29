@@ -141,6 +141,10 @@ public class Vector2d {
             event.notif(this);
         }
     }
+
+    public Vector2d copy() {
+        return new Vector2d(x, y, length, width);
+    }
     
     
 

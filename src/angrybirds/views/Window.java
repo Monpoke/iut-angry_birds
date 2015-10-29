@@ -23,10 +23,11 @@ import javax.swing.JFrame;
  */
 public class Window extends JFrame {
 
+
     private Game game;
     private DebugBoxModel debugBoxModel;
 
-    private int refreshTimes = 0;
+    private static int refreshTimes = 0;
     private Timer t = null;
     private DebugBox debugBox;
 
@@ -108,6 +109,11 @@ public class Window extends JFrame {
         if (debugBox != null) {
             debugBox.getDebugBoxController().setBird(a.getBird());
         }
+    }
+    
+    
+    public static int getRefreshTimes() {
+        return refreshTimes;
     }
 
 }
