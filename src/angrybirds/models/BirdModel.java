@@ -31,7 +31,7 @@ public class BirdModel extends GameObjectModel {
         this.position.addChangeListener(new AngryEvent() {
             @Override
             public void notif(Object data) {
-                m.notifyObservers();
+                m.sendNotification();
             }
         });
     }

@@ -36,9 +36,7 @@ public abstract class GameObjectController {
      * Update loop.
      */
     public void update(){
-        System.out.println("Apply mov");
         if(movement!=null){
-            System.out.println("TROIP COOL");
             movement.apply();
         }
     }

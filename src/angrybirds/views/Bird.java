@@ -75,7 +75,6 @@ public class Bird extends GameObjectView implements IDrawable, Observer {
 
     @Override
     public void update(Observable o, Object arg) {
-        System.out.println("TRACACACA Object Bird   ");
     }
 
 }

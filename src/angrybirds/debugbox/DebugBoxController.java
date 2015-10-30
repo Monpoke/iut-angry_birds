@@ -3,7 +3,6 @@ package angrybirds.debugbox;
 import angrybirds.Tools;
 import angrybirds.structures.Vector2d;
 import angrybirds.views.Bird;
-import java.util.Observable;
 
 /*
  *  Projet AngryBirds

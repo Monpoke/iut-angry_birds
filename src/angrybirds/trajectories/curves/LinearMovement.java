@@ -1,11 +1,13 @@
 /*
  *  Projet Angry Birds
  */
-package angrybirds.trajectories;
+package angrybirds.trajectories.curves;
 
 import angrybirds.Constants;
 import angrybirds.models.GameObjectModel;
 import angrybirds.structures.Vector2d;
+import angrybirds.trajectories.Movement;
+import angrybirds.trajectories.MovementApplyer;
 import angrybirds.views.Window;
 
 /**
@@ -39,7 +41,7 @@ public class LinearMovement extends Movement {
         Vector2d position = model.getPosition();
         
         if (type.equals("vertical")) {
-            position.setY(mvt.startPosition.getY() - (Window.getRefreshTimes() - mvt.startMovementTime) * by);
+            position.setY(mvt.getStartPosition().getY() - (Window.getRefreshTimes() - mvt.getStartMovementTime()) * by);
         } else {
             position.setX(position.getX() + by);
         }

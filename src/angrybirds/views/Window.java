@@ -35,7 +35,7 @@ public class Window extends JFrame {
         this.game = game;
 
         setTitle("Angry Birds");
-        setSize(800, Constants.WINDOW_HEIGHT);
+        setSize(Constants.WINDOW_WIDTH, Constants.WINDOW_HEIGHT);
         setLocationRelativeTo(null);
         setResizable(false);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);

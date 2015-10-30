@@ -6,8 +6,9 @@ package angrybirds.debugbox;
 
 import angrybirds.Game;
 import angrybirds.structures.Vector2d;
-import angrybirds.trajectories.LinearMovement;
+import angrybirds.trajectories.curves.LinearMovement;
 import angrybirds.trajectories.MovementApplyer;
+import angrybirds.trajectories.curves.ParabolicMovement;
 import java.util.Observable;
 import java.util.Observer;
 import javax.swing.DefaultComboBoxModel;
@@ -211,12 +212,17 @@ public class DebugBox extends javax.swing.JFrame implements Observer {
                     game.getBird().getModel() // give the model
             )
             );
-            System.out.println("Apply movement linear");
+            System.out.println("Apply linear movement");
         } 
         
         // PARABOLIC
         else {
-            
+             game.getBird().getController().addMovement(new MovementApplyer(
+                    new ParabolicMovement(parameterMovement.getText()), // give parameters
+                    game.getBird().getModel() // give the model
+            )
+            );
+            System.out.println("Apply parabolic movement");
         }
     }//GEN-LAST:event_execBirdActionPerformed
 

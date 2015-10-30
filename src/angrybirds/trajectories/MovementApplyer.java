@@ -36,6 +36,36 @@ public class MovementApplyer {
     public void apply() {
         movement.process(model, this);
     }
+
+    public Movement getMovement() {
+        return movement;
+    }
+
+    public void setMovement(Movement movement) {
+        this.movement = movement;
+    }
+
+    public GameObjectModel getModel() {
+        return model;
+    }
+
+    public void setModel(GameObjectModel model) {
+        this.model = model;
+    }
+
+    public int getStartMovementTime() {
+        return startMovementTime;
+    }
+
+    public void setStartMovementTime(int startMovementTime) {
+        this.startMovementTime = startMovementTime;
+    }
+
+    public Vector2d getStartPosition() {
+        return startPosition;
+    }
+    
+    
     
     
 }
