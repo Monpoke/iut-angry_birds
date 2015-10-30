@@ -3,6 +3,7 @@
  */
 package angrybirds.trajectories.curves;
 
+import angrybirds.Tools;
 import angrybirds.models.GameObjectModel;
 import angrybirds.structures.Vector2d;
 import angrybirds.trajectories.Movement;
@@ -44,7 +45,6 @@ public class ParabolicMovement extends Movement {
      */
     @Override
     public void process(GameObjectModel model, MovementApplyer mvt) {
-        Vector2d position = model.getPosition();
 
         /**
          * @TODO: Find parabolic ax² + bx + c
@@ -63,8 +63,8 @@ public class ParabolicMovement extends Movement {
         double fakeX = x + x1 - mvt.getStartPosition().getX();
         
         int y = (int) ((a * Math.pow((fakeX), 2)) + b * (fakeX) + c) / 100;
-        System.out.println("Y: " + y);
-        System.out.println("Delta: "+ delta + " -> x1: " + x1 +" y: "+y +" x " + x);
+        Tools.debug("Y: " + y);
+        Tools.debug("Delta: "+ delta + " -> x1: " + x1 +" y: "+y +" x " + x);
 
         model.getPosition().setX(x);
         model.getPosition().setY(y);
