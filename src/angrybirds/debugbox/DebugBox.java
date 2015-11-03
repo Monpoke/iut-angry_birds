@@ -119,7 +119,7 @@ public class DebugBox extends javax.swing.JFrame implements Observer {
             }
         });
 
-        parameterMovement.setText("2 2 -1 2");
+        parameterMovement.setText("-0.005 2 -1 2 2");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);

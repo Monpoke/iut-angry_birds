@@ -38,7 +38,10 @@ public class BirdModel extends GameObjectModel {
 
     public void addView(Bird view) {
         this.addObserver(view);
+        this.view = view;
     }
+    
+    
 
     public boolean isAlive(){
         return isAlive;

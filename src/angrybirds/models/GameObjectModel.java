@@ -2,6 +2,7 @@ package angrybirds.models;
 
 
 import angrybirds.Constants;
+import angrybirds.hitbox.HitBox;
 import angrybirds.structures.Vector2d;
 import angrybirds.views.GameObjectView;
 import java.util.Observable;
@@ -21,6 +22,16 @@ public abstract class GameObjectModel extends Observable {
      * Object position.
      */
     protected Vector2d position;
+    
+    /**
+     * Contains view.
+     */
+    protected GameObjectView view;
+    
+    /**
+     * Enable collisions if not null.
+     */
+    protected HitBox hitbox = null;
 
     public Vector2d getPosition() {
         return position;
@@ -38,6 +49,13 @@ public abstract class GameObjectModel extends Observable {
         notifyObservers();        
     }
 
+    public boolean hasCollision(){
+        return this.hitbox != null;
+    }
+    
+    /**
+     * Checks positions.
+     */
     private void check() {
         if(position.getX() < 0){
             position.setX(0);
@@ -51,5 +69,22 @@ public abstract class GameObjectModel extends Observable {
         } 
     }
    
+    
+    /**
+     * Returns view.
+     * @return 
+     */
+    public GameObjectView getView(){
+        return view;
+    }
+
+    public void setHitbox(HitBox hitbox) {
+        this.hitbox = hitbox;
+    }
+
+    public HitBox getHitbox() {
+        return hitbox;
+    }
+    
     
 }

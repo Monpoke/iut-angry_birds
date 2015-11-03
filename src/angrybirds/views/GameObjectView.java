@@ -4,6 +4,7 @@
  */
 package angrybirds.views;
 
+import angrybirds.Constants;
 import angrybirds.controllers.GameObjectController;
 import angrybirds.models.GameObjectModel;
 import java.awt.Graphics;
@@ -36,7 +37,16 @@ public abstract class GameObjectView implements Observer {
     public GameObjectController getController() {
         return controller;
     }
-    
-    public abstract void draw(Graphics g);
+
+    /**
+     * Draws debug hitbox.
+     * @param g 
+     */
+    public void draw(Graphics g){
+        if(Constants.DEBUG_MODE && model.hasCollision()){
+            model.getHitbox().debugPaint(g);
+        }
+        
+    }
 
 }

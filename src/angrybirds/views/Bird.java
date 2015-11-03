@@ -1,8 +1,9 @@
 package angrybirds.views;
 
+import angrybirds.Constants;
 import angrybirds.controllers.BirdController;
+import angrybirds.hitbox.CircleHitbox;
 import angrybirds.models.BirdModel;
-import angrybirds.models.GameObjectModel;
 import angrybirds.structures.Vector2d;
 import java.awt.Color;
 import java.awt.Graphics;
@@ -21,11 +22,13 @@ public class Bird extends GameObjectView implements IDrawable, Observer {
 
     /**
      * Creates a bird
+     *
      * @param birdModel
-     * @param birdController 
+     * @param birdController
      */
     public Bird(BirdModel birdModel, BirdController birdController) {
         super(birdModel, birdController);
+        birdModel.setHitbox(new CircleHitbox(model, Constants.BIRD_DIAMETER));
     }
 
     /**
@@ -35,7 +38,8 @@ public class Bird extends GameObjectView implements IDrawable, Observer {
      */
     @Override
     public void draw(Graphics g) {
-
+        super.draw(g);
+        
         drawBeak(g);
         if (((BirdModel) model).isAlive()) {
             g.setColor(Color.ORANGE);
@@ -44,10 +48,18 @@ public class Bird extends GameObjectView implements IDrawable, Observer {
         }
 
         // Body
-        g.fillOval((int) model.getPosition().getX() - 25, (int) model.getPosition().getY(), 50, 50);
+        g.fillOval((int) model.getPosition().getX() - 
+                Constants.BIRD_DIAMETER/2
+                , (int) model.getPosition().getY() -
+                        Constants.BIRD_DIAMETER/2,
+                Constants.BIRD_DIAMETER, Constants.BIRD_DIAMETER);
 
     }
 
+    /**
+     *
+     * @param g
+     */
     private void drawBeak(Graphics g) {
         if (((BirdModel) model).isAlive()) {
             g.setColor(Color.BLACK);
@@ -58,6 +70,9 @@ public class Bird extends GameObjectView implements IDrawable, Observer {
         Vector2d position = model.getPosition();
 
         Vector2d perp = position.getPerpendicular();
+        
+        int d= Constants.BIRD_DIAMETER;
+        
         int pointsX[] = {
             (int) position.getX() + (int) position.getLength(),
             (int) position.getX() + (int) (perp.getLength() * 0.5f),
@@ -65,7 +80,7 @@ public class Bird extends GameObjectView implements IDrawable, Observer {
         };
 
         int pointsY[] = {
-            ((int) position.getY() + (int) position.getWidth()),
+            ((int) position.getY()+ (int) position.getWidth()),
             ((int) position.getY() + (int) (perp.getWidth() * 0.5f)),
             ((int) position.getY() - (int) (perp.getWidth() * 0.5f))
         };

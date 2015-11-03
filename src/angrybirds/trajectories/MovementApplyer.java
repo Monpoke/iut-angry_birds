@@ -8,7 +8,7 @@ import angrybirds.structures.Vector2d;
 import angrybirds.views.Window;
 
 /**
- *
+ * Apply a movement to a game object.
  * @author Pierre
  */
 public class MovementApplyer {

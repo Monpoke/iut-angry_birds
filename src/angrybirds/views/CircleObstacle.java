@@ -4,7 +4,10 @@
  */
 package angrybirds.views;
 
+import angrybirds.Constants;
 import angrybirds.controllers.GameObjectController;
+import angrybirds.hitbox.CircleHitbox;
+import angrybirds.hitbox.HitBox;
 import angrybirds.models.GameObjectModel;
 import angrybirds.models.ObstacleModel;
 import java.awt.Color;
@@ -20,17 +23,21 @@ public class CircleObstacle extends GameObjectView implements Observer, IDrawabl
 
     public CircleObstacle(GameObjectModel model, GameObjectController controller) {
         super(model, controller);
+        model.setHitbox(new CircleHitbox(model, ((ObstacleModel)model).getDiameter()));
     }
 
     @Override
     public void draw(Graphics g) {
+        super.draw(g);
         g.setColor(Color.BLACK);
+        int d = ((ObstacleModel)model).getDiameter();
         g.fillOval(
-                (int)model.getPosition().getX(), 
-                (int)model.getPosition().getY(), 
-                ((ObstacleModel)model).getDiameter(), 
-                ((ObstacleModel)model).getDiameter()
+                (int)model.getPosition().getX() - d/2, 
+                (int)model.getPosition().getY() - d/2, 
+                d, 
+                d
         );
+        
     }
 
     @Override
