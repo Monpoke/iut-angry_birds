@@ -10,7 +10,6 @@ import angrybirds.Game;
 import angrybirds.Tools;
 import angrybirds.debugbox.DebugBoxController;
 import angrybirds.debugbox.DebugBoxModel;
-import com.sun.corba.se.impl.orbutil.closure.Constant;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.util.Timer;

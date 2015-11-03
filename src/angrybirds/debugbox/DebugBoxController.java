@@ -3,6 +3,9 @@ package angrybirds.debugbox;
 import angrybirds.Tools;
 import angrybirds.structures.Vector2d;
 import angrybirds.views.Bird;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 
 /*
  *  Projet AngryBirds
@@ -15,6 +18,11 @@ import angrybirds.views.Bird;
  */
 public class DebugBoxController {
     private final DebugBoxModel model;
+    
+    /**
+     * Contains all objects positions (with movements)
+     */
+    private final List<String> positions = new ArrayList<>();
 
     private Bird bird;
     
@@ -30,6 +38,13 @@ public class DebugBoxController {
 
     public void setBird(Bird bird) {
         this.bird = bird;
+    }
+
+
+    
+    
+    public void addPosition(Vector2d v){
+        
     }
     
         

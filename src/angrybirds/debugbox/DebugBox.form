@@ -39,18 +39,16 @@
                       <EmptySpace min="-2" pref="24" max="-2" attributes="0"/>
                       <Component id="execBird" min="-2" max="-2" attributes="0"/>
                   </Group>
-                  <Group type="103" alignment="0" groupAlignment="0" max="-2" attributes="0">
-                      <Component id="applyPosition" max="32767" attributes="0"/>
-                      <Group type="102" alignment="0" attributes="0">
-                          <Group type="103" groupAlignment="1" max="-2" attributes="0">
-                              <Component id="length" alignment="0" max="32767" attributes="0"/>
-                              <Component id="birdX" alignment="0" min="-2" pref="93" max="-2" attributes="0"/>
-                          </Group>
-                          <EmptySpace type="separate" max="-2" attributes="0"/>
-                          <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                              <Component id="birdY" max="32767" attributes="0"/>
-                              <Component id="width" min="-2" pref="93" max="-2" attributes="0"/>
-                          </Group>
+                  <Component id="applyPosition" max="32767" attributes="0"/>
+                  <Group type="102" alignment="0" attributes="0">
+                      <Group type="103" groupAlignment="1" max="-2" attributes="0">
+                          <Component id="length" alignment="0" max="32767" attributes="0"/>
+                          <Component id="birdX" alignment="0" min="-2" pref="93" max="-2" attributes="0"/>
+                      </Group>
+                      <EmptySpace type="separate" max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                          <Component id="birdY" max="32767" attributes="0"/>
+                          <Component id="width" min="-2" pref="93" max="-2" attributes="0"/>
                       </Group>
                   </Group>
                   <Component id="parameterMovement" alignment="0" max="32767" attributes="0"/>
@@ -116,6 +114,9 @@
           <Connection code="moves" type="code"/>
         </Property>
       </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jComboBox1ActionPerformed"/>
+      </Events>
     </Component>
     <Component class="javax.swing.JButton" name="execBird">
       <Properties>
@@ -168,7 +169,7 @@
     </Component>
     <Component class="javax.swing.JTextField" name="parameterMovement">
       <Properties>
-        <Property name="text" type="java.lang.String" value="2"/>
+        <Property name="text" type="java.lang.String" value="2 2 -1 2"/>
       </Properties>
     </Component>
   </SubComponents>

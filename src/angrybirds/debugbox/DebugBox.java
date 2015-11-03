@@ -37,8 +37,8 @@ public class DebugBox extends javax.swing.JFrame implements Observer {
         this.debugBoxController = debugBoxController;
         this.game = game;
 
-        moves.addElement("linear");
         moves.addElement("parabolic");
+        moves.addElement("linear");
 
         initComponents();
     }
@@ -83,6 +83,11 @@ public class DebugBox extends javax.swing.JFrame implements Observer {
         });
 
         jComboBox1.setModel(moves);
+        jComboBox1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jComboBox1ActionPerformed(evt);
+            }
+        });
 
         execBird.setText("exec on bird");
         execBird.addActionListener(new java.awt.event.ActionListener() {
@@ -114,7 +119,7 @@ public class DebugBox extends javax.swing.JFrame implements Observer {
             }
         });
 
-        parameterMovement.setText("2");
+        parameterMovement.setText("2 2 -1 2");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -133,16 +138,15 @@ public class DebugBox extends javax.swing.JFrame implements Observer {
                             .addComponent(resetScene, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                         .addGap(24, 24, 24)
                         .addComponent(execBird))
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                        .addComponent(applyPosition, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addGroup(layout.createSequentialGroup()
-                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                .addComponent(length, javax.swing.GroupLayout.Alignment.LEADING)
-                                .addComponent(birdX, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 93, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGap(18, 18, 18)
-                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                .addComponent(birdY)
-                                .addComponent(width, javax.swing.GroupLayout.PREFERRED_SIZE, 93, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                    .addComponent(applyPosition, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                            .addComponent(length, javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(birdX, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 93, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(18, 18, 18)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(birdY)
+                            .addComponent(width, javax.swing.GroupLayout.PREFERRED_SIZE, 93, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addComponent(parameterMovement))
                 .addContainerGap(19, Short.MAX_VALUE))
         );
@@ -225,6 +229,10 @@ public class DebugBox extends javax.swing.JFrame implements Observer {
             System.out.println("Apply parabolic movement");
         }
     }//GEN-LAST:event_execBirdActionPerformed
+
+    private void jComboBox1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox1ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jComboBox1ActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
