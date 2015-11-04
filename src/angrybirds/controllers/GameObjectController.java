@@ -32,6 +32,25 @@ public abstract class GameObjectController {
         movement = mvt;
     }
     
+    
+    /**
+     * Returns true if the object has a movement.
+     * @return 
+     */
+    public boolean hasMovement(){
+        return movement != null;
+    }
+
+    /**
+     * Returns the movement applyer.
+     * @return 
+     */
+    public MovementApplyer getMovement() {
+        return movement;
+    }
+    
+    
+    
     /**
      * Update loop.
      */

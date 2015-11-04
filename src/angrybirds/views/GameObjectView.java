@@ -43,8 +43,13 @@ public abstract class GameObjectView implements Observer {
      * @param g 
      */
     public void draw(Graphics g){
-        if(Constants.DEBUG_MODE && model.hasCollision()){
-            model.getHitbox().debugPaint(g);
+        if(Constants.DEBUG_MODE){
+            if(model.hasCollision()){
+                model.getHitbox().debugPaint(g);
+            } 
+            if(controller.hasMovement()){
+                controller.getMovement().paintDebug(g);
+            }
         }
         
     }

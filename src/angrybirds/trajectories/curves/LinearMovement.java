@@ -45,5 +45,12 @@ public class LinearMovement extends Movement {
         } else {
             position.setX(position.getX() + by);
         }
+        
+        
+    }
+
+    @Override
+    public double processY(double x) {
+        return 5*x;
     }
 }

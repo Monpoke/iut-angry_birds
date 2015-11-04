@@ -40,15 +40,8 @@ public class ParabolicMovement extends Movement {
         System.out.println("Parabolic a[" + a + "], b[" + b + "], c[" + c + "] xBy[" + xBy + "]");
     }
 
-    /**
-     * Process
-     *
-     * @param model
-     * @param mvt
-     */
     @Override
-    public void process(GameObjectModel model, MovementApplyer mvt) {
-
+    public double processY(double x) {
         /**
          * @TODO: Find parabolic ax² + bx + c
          *
@@ -61,21 +54,31 @@ public class ParabolicMovement extends Movement {
         double x1 = ((-b + Math.sqrt(delta)) / -a) * 10;
 
         // calcul du x decale
-        double xDecale = x1 *2  + xBy * (Window.getRefreshTimes() - mvt.getStartMovementTime());
+        double xDecale = x;
+        if (mvtApplyer != null) {
+           // xDecale = x1 * 2 + xBy * (Window.getRefreshTimes() - mvtApplyer.getStartMovementTime());
+        } 
         
+        int y = (int) ((a * Math.pow((xDecale), 2)) + b * (xDecale) + c) / (int) div;
+
+        return y;
+    }
+
+    /**
+     * Process
+     *
+     * @param model
+     * @param mvt
+     */
+    @Override
+    public void process(GameObjectModel model, MovementApplyer mvt) {
+
         double x = model.getPosition().getX() + xBy;
+        int y = (int) processY(x);
 
-//        double fakeX = x + x1 - mvt.getStartPosition().getX();
-        
-        int y = (int) ((a * Math.pow((xDecale), 2)) + b * (xDecale) + c) / (int)div;
-        Tools.debug("Y: " + y);
-        Tools.debug("Delta: "+ delta + " -> x1: " + x1 +" y: "+y +" x " + x);
-
-        y = Math.abs(y);
-        
         model.getPosition().setX(x);
         model.getPosition().setY(mvt.getStartPosition().getY() - y);
-        
+
     }
 
 }

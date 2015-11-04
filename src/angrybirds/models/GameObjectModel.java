@@ -33,6 +33,7 @@ public abstract class GameObjectModel extends Observable {
      */
     protected HitBox hitbox = null;
 
+    
     public Vector2d getPosition() {
         return position;
     }
