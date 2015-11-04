@@ -31,7 +31,7 @@ public class Game extends BaseGame {
     private static final Random rnd = new Random();
 
     /**
-     * Contains all objects on scene, except the bird.
+     * Contains all objects on scene. They will be printed.
      */
     private List<GameObjectView> objects;
 
@@ -41,9 +41,8 @@ public class Game extends BaseGame {
     private Bird bird;
     private final Window window;
     private final int fps;
-    
+
     public static boolean BLOCK_STATUS = false;
-    
 
     public Game(int fps) {
         this.fps = fps;
@@ -65,6 +64,9 @@ public class Game extends BaseGame {
 
         // create Bird
         createBird();
+
+        // create World hitbox
+        createHitbox();
 
         window.refreshScene(this);
     }
@@ -90,10 +92,12 @@ public class Game extends BaseGame {
     }
 
     private void createBird() {
-        BirdModel birdModel = new BirdModel(new Vector2d(30, Constants.WINDOW_HEIGHT-30));
+        BirdModel birdModel = new BirdModel(new Vector2d(30, Constants.WINDOW_HEIGHT - 30));
         BirdController birdController = new BirdController(birdModel);
         bird = new Bird(birdModel, birdController);
         birdModel.addView(bird);
+
+        objects.add(bird);
     }
 
     /**
@@ -106,8 +110,6 @@ public class Game extends BaseGame {
             object.draw(g);
         }
 
-        // Draws bird
-        bird.draw(g);
     }
 
     public long getFPS() {
@@ -119,22 +121,33 @@ public class Game extends BaseGame {
     }
 
     /**
-     * This function is called before repaint.
-     * It allows the processing of data.
+     * This function is called before repaint. It allows the processing of data.
      */
     public void updateElements() {
         // update bird
         bird.getController().update();
-        
+
         // update objects
-        for (GameObjectView object : objects) {
-            GameObjectController controller = object.getController();
-            if(controller!=null){
+        for (GameObjectView currentObject : objects) {
+            GameObjectController controller = currentObject.getController();
+            if (controller != null) {
                 controller.update();
             }
+
+            // Foreach for collisions
+            if (currentObject.getModel().hasCollision()) {
+                for (GameObjectView objectCollided : objects) {
+                    if (objectCollided != currentObject && objectCollided.getModel().hasCollision()) {
+                        
+                    }
+                }
+            }
         }
-        
-    }    
-    
+
+    }
+
+    private void createHitbox() {
+
+    }
 
 }

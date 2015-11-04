@@ -37,7 +37,7 @@ public class ParabolicMovement extends Movement {
         c = Double.parseDouble(split[2]);
         xBy = Double.parseDouble(split[3]);
         div = Double.parseDouble(split[4]);
-        System.out.println("Parabolic a[" + a + "], b[" + b + "], c[" + c + "] xBy[" + xBy + "]");
+        Tools.debug("Parabolic a[" + a + "], b[" + b + "], c[" + c + "] xBy[" + xBy + "]");
     }
 
     @Override

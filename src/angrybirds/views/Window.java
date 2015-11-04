@@ -10,8 +10,10 @@ import angrybirds.Game;
 import angrybirds.Tools;
 import angrybirds.debugbox.DebugBoxController;
 import angrybirds.debugbox.DebugBoxModel;
+import angrybirds.images.Background;
 import java.awt.Color;
 import java.awt.Graphics;
+import java.awt.Image;
 import java.util.Timer;
 import java.util.TimerTask;
 import javax.swing.JFrame;
@@ -22,13 +24,13 @@ import javax.swing.JFrame;
  */
 public class Window extends JFrame {
 
-
-    private Game game;
+    private final Game game;
     private DebugBoxModel debugBoxModel;
 
     private static int refreshTimes = 0;
     private Timer t = null;
     private DebugBox debugBox;
+    private final Image bg;
 
     public Window(Game game) {
         this.game = game;
@@ -39,8 +41,9 @@ public class Window extends JFrame {
         setResizable(false);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-        Tools.debug("LANCEMENT");
+        Tools.debug("LAUNCHING APP");
 
+        this.bg = Background.DEFAULT.getImage();
     }
 
     public void setRefreshTimes(int refreshTimes_) {
@@ -55,6 +58,7 @@ public class Window extends JFrame {
 
         launchDebugBox();
 
+
         t = new Timer();
         t.schedule(new TimerTask() {
 
@@ -65,9 +69,10 @@ public class Window extends JFrame {
                     if (Constants.DEBUG_MODE == true && debugBoxModel != null) {
                         debugBoxModel.setRefreshTimes((refreshTimes++));
                     }
-                    
-                    game.updateElements();
+
+                game.updateElements();
                     repaint();
+                    revalidate();
                 }
             }
         }, 0, game.getFPS());
@@ -80,7 +85,8 @@ public class Window extends JFrame {
 
         // clear screen
         g.setColor(Color.WHITE);
-        g.fillRect(0, 0, getWidth(), getHeight());
+        //g.fillRect(0, 0, getWidth(), getHeight());
+        g.drawImage(bg, 0, 0, this);
 
         game.loop(g);
     }
@@ -109,8 +115,7 @@ public class Window extends JFrame {
             debugBox.getDebugBoxController().setBird(a.getBird());
         }
     }
-    
-    
+
     public static int getRefreshTimes() {
         return refreshTimes;
     }

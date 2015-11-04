@@ -35,4 +35,9 @@ public class CircleHitbox extends HitBox {
                 diameter + SPACE, diameter + SPACE);
     }
 
+    
+    public boolean intersectCircle(CircleHitbox circle){
+        return false;
+    }
+    
 }

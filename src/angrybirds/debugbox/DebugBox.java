@@ -5,6 +5,7 @@
 package angrybirds.debugbox;
 
 import angrybirds.Game;
+import angrybirds.Tools;
 import angrybirds.structures.Vector2d;
 import angrybirds.trajectories.curves.LinearMovement;
 import angrybirds.trajectories.MovementApplyer;
@@ -119,7 +120,12 @@ public class DebugBox extends javax.swing.JFrame implements Observer {
             }
         });
 
-        parameterMovement.setText("-0.005 2 -1 8 2");
+        parameterMovement.setText("-0.005 3 -1 8 2");
+        parameterMovement.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                parameterMovementActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -216,7 +222,7 @@ public class DebugBox extends javax.swing.JFrame implements Observer {
                     game.getBird().getModel() // give the model
             )
             );
-            System.out.println("Apply linear movement");
+            Tools.debug("Apply linear movement");
         } 
         
         // PARABOLIC
@@ -226,13 +232,17 @@ public class DebugBox extends javax.swing.JFrame implements Observer {
                     game.getBird().getModel() // give the model
             )
             );
-            System.out.println("Apply parabolic movement");
+            Tools.debug("Apply parabolic movement");
         }
     }//GEN-LAST:event_execBirdActionPerformed
 
     private void jComboBox1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox1ActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jComboBox1ActionPerformed
+
+    private void parameterMovementActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_parameterMovementActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_parameterMovementActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
