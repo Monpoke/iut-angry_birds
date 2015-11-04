@@ -17,6 +17,8 @@ public abstract class HitBox {
     
     protected final List<GameObjectModel> objectsCollided;
     
+    protected boolean collided = false;
+    
     /**
      * Is the collision cause of death?
      */
@@ -36,6 +38,22 @@ public abstract class HitBox {
         return killer;
     }
 
+    public boolean isCollided() {
+        return collided;
+    }
+
+    public void setCollided(boolean collided) {
+        this.collided = collided;
+    }
+
+    
+    
+    public GameObjectModel getModel() {
+        return model;
+    }
+
     
     public abstract void debugPaint(Graphics g);    
+    
+    public abstract boolean intersect(HitBox h);    
 }

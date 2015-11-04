@@ -81,7 +81,7 @@ public class Game extends BaseGame {
 
             ObstacleModel obsModel = new ObstacleModel(new Vector2d(
                     500,
-                    100 + i * ((10 + rnd.nextInt(80)) + Constants.OBSTACLE_DIAMETER)
+                    100 + i * ((70 + rnd.nextInt(80)) + Constants.OBSTACLE_DIAMETER)
             ));
             ObstacleController obsController = new ObstacleController(obsModel);
             CircleObstacle obsView = new CircleObstacle(obsModel, obsController);
@@ -127,6 +127,12 @@ public class Game extends BaseGame {
         // update bird
         bird.getController().update();
 
+        for (GameObjectView object : objects) {
+            if (object.getModel().hasCollision()) {
+                object.getModel().getHitbox().setCollided(false);
+            }
+        }
+
         // update objects
         for (GameObjectView currentObject : objects) {
             GameObjectController controller = currentObject.getController();
@@ -137,8 +143,20 @@ public class Game extends BaseGame {
             // Foreach for collisions
             if (currentObject.getModel().hasCollision()) {
                 for (GameObjectView objectCollided : objects) {
-                    if (objectCollided != currentObject && objectCollided.getModel().hasCollision()) {
-                        
+                    if (objectCollided == currentObject) {
+                        break; // because all objects are organised by order
+                    } else if (objectCollided.getModel().hasCollision()) {
+
+                        // if there are collisions 
+                        if (objectCollided.getModel().getHitbox().intersect(currentObject.getModel().getHitbox())) {
+                            objectCollided.getModel().getHitbox().setCollided(true);
+                            currentObject.getModel().getHitbox().setCollided(true);
+                            
+                            // block on bird
+                            if(objectCollided instanceof Bird || currentObject instanceof Bird){
+                                Game.BLOCK_STATUS = true;
+                            }
+                        }
                     }
                 }
             }

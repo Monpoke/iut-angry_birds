@@ -23,27 +23,31 @@ public class CircleObstacle extends GameObjectView implements Observer, IDrawabl
 
     public CircleObstacle(GameObjectModel model, GameObjectController controller) {
         super(model, controller);
-        model.setHitbox(new CircleHitbox(model, ((ObstacleModel)model).getDiameter()));
+        model.setHitbox(new CircleHitbox(model, ((ObstacleModel) model).getDiameter()));
     }
 
     @Override
     public void draw(Graphics g) {
         super.draw(g);
         g.setColor(Color.BLACK);
-        int d = ((ObstacleModel)model).getDiameter();
+        int d = ((ObstacleModel) model).getDiameter();
+
+        int x = (int) model.getPosition().getX();
+        int y = (int) model.getPosition().getY();
+
         g.fillOval(
-                (int)model.getPosition().getX() - d/2, 
-                (int)model.getPosition().getY() - d/2, 
-                d, 
+                x - d / 2,
+                y - d / 2,
+                d,
                 d
         );
-        
+
+        g.setColor(Color.WHITE);
+        g.drawRect(x, y, 1, 1);
     }
 
     @Override
     public void update(Observable o, Object arg) {
     }
-    
-    
-    
+
 }
