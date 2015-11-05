@@ -30,7 +30,6 @@ public class Window extends JFrame {
     private static int refreshTimes = 0;
     private Timer t = null;
     private DebugBox debugBox;
-    private final Image bg;
 
     public Window(Game game) {
         this.game = game;
@@ -43,7 +42,8 @@ public class Window extends JFrame {
 
         Tools.debug("LAUNCHING APP");
 
-        this.bg = Background.DEFAULT.getImage();
+        this.setContentPane(new WindowPanel(game));
+
     }
 
     public void setRefreshTimes(int refreshTimes_) {
@@ -58,6 +58,7 @@ public class Window extends JFrame {
 
         launchDebugBox();
 
+        final Window me = this;
 
         t = new Timer();
         t.schedule(new TimerTask() {
@@ -70,25 +71,13 @@ public class Window extends JFrame {
                         debugBoxModel.setRefreshTimes((refreshTimes++));
                     }
 
-                game.updateElements();
-                    repaint();
-                    revalidate();
+                    game.updateElements();
+                    me.getContentPane().repaint();
+                    me.getContentPane().revalidate();
                 }
             }
         }, 0, game.getFPS());
 
-    }
-
-    @Override
-    public void paint(Graphics g) {
-        super.paint(g);
-
-        // clear screen
-        g.setColor(Color.WHITE);
-        //g.fillRect(0, 0, getWidth(), getHeight());
-        g.drawImage(bg, 0, 0, this);
-
-        game.loop(g);
     }
 
     private void launchDebugBox() {
