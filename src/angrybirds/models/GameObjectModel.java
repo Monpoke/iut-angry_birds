@@ -24,6 +24,11 @@ public abstract class GameObjectModel extends Observable {
     protected Vector2d position;
     
     /**
+     * Object angle.
+     */
+    protected double angle;
+    
+    /**
      * Contains view.
      */
     protected GameObjectView view;
@@ -86,6 +91,16 @@ public abstract class GameObjectModel extends Observable {
     public HitBox getHitbox() {
         return hitbox;
     }
+
+    public double getAngle() {
+        return angle;
+    }
+
+    public void setAngle(double angle) {
+        this.angle = angle;
+    }
+    
+    
     
     
 }

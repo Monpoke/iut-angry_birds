@@ -39,7 +39,7 @@ public class Bird extends GameObjectView implements IDrawable, Observer {
     @Override
     public void draw(Graphics g) {
         super.draw(g);
-        
+
         drawBeak(g);
         if (((BirdModel) model).isAlive()) {
             g.setColor(Color.ORANGE);
@@ -48,10 +48,9 @@ public class Bird extends GameObjectView implements IDrawable, Observer {
         }
 
         // Body
-        g.fillOval((int) model.getPosition().getX() - 
-                Constants.BIRD_DIAMETER/2
-                , (int) model.getPosition().getY() -
-                        Constants.BIRD_DIAMETER/2,
+        g.fillOval((int) model.getPosition().getX()
+                - Constants.BIRD_DIAMETER / 2, (int) model.getPosition().getY()
+                - Constants.BIRD_DIAMETER / 2,
                 Constants.BIRD_DIAMETER, Constants.BIRD_DIAMETER);
 
     }
@@ -70,19 +69,23 @@ public class Bird extends GameObjectView implements IDrawable, Observer {
         Vector2d position = model.getPosition();
 
         Vector2d perp = position.getPerpendicular();
+
+        int d = Constants.BIRD_DIAMETER;
+
         
-        int d= Constants.BIRD_DIAMETER;
+        double angle = Math.sin(model.getAngle());
+        double r = Constants.BIRD_DIAMETER/2;
         
         int pointsX[] = {
-            (int) position.getX() + Constants.BIRD_DIAMETER/4 + (int) position.getLength(),
-            (int) position.getX() + Constants.BIRD_DIAMETER/4+ (int) (perp.getLength() * 0.5f),
-            (int) position.getX() + Constants.BIRD_DIAMETER/4 - (int) (perp.getLength() * 0.5f)
+            (int) (position.getX() + Constants.BIRD_DIAMETER / 4 + (int) position.getLength()),
+            (int) position.getX() + Constants.BIRD_DIAMETER / 4 + (int) (perp.getLength() * 0.5f),
+            (int) position.getX() + Constants.BIRD_DIAMETER / 4 - (int) (perp.getLength() * 0.5f)
         };
 
         int pointsY[] = {
-            ((int) position.getY()+ Constants.BIRD_DIAMETER/4+ (int) position.getWidth()),
-            ((int) position.getY() + Constants.BIRD_DIAMETER/4+ (int) (perp.getWidth() * 0.5f)),
-            ((int) position.getY() + Constants.BIRD_DIAMETER/4- (int) (perp.getWidth() * 0.5f))
+            ((int) position.getY() + Constants.BIRD_DIAMETER / 4 + (int) position.getWidth()),
+            ((int) position.getY() + Constants.BIRD_DIAMETER / 4 + (int) (perp.getWidth() * 0.5f)),
+            ((int) position.getY() + Constants.BIRD_DIAMETER / 4 - (int) (perp.getWidth() * 0.5f))
         };
 
         g.fillPolygon(pointsX, pointsY, 3);
