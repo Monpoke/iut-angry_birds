@@ -72,24 +72,35 @@ public class ParabolicMovement extends Movement {
 
         int xPos = (int) mvtApplyer.getStartPosition().getX() + findX();
         int yPos = (int) mvtApplyer.getStartPosition().getY() - findY();
-
+        int lenght = (int) mvtApplyer.getStartPosition().getX() + findNextX(2) - xPos;
+        int width = (int) mvtApplyer.getStartPosition().getY() - findNextY(2) - yPos;
 //        Tools.debug(xPos+":"+yPos);
         
         
         
         model.getPosition().setX(xPos);
         model.getPosition().setY(yPos);
-
+        
+        model.getPosition().setLength(lenght);
+        model.getPosition().setWidth(width);
     }
 
     @Override
     public int findX() {
         return (int) (mvtApplyer.getEllapsedTime() * xBy);
     }
+    
+    public int findNextX(int time) {
+    	return (int) ((mvtApplyer.getEllapsedTime() + time) * xBy);
+    }
 
     @Override
     public int findY() {
         return findY(findX());
+    }
+    
+    public int findNextY(int time) {
+    	return findY(findNextX(time));
     }
 
     public int findY(int x) {
@@ -97,7 +108,7 @@ public class ParabolicMovement extends Movement {
 //        x-= xDecale();
         double y = ((a * Math.pow((x), 2)) + b * (x) + c) / 5;
         
-        Tools.debug("DebugY: "+y + " pour x=" + x + "->xDecale: "+ (x-xDecale()));
+        //Tools.debug("DebugY: "+y + " pour x=" + x + "->xDecale: "+ (x-xDecale()));
         
         
         return (int) y;

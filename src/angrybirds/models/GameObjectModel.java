@@ -2,6 +2,7 @@ package angrybirds.models;
 
 
 import angrybirds.Constants;
+import angrybirds.controllers.GameObjectController;
 import angrybirds.hitbox.HitBox;
 import angrybirds.structures.Vector2d;
 import angrybirds.views.GameObjectView;
@@ -32,6 +33,16 @@ public abstract class GameObjectModel extends Observable {
      * Contains view.
      */
     protected GameObjectView view;
+    
+    protected GameObjectController controller;
+    
+    public void setController(GameObjectController controller) {
+		this.controller = controller;
+	}
+    
+    public GameObjectController getController() {
+		return controller;
+	}
     
     /**
      * Enable collisions if not null.
