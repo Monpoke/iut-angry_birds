@@ -105,14 +105,14 @@ public class Game extends BaseGame {
      */
     private void createObstacles() {
 
-        int nbObs = 1 + rnd.nextInt(Constants.MAX_OBSTACLES);
+        int nbObs = Constants.MIN_OBSTACLES + rnd.nextInt(Constants.MAX_OBSTACLES-Constants.MIN_OBSTACLES+1);
 
         for (int i = 0; Constants.ENABLE_OBSTACLES && i < nbObs; i++) {
 
             ObstacleModel obsModel = new ObstacleModel(new Vector2d(
-                    200 + rnd.nextInt(400),
+                    Constants.WINDOW_WIDTH - 200 - rnd.nextInt(400),
                     100 + i * ((70 + rnd.nextInt(40)))
-            ), 30 + rnd.nextInt(50));
+            ), 10 + rnd.nextInt(20));
             ObstacleController obsController = new ObstacleController(obsModel);
             CircleObstacle obsView = new CircleObstacle(obsModel, obsController);
             obsModel.addView(obsView);
