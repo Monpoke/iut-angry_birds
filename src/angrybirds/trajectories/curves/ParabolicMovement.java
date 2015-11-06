@@ -40,24 +40,21 @@ public class ParabolicMovement extends Movement {
         Tools.debug("Parabolic a[" + a + "], b[" + b + "], c[" + c + "] xBy[" + xBy + "]");
     }
 
+    public ParabolicMovement(double a, double b, double c, double xBy, double div) {
+        this.params = "";
+        this.a = a;
+        this.b = b;
+        this.c = c;
+        this.xBy = xBy;
+        this.div = div;
+    }
+    
+    
+
     @Override
     public double processY(double x) {
-        /**
-         * @TODO: Find parabolic ax² + bx + c
-         *
-         * I have to resolve x=0 with DELTA (in order to find decalage)
-         */
-        // Calcul du delta
-        double delta = Math.pow(b, 2) - 4 * a * c;
-
-        // Calcul de x1
-        double x1 = ((-b + Math.sqrt(delta)) / -a) * 10;
-
         // calcul du x decale
         double xDecale = x;
-        if (mvtApplyer != null) {
-           // xDecale = x1 * 2 + xBy * (Window.getRefreshTimes() - mvtApplyer.getStartMovementTime());
-        } 
         
         int y = (int) ((a * Math.pow((xDecale), 2)) + b * (xDecale) + c) / (int) div;
 

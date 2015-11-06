@@ -10,14 +10,19 @@ import angrybirds.controllers.ObstacleController;
 import angrybirds.models.BirdModel;
 import angrybirds.models.ObstacleModel;
 import angrybirds.structures.Vector2d;
+import angrybirds.trajectories.MovementApplyer;
+import angrybirds.trajectories.curves.ParabolicMovement;
 import angrybirds.views.Bird;
 import angrybirds.views.CircleObstacle;
 import angrybirds.views.GameObjectView;
+import angrybirds.views.RectangleObstacle;
 import angrybirds.views.Window;
 import java.awt.Graphics;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -54,10 +59,18 @@ public class Game extends BaseGame {
         resetScene();
 
         window.refresh();
+        
     }
 
+    /**
+     * Reset a scene.
+     */
     public void resetScene() {
         Tools.debug("RESET SCENE");
+        objects = new ArrayList<>();
+
+        // create World hitbox
+        createHitbox();
 
         // Create objects
         createObstacles();
@@ -65,24 +78,26 @@ public class Game extends BaseGame {
         // create Bird
         createBird();
 
-        // create World hitbox
-        createHitbox();
-
         window.refreshScene(this);
+        
+        if(!Constants.DEBUG_MODE){
+            launchAutomatic();
+        }
     }
 
     /**
      * Create obstacles
      */
     private void createObstacles() {
-        objects = new ArrayList<>();
 
-        for (int i = 0; i < 3; i++) {
+        int nbObs = 1 + rnd.nextInt(Constants.MAX_OBSTACLES);
+
+        for (int i = 0; i < nbObs; i++) {
 
             ObstacleModel obsModel = new ObstacleModel(new Vector2d(
-                    500,
-                    100 + i * ((70 + rnd.nextInt(80)) + Constants.OBSTACLE_DIAMETER)
-            ));
+                    200 + rnd.nextInt(400),
+                    100 + i * ((70 + rnd.nextInt(40)))
+            ), 30+rnd.nextInt(50));
             ObstacleController obsController = new ObstacleController(obsModel);
             CircleObstacle obsView = new CircleObstacle(obsModel, obsController);
             obsModel.addView(obsView);
@@ -91,11 +106,27 @@ public class Game extends BaseGame {
         }
     }
 
+    /**
+     * This function creates a Bird.
+     */
     private void createBird() {
-        BirdModel birdModel = new BirdModel(new Vector2d(30, Constants.WINDOW_HEIGHT - 30));
+        BirdModel birdModel = new BirdModel(new Vector2d(80, Constants.WINDOW_HEIGHT - 100));
         BirdController birdController = new BirdController(birdModel);
         bird = new Bird(birdModel, birdController);
         birdModel.addView(bird);
+
+        // ON DEATH, RESET SCENE.
+        birdController.setDeathAction(new AngryEvent() {
+
+            @Override
+            public void notif(Object data) {
+                try {
+                    Thread.sleep(1000);
+                    resetScene();
+                } catch (InterruptedException ex) {
+                }
+            }
+        });
 
         objects.add(bird);
     }
@@ -151,10 +182,13 @@ public class Game extends BaseGame {
                         if (objectCollided.getModel().getHitbox().intersect(currentObject.getModel().getHitbox())) {
                             objectCollided.getModel().getHitbox().setCollided(true);
                             currentObject.getModel().getHitbox().setCollided(true);
-                            
+
                             // block on bird
-                            if(objectCollided instanceof Bird || currentObject instanceof Bird){
-                                Game.BLOCK_STATUS = true;
+                            if (objectCollided instanceof Bird) {
+                                ((BirdModel) objectCollided.getModel()).setIsAlive(false);
+                            } else {
+                                ((BirdModel) currentObject.getModel()).setIsAlive(false);
+
                             }
                         }
                     }
@@ -164,8 +198,51 @@ public class Game extends BaseGame {
 
     }
 
+    /**
+     * World hitbox
+     */
     private void createHitbox() {
+        createHit(1, 0, "v");
+        createHit(Constants.WINDOW_WIDTH - 10, 0, "v");
+        createHit(0, 0, "h");
+        createHit(0, Constants.WINDOW_HEIGHT - 30, "h");
 
+    }
+
+    /**
+     * Create boundaries.
+     *
+     * @param x
+     * @param y
+     * @param v
+     */
+    private void createHit(int x, int y, String v) {
+
+        ObstacleModel obsModel = new ObstacleModel(new Vector2d(x, y));
+
+        obsModel.setHeight((v.equals("v") ? Constants.WINDOW_HEIGHT : 1));
+        obsModel.setWidth((!v.equals("v") ? Constants.WINDOW_WIDTH : 1));
+
+        ObstacleController obsController = new ObstacleController(obsModel);
+        RectangleObstacle obsView = new RectangleObstacle(obsModel, obsController);
+
+        // hide the obstacle
+        obsView.setHidden(true);
+
+        obsModel.addView(obsView);
+        // add the view to object to draw
+        objects.add(obsView);
+    }
+
+    
+    private void launchAutomatic() {
+        double a = -0.005;
+        double b = 1 + rnd.nextInt(3);
+        double c = -1;
+        double xBy = 4;
+        double div = 2;
+        bird.getController().addMovement(new MovementApplyer(new ParabolicMovement(a,b,c,xBy,div), bird.getModel()));
+//        bird.getController().addMovement(new MovementApplyer(new ParabolicMovement("-0.005 3 -1 8 2"), bird.getModel()));
     }
 
 }

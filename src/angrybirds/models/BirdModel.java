@@ -7,7 +7,6 @@ package angrybirds.models;
 import angrybirds.AngryEvent;
 import angrybirds.structures.Vector2d;
 import angrybirds.views.Bird;
-import angrybirds.views.GameObjectView;
 
 /**
  *
@@ -46,5 +45,11 @@ public class BirdModel extends GameObjectModel {
     public boolean isAlive(){
         return isAlive;
     }
+
+    public void setIsAlive(boolean isAlive) {
+        this.isAlive = isAlive;
+    }
+    
+    
     
 }

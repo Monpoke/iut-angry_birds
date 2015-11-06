@@ -18,6 +18,7 @@ public abstract class GameObjectView implements Observer {
 
     protected final GameObjectModel model;
     private final GameObjectController controller;
+    protected boolean hidden = false;
 
     /**
      * Gives a model to the view.
@@ -38,18 +39,29 @@ public abstract class GameObjectView implements Observer {
         return controller;
     }
 
+    public boolean isHidden() {
+        return hidden;
+    }
+
+    public void setHidden(boolean hidden) {
+        this.hidden = hidden;
+    }
+
+    
+    
     /**
      * Draws debug hitbox.
      * @param g 
      */
     public void draw(Graphics g){
+        if((Constants.ENABLE_PAINT_TRAJECTORIES || Constants.DEBUG_MODE) &&controller.hasMovement()){
+                controller.getMovement().paintDebug(g);
+        }
         if(Constants.DEBUG_MODE){
             if(model.hasCollision()){
                 model.getHitbox().debugPaint(g);
             } 
-            if(controller.hasMovement()){
-                controller.getMovement().paintDebug(g);
-            }
+            
         }
         
     }
