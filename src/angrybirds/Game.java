@@ -130,6 +130,8 @@ public class Game extends BaseGame {
         bird = new Bird(birdModel, birdController);
         birdModel.addView(bird);
 
+        birdModel.setController(birdController);
+        
         // ON DEATH, RESET SCENE.
         birdController.setDeathAction(new AngryEvent() {
 
