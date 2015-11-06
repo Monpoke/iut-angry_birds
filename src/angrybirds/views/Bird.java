@@ -76,10 +76,53 @@ public class Bird extends GameObjectView implements IDrawable, Observer {
         double angle = Math.sin(model.getAngle());
         double r = Constants.BIRD_DIAMETER/2;
         
+        int largeur = 1;
+        int hauteur = 1;
+        
         int pointsX[] = {
-            (int) (position.getX() + Constants.BIRD_DIAMETER / 4 + (int) position.getLength()),
-            (int) position.getX() + Constants.BIRD_DIAMETER / 4 + (int) (perp.getLength() * 0.5f),
-            (int) position.getX() + Constants.BIRD_DIAMETER / 4 - (int) (perp.getLength() * 0.5f)
+            (int) (position.getX() + r *  Math.cos(angle-largeur)),
+            (int)(position.getX() + hauteur * r * Math.cos(angle)),
+            (int) (position.getX() + Constants.BIRD_DIAMETER / 4 - (int) (perp.getLength() * 0.5f))
+        };
+
+        int pointsY[] = {
+            ((int) position.getY() + Constants.BIRD_DIAMETER / 4 + (int) position.getWidth()),
+            ((int) position.getY() + Constants.BIRD_DIAMETER / 4 + (int) (perp.getWidth() * 0.5f)),
+            ((int) position.getY() + Constants.BIRD_DIAMETER / 4 - (int) (perp.getWidth() * 0.5f))
+        };
+
+        g.fillPolygon(pointsX, pointsY, 3);
+    }
+
+    
+    /**
+     *
+     * @param g
+     */
+    private void drawBeak_old(Graphics g) {
+        if (((BirdModel) model).isAlive()) {
+            g.setColor(Color.BLACK);
+        } else {
+            g.setColor(Color.RED);
+        }
+
+        Vector2d position = model.getPosition();
+
+        Vector2d perp = position.getPerpendicular();
+
+        int d = Constants.BIRD_DIAMETER;
+
+        
+        double angle = Math.sin(model.getAngle());
+        double r = Constants.BIRD_DIAMETER/2;
+        
+        int largeur = 1;
+        int hauteur = 1;
+        
+        int pointsX[] = {
+            (int) (position.getX() + r *  Math.cos(angle-largeur)),
+            (int)(position.getX() + hauteur * r * Math.cos(angle)),
+            (int) (position.getX() + Constants.BIRD_DIAMETER / 4 - (int) (perp.getLength() * 0.5f))
         };
 
         int pointsY[] = {

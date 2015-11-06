@@ -79,6 +79,10 @@ public class MovementApplyer {
     public void stop() {
         stopped = true;
     }
+    
+    public int getEllapsedTime(){
+        return Window.getRefreshTimes() - getStartMovementTime();
+    }
 
     /**
      * Paint for debug.
@@ -88,7 +92,7 @@ public class MovementApplyer {
     public void paintDebug(Graphics g) {
         g.setColor(Color.DARK_GRAY);
         movement.setMvtApplyer(this);
-        for (double x = startPosition.getX(); x <= model.getPosition().getX(); x += 20) {
+        for (double x = startPosition.getX(); x <= (Constants.DEBUG_TRAJECTORY ? Constants.WINDOW_WIDTH: model.getPosition().getX()); x += 20) {
             g.fillOval((int) x, (int) (startPosition.getY() - movement.processY(x)), 5, 5);
         }
     }

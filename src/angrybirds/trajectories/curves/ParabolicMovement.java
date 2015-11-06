@@ -48,17 +48,17 @@ public class ParabolicMovement extends Movement {
         this.xBy = xBy;
         this.div = div;
     }
-    
-    
 
     @Override
     public double processY(double x) {
-        // calcul du x decale
+       /* // calcul du x decale
         double xDecale = x;
-        
+
         int y = (int) ((a * Math.pow((xDecale), 2)) + b * (xDecale) + c) / (int) div;
 
-        return y;
+        return y;*/
+        
+        return findY((int)x);
     }
 
     /**
@@ -70,12 +70,46 @@ public class ParabolicMovement extends Movement {
     @Override
     public void process(GameObjectModel model, MovementApplyer mvt) {
 
-        double x = model.getPosition().getX() + xBy;
-        int y = (int) processY(x);
+        int xPos = (int) mvtApplyer.getStartPosition().getX() + findX();
+        int yPos = (int) mvtApplyer.getStartPosition().getY() - findY();
 
-        model.getPosition().setX(x);
-        model.getPosition().setY(mvt.getStartPosition().getY() - y);
+//        Tools.debug(xPos+":"+yPos);
+        
+        
+        
+        model.getPosition().setX(xPos);
+        model.getPosition().setY(yPos);
 
     }
 
+    @Override
+    public int findX() {
+        return (int) (mvtApplyer.getEllapsedTime() * xBy);
+    }
+
+    @Override
+    public int findY() {
+        return findY(findX());
+    }
+
+    public int findY(int x) {
+        
+//        x-= xDecale();
+        double y = ((a * Math.pow((x), 2)) + b * (x) + c) / 5;
+        
+        Tools.debug("DebugY: "+y + " pour x=" + x + "->xDecale: "+ (x-xDecale()));
+        
+        
+        return (int) y;
+    }
+
+    public double xDecale(){
+        double delta =  Math.pow(b, 2)  - 4 * a * c;
+        
+        double x1 = (-b - Math.sqrt(delta)) / (2 * a);
+       
+        
+        return x1;
+    }
+    
 }

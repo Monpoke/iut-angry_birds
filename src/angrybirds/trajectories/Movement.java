@@ -19,6 +19,9 @@ public abstract class Movement {
     public abstract void process(GameObjectModel model, MovementApplyer mvt);
     
     public abstract double processY(double x);
+    
+    public abstract int findX();
+    public abstract int findY();
 
     public void setMvtApplyer(MovementApplyer mvtApplyer) {
         this.mvtApplyer = mvtApplyer;

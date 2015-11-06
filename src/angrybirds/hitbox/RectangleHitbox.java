@@ -80,12 +80,10 @@ public class RectangleHitbox extends HitBox {
         }
         
         if (circleDistanceX <= w2) {
-            Tools.debug("distance: "+circleDistanceX+"\n"+w2);
             return true;
         }
         
         if (circleDistanceY <= h2) {
-            Tools.debug("distance Y: "+circleDistanceY+"\n"+h2);
             return true;
         }          
 

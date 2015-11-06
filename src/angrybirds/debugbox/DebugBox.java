@@ -217,21 +217,26 @@ public class DebugBox extends javax.swing.JFrame implements Observer {
     private void execBirdActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_execBirdActionPerformed
 
         if (moves.getSelectedItem().toString().equals("linear")) {
-            game.getBird().getController().addMovement(new MovementApplyer(
-                    new LinearMovement("vertical", Integer.parseInt(parameterMovement.getText())), // give a vertical movement by 2 by 2
+            
+            LinearMovement mvt = new LinearMovement(-3, 0, 2);
+            MovementApplyer mvtAppl = new MovementApplyer(mvt,
                     game.getBird().getModel() // give the model
-            )
             );
+            mvt.setMvtApplyer(mvtAppl);
+            
+            game.getBird().getController().addMovement(mvtAppl);
             Tools.debug("Apply linear movement");
-        } 
-        
-        // PARABOLIC
+        } // PARABOLIC
         else {
-             game.getBird().getController().addMovement(new MovementApplyer(
-                    new ParabolicMovement(parameterMovement.getText()), // give parameters
+            ParabolicMovement mvt = new ParabolicMovement(parameterMovement.getText());
+            MovementApplyer mvtApplyer = new MovementApplyer(
+                    mvt, // give parameters
                     game.getBird().getModel() // give the model
-            )
             );
+            mvt.setMvtApplyer(mvtApplyer);
+            game.getBird().getController().addMovement(mvtApplyer);
+            
+            
             Tools.debug("Apply parabolic movement");
         }
     }//GEN-LAST:event_execBirdActionPerformed
