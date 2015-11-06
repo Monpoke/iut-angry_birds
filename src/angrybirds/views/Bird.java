@@ -74,15 +74,15 @@ public class Bird extends GameObjectView implements IDrawable, Observer {
         int d= Constants.BIRD_DIAMETER;
         
         int pointsX[] = {
-            (int) position.getX() + (int) position.getLength(),
-            (int) position.getX() + (int) (perp.getLength() * 0.5f),
-            (int) position.getX() - (int) (perp.getLength() * 0.5f)
+            (int) position.getX() + Constants.BIRD_DIAMETER/4 + (int) position.getLength(),
+            (int) position.getX() + Constants.BIRD_DIAMETER/4+ (int) (perp.getLength() * 0.5f),
+            (int) position.getX() + Constants.BIRD_DIAMETER/4 - (int) (perp.getLength() * 0.5f)
         };
 
         int pointsY[] = {
-            ((int) position.getY()+ (int) position.getWidth()),
-            ((int) position.getY() + (int) (perp.getWidth() * 0.5f)),
-            ((int) position.getY() - (int) (perp.getWidth() * 0.5f))
+            ((int) position.getY()+ Constants.BIRD_DIAMETER/4+ (int) position.getWidth()),
+            ((int) position.getY() + Constants.BIRD_DIAMETER/4+ (int) (perp.getWidth() * 0.5f)),
+            ((int) position.getY() + Constants.BIRD_DIAMETER/4- (int) (perp.getWidth() * 0.5f))
         };
 
         g.fillPolygon(pointsX, pointsY, 3);

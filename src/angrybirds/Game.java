@@ -21,14 +21,29 @@ import java.awt.Graphics;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import java.util.Timer;
+import java.util.TimerTask;
 
 /**
  *
  * @author Pierre
  */
 public class Game extends BaseGame {
+
+    /**
+     * Parameters
+     */
+    double[][] parameters = new double[][]{
+        {-0.0035, 1.5, -3, 4},
+        {-0.0035, 2.5, -2, 4},
+        {-0.0035, 2.5, -2, 4},
+        {-0.0035, 3, -1, 4},
+        {-0.004, 3, -1, 4},
+        {-0.005, 3, -1, 4},
+        {-0.005, 2, -1, 4},
+        {-0.005, 1, -1, 4}};
+
+    int playId = 0;
 
     /**
      * Contains the Random generator.
@@ -59,7 +74,7 @@ public class Game extends BaseGame {
         resetScene();
 
         window.refresh();
-        
+
     }
 
     /**
@@ -79,8 +94,8 @@ public class Game extends BaseGame {
         createBird();
 
         window.refreshScene(this);
-        
-        if(!Constants.DEBUG_MODE){
+
+        if (!Constants.DEBUG_MODE) {
             launchAutomatic();
         }
     }
@@ -92,12 +107,12 @@ public class Game extends BaseGame {
 
         int nbObs = 1 + rnd.nextInt(Constants.MAX_OBSTACLES);
 
-        for (int i = 0; i < nbObs; i++) {
+        for (int i = 0; Constants.ENABLE_OBSTACLES && i < nbObs; i++) {
 
             ObstacleModel obsModel = new ObstacleModel(new Vector2d(
                     200 + rnd.nextInt(400),
                     100 + i * ((70 + rnd.nextInt(40)))
-            ), 30+rnd.nextInt(50));
+            ), 30 + rnd.nextInt(50));
             ObstacleController obsController = new ObstacleController(obsModel);
             CircleObstacle obsView = new CircleObstacle(obsModel, obsController);
             obsModel.addView(obsView);
@@ -121,7 +136,7 @@ public class Game extends BaseGame {
             @Override
             public void notif(Object data) {
                 try {
-                    Thread.sleep(1000);
+                    Thread.sleep(Constants.PLAY_RESET_AFTER);
                     resetScene();
                 } catch (InterruptedException ex) {
                 }
@@ -186,7 +201,7 @@ public class Game extends BaseGame {
                             // block on bird
                             if (objectCollided instanceof Bird) {
                                 ((BirdModel) objectCollided.getModel()).setIsAlive(false);
-                            } else {
+                            } else if (currentObject instanceof Bird) {
                                 ((BirdModel) currentObject.getModel()).setIsAlive(false);
 
                             }
@@ -234,15 +249,38 @@ public class Game extends BaseGame {
         objects.add(obsView);
     }
 
-    
+    /**
+     * This function plays some flies.
+     */
     private void launchAutomatic() {
-        double a = -0.005;
-        double b = 1 + rnd.nextInt(3);
-        double c = -1;
-        double xBy = 4;
-        double div = 2;
-        bird.getController().addMovement(new MovementApplyer(new ParabolicMovement(a,b,c,xBy,div), bird.getModel()));
+
+        /**
+         * end play
+         */
+        if (playId >= parameters.length) {
+            System.exit(0);
+        }
+
+        Timer t = new Timer();
+        t.scheduleAtFixedRate(new TimerTask() {
+
+            @Override
+            public void run() {
+                double[] s = parameters[playId++];
+                double a, b, c;
+                double xBy;
+                double div = 2;
+
+                a = s[0];
+                b = s[1];
+                c = s[2];
+                xBy = s[3];
+
+                bird.getController().addMovement(new MovementApplyer(new ParabolicMovement(a, b, c, xBy, div), bird.getModel()));
 //        bird.getController().addMovement(new MovementApplyer(new ParabolicMovement("-0.005 3 -1 8 2"), bird.getModel()));
+                t.cancel();
+            }
+        }, Constants.PLAY_LAUNCH_AFTER, 1);
     }
 
 }
