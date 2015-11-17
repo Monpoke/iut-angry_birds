@@ -18,6 +18,8 @@ public class ObstacleController extends GameObjectController {
 
     @Override
     public void update() {
+    	super.update();
+    	
     }
     
 }

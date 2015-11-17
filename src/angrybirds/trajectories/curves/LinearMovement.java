@@ -17,11 +17,12 @@ import angrybirds.views.Window;
  */
 public class LinearMovement extends Movement {
 
-    private String type;
-    private int by;
+    protected String type;
+    protected int by;
 
-    private int x, y;
-    private int a, b;
+    protected int x;
+	protected int y;
+    protected int a, b;
 
     /**
      * Gets a linear movement
@@ -39,6 +40,7 @@ public class LinearMovement extends Movement {
         this.a = a;
         this.b = b;
         this.by = xBy;
+        
     }
 
     @Override
@@ -66,9 +68,10 @@ public class LinearMovement extends Movement {
     @Override
     public void process(GameObjectModel model, MovementApplyer mvt) {
         Vector2d position = model.getPosition();
-
+ 
         x = findX();
         y = findY(x);
+
 
         // apply movement
         position.setX(mvtApplyer.getStartPosition().getX() + x);

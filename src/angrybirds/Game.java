@@ -11,6 +11,7 @@ import angrybirds.models.BirdModel;
 import angrybirds.models.ObstacleModel;
 import angrybirds.structures.Vector2d;
 import angrybirds.trajectories.MovementApplyer;
+import angrybirds.trajectories.curves.LinearMovement;
 import angrybirds.trajectories.curves.ParabolicMovement;
 import angrybirds.views.Bird;
 import angrybirds.views.CircleObstacle;
@@ -118,9 +119,39 @@ public class Game extends BaseGame {
             obsModel.addView(obsView);
             // add the view to object to draw
             objects.add(obsView);
+            
+            /**
+             * Mouvement des obstacles à finir
+             */
+        //   if(i == 2){
+            	
+            	//mouvementHorizontal(obsController, obsModel);
+            	
+          	
+          // }
+            
+            
+            
         }
     }
-
+  /*  private void mouvementDiagonal(ObstacleController obsController, ObstacleModel obsModel) {
+    	LinearMovement linearMovement = new LinearMovement(1, 1, 1);
+    	MovementApplyer applyer = new MovementApplyer(linearMovement, obsModel);
+    	obsController.addMovement(applyer);
+    }
+    
+    private void mouvementVertical(ObstacleController obsController, ObstacleModel obsModel) {
+    	LinearMovement linearMovement = new LinearMovement(0, 0, 1);
+    	MovementApplyer applyer = new MovementApplyer(linearMovement, obsModel);
+    	obsController.addMovement(applyer);
+    }
+    
+    private void mouvementHorizontal(ObstacleController obsController, ObstacleModel obsModel) {
+    	LinearMovement linearMovement = new LinearMovement(0, 1, 1);
+    	MovementApplyer applyer = new MovementApplyer(linearMovement, obsModel);
+    	obsController.addMovement(applyer);
+    }
+    */
     /**
      * This function creates a Bird.
      */
@@ -183,6 +214,10 @@ public class Game extends BaseGame {
 
         // update objects
         for (GameObjectView currentObject : objects) {
+        	
+        	/**
+        	 * On update les positions.
+        	 */
             GameObjectController controller = currentObject.getController();
             if (controller != null) {
                 controller.update();
