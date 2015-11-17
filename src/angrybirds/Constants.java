@@ -21,5 +21,5 @@ public abstract class Constants {
     public static int PLAY_RESET_AFTER = 1000; // 11 seconds
     public static int MIN_OBSTACLES = 5;
     public static final int MAX_OBSTACLES = 10;
-    public static boolean DEBUG_TRAJECTORY = false;
+    public static boolean DEBUG_TRAJECTORY = true;
 }
