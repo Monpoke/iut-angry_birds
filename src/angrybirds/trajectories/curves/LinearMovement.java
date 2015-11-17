@@ -3,13 +3,10 @@
  */
 package angrybirds.trajectories.curves;
 
-import angrybirds.Constants;
-import angrybirds.Tools;
 import angrybirds.models.GameObjectModel;
 import angrybirds.structures.Vector2d;
 import angrybirds.trajectories.Movement;
 import angrybirds.trajectories.MovementApplyer;
-import angrybirds.views.Window;
 
 /**
  *
@@ -41,21 +38,6 @@ public class LinearMovement extends Movement {
         this.by = xBy;
     }
 
-    @Override
-    public int findX() {
-        return (int) (mvtApplyer.getEllapsedTime()) * by;
-    }
-
-    public int findY(int x) {
-        y = (int) a * x + b;
-
-        return y;
-    }
-
-    @Override
-    public int findY() {
-        return findY(findX());
-    }
 
     /**
      * Process
@@ -73,12 +55,49 @@ public class LinearMovement extends Movement {
         // apply movement
         position.setX(mvtApplyer.getStartPosition().getX() + x);
         position.setY(mvtApplyer.getStartPosition().getY() + y);
+        
+        
+        
+        int lenght = (int)  findNextX(2) ;
+        int width = (int) findNextY(2) ;
 
+        position.setLength(lenght);
+        position.setWidth(width);
+        
     }
 
     @Override
     public double processY(double x) {
         return 5 * x;
     }
+    
+    
+    
+    @Override
+    public int findX() {
+        return (int) (mvtApplyer.getEllapsedTime()) * by;
+    }
+
+    public int findY(int x) {
+        y = (int) a * x + b;
+
+        return y;
+    }
+
+    @Override
+    public int findY() {
+        return findY(findX());
+    }
+    
+    
+    public int findNextX(int time) {
+    	return (int) ((mvtApplyer.getEllapsedTime() + time) * by);
+    }
+    
+    
+    public int findNextY(int time) {
+    	return findY(findNextX(time));
+    }
+
 
 }

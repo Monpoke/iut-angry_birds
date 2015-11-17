@@ -218,7 +218,7 @@ public class DebugBox extends javax.swing.JFrame implements Observer {
 
         if (moves.getSelectedItem().toString().equals("linear")) {
             
-            LinearMovement mvt = new LinearMovement(-3, 0, 2);
+            LinearMovement mvt = new LinearMovement(-1, 0, 2);
             MovementApplyer mvtAppl = new MovementApplyer(mvt,
                     game.getBird().getModel() // give the model
             );

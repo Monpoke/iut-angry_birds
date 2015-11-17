@@ -34,6 +34,7 @@ public class MovementApplyer {
      */
     public MovementApplyer(Movement movement, GameObjectModel model) {
         this.movement = movement;
+        movement.setMvtApplyer(this);
         this.model = model;
         this.startPosition = model.getPosition().copy();
         this.startMovementTime = Window.getRefreshTimes();

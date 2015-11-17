@@ -62,9 +62,9 @@ public class Window extends JFrame {
             @Override
             public void run() {
                 if (Game.BLOCK_STATUS == false) {
-
-                    if (Constants.DEBUG_MODE == true && debugBoxModel != null) {
-                        debugBoxModel.setRefreshTimes((refreshTimes++));
+                    refreshTimes++;
+                    if (debugBoxModel != null) {
+                        debugBoxModel.setRefreshTimes(refreshTimes);
                     }
 
                     game.updateElements();
@@ -103,6 +103,10 @@ public class Window extends JFrame {
 
     public static int getRefreshTimes() {
         return refreshTimes;
+    }
+
+    public static void addTime() {
+        refreshTimes++;
     }
 
 }

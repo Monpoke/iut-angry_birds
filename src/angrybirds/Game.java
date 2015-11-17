@@ -10,7 +10,9 @@ import angrybirds.controllers.ObstacleController;
 import angrybirds.models.BirdModel;
 import angrybirds.models.ObstacleModel;
 import angrybirds.structures.Vector2d;
+import angrybirds.trajectories.Movement;
 import angrybirds.trajectories.MovementApplyer;
+import angrybirds.trajectories.curves.LinearMovement;
 import angrybirds.trajectories.curves.ParabolicMovement;
 import angrybirds.views.Bird;
 import angrybirds.views.CircleObstacle;
@@ -43,6 +45,8 @@ public class Game extends BaseGame {
         {-0.005, 2, -1, 4},
         {-0.005, 1, -1, 4}};
 
+    ArrayList<Movement> movements;
+
     int playId = 0;
 
     /**
@@ -69,6 +73,9 @@ public class Game extends BaseGame {
 
         // Open Game window
         window = new Window(this);
+
+        // create scene
+        createParameters();
 
         // Reset scene
         resetScene();
@@ -105,14 +112,14 @@ public class Game extends BaseGame {
      */
     private void createObstacles() {
 
-        int nbObs = Constants.MIN_OBSTACLES + rnd.nextInt(Constants.MAX_OBSTACLES-Constants.MIN_OBSTACLES+1);
+        int nbObs = Constants.MIN_OBSTACLES + rnd.nextInt(Constants.MAX_OBSTACLES - Constants.MIN_OBSTACLES + 1);
 
         for (int i = 0; Constants.ENABLE_OBSTACLES && i < nbObs; i++) {
 
             ObstacleModel obsModel = new ObstacleModel(new Vector2d(
                     Constants.WINDOW_WIDTH - 200 - rnd.nextInt(400),
-                    100 + i * ((70 + rnd.nextInt(40)))
-            ), 10 + rnd.nextInt(20));
+                    100 + ((10 + rnd.nextInt(250)))
+            ), 10 + rnd.nextInt(10));
             ObstacleController obsController = new ObstacleController(obsModel);
             CircleObstacle obsView = new CircleObstacle(obsModel, obsController);
             obsModel.addView(obsView);
@@ -131,7 +138,7 @@ public class Game extends BaseGame {
         birdModel.addView(bird);
 
         birdModel.setController(birdController);
-        
+
         // ON DEATH, RESET SCENE.
         birdController.setDeathAction(new AngryEvent() {
 
@@ -259,7 +266,7 @@ public class Game extends BaseGame {
         /**
          * end play
          */
-        if (playId >= parameters.length) {
+        if (playId >= movements.size()) {
             System.exit(0);
         }
 
@@ -268,21 +275,46 @@ public class Game extends BaseGame {
 
             @Override
             public void run() {
-                double[] s = parameters[playId++];
-                double a, b, c;
-                double xBy;
-                double div = 2;
+                /* System.out.println("fefkjzekfjez");
+                 double[] s = parameters[playId++];
+                 double a, b, c;
+                 double xBy;
+                 double div = 2;
 
-                a = s[0];
-                b = s[1];
-                c = s[2];
-                xBy = s[3];
-
-                bird.getController().addMovement(new MovementApplyer(new ParabolicMovement(a, b, c, xBy, div), bird.getModel()));
+                 a = s[0];
+                 b = s[1];
+                 c = s[2];
+                 xBy = s[3];*/
+                Movement mvt = movements.get(playId++);
+                MovementApplyer mvtA = new MovementApplyer(mvt, bird.getModel());
+                mvt.setMvtApplyer(mvtA);
+                bird.getController().addMovement(mvtA);
+//                   bird.getController().addMovement(new MovementApplyer(new ParabolicMovement(a, b, c, xBy, div), bird.getModel()));
 //        bird.getController().addMovement(new MovementApplyer(new ParabolicMovement("-0.005 3 -1 8 2"), bird.getModel()));
+
                 t.cancel();
             }
-        }, Constants.PLAY_LAUNCH_AFTER, 1);
+        }, 0, 1);
+    }
+
+    private void createParameters() {
+        movements = new ArrayList<>();
+
+        movements.add(new LinearMovement(-1, 0, 5));
+
+        for (int i = 0; i < parameters.length; i++) {
+            double[] s = parameters[i];
+            double a, b, c;
+            double xBy;
+            double div = 2;
+
+            a = s[0];
+            b = s[1];
+            c = s[2];
+            xBy = s[3];
+            movements.add(new ParabolicMovement(a, b, c, xBy, div));
+        }
+
     }
 
 }
