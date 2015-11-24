@@ -21,6 +21,7 @@ public class ObstacleController extends GameObjectController {
     public void update() {
     	super.update();
     	
+    	
     }
     
 }

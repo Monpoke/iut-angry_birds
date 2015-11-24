@@ -13,6 +13,7 @@ import angrybirds.structures.Vector2d;
 import angrybirds.trajectories.Movement;
 import angrybirds.trajectories.MovementApplyer;
 import angrybirds.trajectories.curves.LinearMovement;
+import angrybirds.trajectories.curves.ObsLinearMovementVertical;
 import angrybirds.trajectories.curves.ParabolicMovement;
 import angrybirds.views.Bird;
 import angrybirds.views.CircleObstacle;
@@ -120,9 +121,17 @@ public class Game extends BaseGame {
                     Constants.WINDOW_WIDTH - 200 - rnd.nextInt(400),
                     100 + ((10 + rnd.nextInt(250)))
             ), 10 + rnd.nextInt(10));
+           
             ObstacleController obsController = new ObstacleController(obsModel);
             CircleObstacle obsView = new CircleObstacle(obsModel, obsController);
             obsModel.addView(obsView);
+           
+            	LinearMovement mouvementVertical = new ObsLinearMovementVertical();
+            	MovementApplyer mvt = new MovementApplyer(mouvementVertical,obsModel);
+            	obsController.addMovement(mvt);
+            	
+            	
+            
             // add the view to object to draw
             objects.add(obsView);
         }
@@ -180,6 +189,7 @@ public class Game extends BaseGame {
      */
     public void updateElements() {
         // update bird
+    	
         bird.getController().update();
 
         for (GameObjectView object : objects) {
