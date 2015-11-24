@@ -6,13 +6,12 @@ import angrybirds.models.GameObjectModel;
 import angrybirds.structures.Vector2d;
 import angrybirds.trajectories.MovementApplyer;
 
-
-public class ObsLinearMovementVertical extends LinearMovement {
+public class ObsLinearMovementHorizontal extends LinearMovement {
 	
-	boolean test = false;
-	Random rnd = new Random();
+	boolean test = false; 
 	int z,e;
-	public ObsLinearMovementVertical() {
+	Random rnd = new Random();
+	public ObsLinearMovementHorizontal() {
 		super(1, 1, 1);
 		z = rnd.nextInt(100);
 		e = rnd.nextInt(100);
@@ -22,23 +21,24 @@ public class ObsLinearMovementVertical extends LinearMovement {
 
 	
 	  
-	  public int findY() {
-		if ( y == (z * -1)) {
+	  public int findX() {
+		  
+		if ( x == (z* -1)) {
 			test = true;
 		}
 		
-		if (y == e) {
+		if (x == e) {
 			test = false;
 		}
 		
 		if(test) {
-			y = (int) y +b;
+			x = (int) x +b;
 			
 		} else {
-			y = (int) y-b;
+			x = (int) x-b;
 		}
-		 
-	        return y;
+		
+	        return x;
 	  }
 	  
 	  public void process(GameObjectModel model, MovementApplyer mvt) {
@@ -47,10 +47,9 @@ public class ObsLinearMovementVertical extends LinearMovement {
 	        y = findY();
 
 	        // apply movement
-	        position.setX(mvtApplyer.getStartPosition().getX());
-	        position.setY(mvtApplyer.getStartPosition().getY() + y);
+	        position.setX(mvtApplyer.getStartPosition().getX() + x);
+	        position.setY(mvtApplyer.getStartPosition().getY());
 
 	    }
-	  
 
 }
