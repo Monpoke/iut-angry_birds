@@ -270,7 +270,7 @@ public class Game extends BaseGame {
             System.exit(0);
         }
 
-        Timer t = new Timer();
+        final Timer t = new Timer();
         t.scheduleAtFixedRate(new TimerTask() {
 
             @Override
@@ -318,3 +318,4 @@ public class Game extends BaseGame {
     }
 
 }
+

@@ -1,3 +1,4 @@
+
 /*
  *  Projet AngryBirds
  *  DUT Informatique - 2e
@@ -60,3 +61,4 @@ public class ObstacleModel extends GameObjectModel {
     }
 
 }
+

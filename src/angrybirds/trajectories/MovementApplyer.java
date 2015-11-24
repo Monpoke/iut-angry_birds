@@ -37,6 +37,7 @@ public class MovementApplyer {
         this.model = model;
         this.startPosition = model.getPosition().copy();
         this.startMovementTime = Window.getRefreshTimes();
+        movement.setMvtApplyer(this);
     }
 
     /**

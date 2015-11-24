@@ -1,12 +1,16 @@
+
 /*
  *  Projet Angry Birds
  */
 package angrybirds.trajectories.curves;
 
+import angrybirds.Constants;
+import angrybirds.Tools;
 import angrybirds.models.GameObjectModel;
 import angrybirds.structures.Vector2d;
 import angrybirds.trajectories.Movement;
 import angrybirds.trajectories.MovementApplyer;
+import angrybirds.views.Window;
 
 /**
  *
@@ -14,11 +18,12 @@ import angrybirds.trajectories.MovementApplyer;
  */
 public class LinearMovement extends Movement {
 
-    private String type;
-    private int by;
+    protected String type;
+    protected int by;
 
-    private int x, y;
-    private int a, b;
+    protected int x;
+	protected int y;
+    protected int a, b;
 
     /**
      * Gets a linear movement
@@ -36,43 +41,9 @@ public class LinearMovement extends Movement {
         this.a = a;
         this.b = b;
         this.by = xBy;
-    }
-
-
-    /**
-     * Process
-     *
-     * @param model
-     * @param mvt
-     */
-    @Override
-    public void process(GameObjectModel model, MovementApplyer mvt) {
-        Vector2d position = model.getPosition();
-
-        x = findX();
-        y = findY(x);
-
-        // apply movement
-        position.setX(mvtApplyer.getStartPosition().getX() + x);
-        position.setY(mvtApplyer.getStartPosition().getY() + y);
-        
-        
-        
-        int lenght = (int)  findNextX(2) ;
-        int width = (int) findNextY(2) ;
-
-        position.setLength(lenght);
-        position.setWidth(width);
         
     }
 
-    @Override
-    public double processY(double x) {
-        return 5 * x;
-    }
-    
-    
-    
     @Override
     public int findX() {
         return (int) (mvtApplyer.getEllapsedTime()) * by;
@@ -88,16 +59,31 @@ public class LinearMovement extends Movement {
     public int findY() {
         return findY(findX());
     }
-    
-    
-    public int findNextX(int time) {
-    	return (int) ((mvtApplyer.getEllapsedTime() + time) * by);
-    }
-    
-    
-    public int findNextY(int time) {
-    	return findY(findNextX(time));
+
+    /**
+     * Process
+     *
+     * @param model
+     * @param mvt
+     */
+    @Override
+    public void process(GameObjectModel model, MovementApplyer mvt) {
+        Vector2d position = model.getPosition();
+ 
+        x = findX();
+        y = findY(x);
+
+
+        // apply movement
+        position.setX(mvtApplyer.getStartPosition().getX() + x);
+        position.setY(mvtApplyer.getStartPosition().getY() + y);
+
     }
 
+    @Override
+    public double processY(double x) {
+        return 5 * x;
+    }
 
 }
+
