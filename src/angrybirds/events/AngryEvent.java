@@ -2,7 +2,7 @@
  *  Projet AngryBirds
  *  DUT Informatique - 2e
  */
-package angrybirds;
+package angrybirds.events;
 
 /**
  *

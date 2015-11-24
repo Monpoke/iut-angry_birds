@@ -4,6 +4,7 @@
 package angrybirds.views;
 
 import angrybirds.Game;
+import angrybirds.events.DragListener;
 import angrybirds.images.Background;
 import java.awt.Color;
 import java.awt.Graphics;
@@ -21,8 +22,12 @@ public class WindowPanel extends JPanel {
     
     WindowPanel(Game game) {
         this.game = game;
-        
         this.bg = Background.DEFAULT.getImage();
+        
+        // Register an event listener
+        DragListener event = new DragListener(game, this);
+        this.addMouseListener(event);
+        this.addMouseMotionListener(event);
     }
 
     @Override
@@ -33,7 +38,7 @@ public class WindowPanel extends JPanel {
         // clear screen
         g.setColor(Color.WHITE);
         //g.fillRect(0, 0, getWidth(), getHeight());
-        g.drawImage(bg, 0, 0, this);
+        g.drawImage(bg, 0, 0, getWidth(), getHeight(), Color.WHITE, this);
 
         game.loop(g);
     }

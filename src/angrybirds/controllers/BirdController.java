@@ -3,7 +3,7 @@
  */
 package angrybirds.controllers;
 
-import angrybirds.AngryEvent;
+import angrybirds.events.AngryEvent;
 import angrybirds.models.BirdModel;
 import angrybirds.models.GameObjectModel;
 
