@@ -13,6 +13,7 @@ import angrybirds.structures.Vector2d;
 import angrybirds.trajectories.Movement;
 import angrybirds.trajectories.MovementApplyer;
 import angrybirds.trajectories.curves.LinearMovement;
+import angrybirds.trajectories.curves.ObsLinearMovementHorizontal;
 import angrybirds.trajectories.curves.ObsLinearMovementVertical;
 import angrybirds.trajectories.curves.ParabolicMovement;
 import angrybirds.views.Bird;
@@ -125,11 +126,17 @@ public class Game extends BaseGame {
             ObstacleController obsController = new ObstacleController(obsModel);
             CircleObstacle obsView = new CircleObstacle(obsModel, obsController);
             obsModel.addView(obsView);
-           
+            
+            if( i%2 == 0) {
+            	LinearMovement mouvementVertical = new ObsLinearMovementHorizontal();
+            	MovementApplyer mvt = new MovementApplyer(mouvementVertical,obsModel);
+            	obsController.addMovement(mvt);
+            } else {
             	LinearMovement mouvementVertical = new ObsLinearMovementVertical();
             	MovementApplyer mvt = new MovementApplyer(mouvementVertical,obsModel);
             	obsController.addMovement(mvt);
             	
+            }
             	
             
             // add the view to object to draw
