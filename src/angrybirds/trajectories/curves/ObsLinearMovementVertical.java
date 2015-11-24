@@ -6,18 +6,32 @@ import angrybirds.trajectories.MovementApplyer;
 
 
 public class ObsLinearMovementVertical extends LinearMovement {
-
-	public ObsLinearMovementVertical(int a, int b, int xBy) {
-		super(a, b, xBy);
+	
+	boolean test = false;
+	
+	public ObsLinearMovementVertical() {
+		super(1, 1, 1);
 		// TODO Auto-generated constructor stub
 	}
 
 	
-	
 	  
 	  public int findY() {
-		  y = (int) a * x + b;
-
+		if ( y == -100) {
+			test = true;
+		}
+		
+		if (y == 0) {
+			test = false;
+		}
+		
+		if(test) {
+			y = (int) y +b;
+			
+		} else {
+			y = (int) y-b;
+		}
+		  System.out.println(y);
 	        return y;
 	  }
 	  
@@ -27,11 +41,10 @@ public class ObsLinearMovementVertical extends LinearMovement {
 	        y = findY();
 
 	        // apply movement
-	        position.setX(mvtApplyer.getStartPosition().getX() + x);
+	        position.setX(mvtApplyer.getStartPosition().getX());
 	        position.setY(mvtApplyer.getStartPosition().getY() + y);
 
 	    }
 	  
-
 
 }

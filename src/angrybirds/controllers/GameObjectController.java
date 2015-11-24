@@ -56,6 +56,7 @@ public abstract class GameObjectController {
      * Update loop.
      */
     public void update(){
+    
         if(movement!=null){
             movement.apply();
         }
