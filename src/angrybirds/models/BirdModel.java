@@ -4,7 +4,7 @@
  */
 package angrybirds.models;
 
-import angrybirds.AngryEvent;
+import angrybirds.events.AngryEvent;
 import angrybirds.structures.Vector2d;
 import angrybirds.views.Bird;
 

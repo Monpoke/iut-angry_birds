@@ -1,6 +1,6 @@
 package angrybirds.structures;
 
-import angrybirds.AngryEvent;
+import angrybirds.events.AngryEvent;
 
 /*
  *  Projet AngryBirds

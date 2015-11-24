@@ -4,6 +4,7 @@
  */
 package angrybirds;
 
+import angrybirds.events.AngryEvent;
 import angrybirds.controllers.BirdController;
 import angrybirds.controllers.GameObjectController;
 import angrybirds.controllers.ObstacleController;
@@ -103,7 +104,8 @@ public class Game extends BaseGame {
         window.refreshScene(this);
 
         if (!Constants.DEBUG_MODE) {
-            launchAutomatic();
+           // launchAutomatic();
+           dragAndDrop();
         }
     }
 
@@ -132,7 +134,7 @@ public class Game extends BaseGame {
      * This function creates a Bird.
      */
     private void createBird() {
-        BirdModel birdModel = new BirdModel(new Vector2d(80, Constants.WINDOW_HEIGHT - 100));
+        BirdModel birdModel = new BirdModel(new Vector2d(120, Constants.WINDOW_HEIGHT - 150));
         BirdController birdController = new BirdController(birdModel);
         bird = new Bird(birdModel, birdController);
         birdModel.addView(bird);
@@ -315,6 +317,13 @@ public class Game extends BaseGame {
             movements.add(new ParabolicMovement(a, b, c, xBy, div));
         }
 
+    }
+
+    /**
+     * Enable drag and drop.
+     */
+    private void dragAndDrop() {
+        
     }
 
 }

@@ -3,7 +3,7 @@
  */
 package angrybirds.trajectories.curves;
 
-import angrybirds.AngryEvent;
+import angrybirds.events.AngryEvent;
 import angrybirds.Constants;
 import angrybirds.Tools;
 import angrybirds.controllers.BirdController;

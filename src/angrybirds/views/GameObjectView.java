@@ -9,12 +9,13 @@ import angrybirds.controllers.GameObjectController;
 import angrybirds.models.GameObjectModel;
 import java.awt.Graphics;
 import java.util.Observer;
+import javax.swing.JPanel;
 
 /**
  *
  * @author Pierre
  */
-public abstract class GameObjectView implements Observer {
+public abstract class GameObjectView extends JPanel implements Observer {
 
     protected final GameObjectModel model;
     private final GameObjectController controller;
