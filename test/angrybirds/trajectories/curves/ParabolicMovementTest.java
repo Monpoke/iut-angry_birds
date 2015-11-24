@@ -29,7 +29,7 @@ public class ParabolicMovementTest {
 
     // it should be equals to 0
     @Test
-    public void testA() {
+    public void testParaboliqueX1M1() {
         System.out.println("Test parabolique en x1 pour m1 (valoir 0)");
         assertEquals(0, mvt1.findY((int) mvt1.xDecale()));
     }
