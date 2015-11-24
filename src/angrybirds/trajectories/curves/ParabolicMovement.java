@@ -57,7 +57,7 @@ public class ParabolicMovement extends Movement {
         int y = (int) ((a * Math.pow((xDecale), 2)) + b * (xDecale) + c) / (int) div;
 
         return y;*/
-        
+      
         return findY((int)x);
     }
 

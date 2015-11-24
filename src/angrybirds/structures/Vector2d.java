@@ -148,7 +148,7 @@ public class Vector2d {
     
     @Override
     public String toString() {
-    	return "x : " + x + ", y : " + y + ", lenght : " + length + ", width : " + width;
+    	return "x : " + x + ", y : " + y + ", length : " + length + ", width : " + width;
     }
 
 }

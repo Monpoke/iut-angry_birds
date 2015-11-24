@@ -1,3 +1,4 @@
+
 /*
  *  Projet AngryBirds
  *  DUT Informatique - 2e
@@ -22,7 +23,6 @@ public class ObstacleModel extends GameObjectModel {
     public ObstacleModel(Vector2d position) {
         this.diameter = Constants.OBSTACLE_DIAMETER;
         this.position = position;
-     
     }
 
     public ObstacleModel(Vector2d position, int diameter) {
@@ -61,3 +61,4 @@ public class ObstacleModel extends GameObjectModel {
     }
 
 }
+

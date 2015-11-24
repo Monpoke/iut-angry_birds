@@ -51,7 +51,7 @@ public abstract class GameObjectController {
     }
     
     
-
+    
     /**
      * Update loop.
      */
@@ -60,7 +60,6 @@ public abstract class GameObjectController {
             movement.apply();
         }
     }
-
-    
     
 }
+

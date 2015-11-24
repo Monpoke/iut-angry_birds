@@ -1,3 +1,4 @@
+
 /*
  *  Projet Angry Birds
  */
@@ -23,3 +24,4 @@ public class ObstacleController extends GameObjectController {
     }
     
 }
+

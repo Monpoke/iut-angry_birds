@@ -15,6 +15,7 @@ import org.junit.runners.Suite;
 @RunWith(Suite.class)
 @Suite.SuiteClasses({
     angrybirds.trajectories.curves.ParabolicMovementTest.class,
+    angrybirds.trajectories.curves.ParabolicMovementTest.class,
     angrybirds.views.CollisionTests.class,
     angrybirds.structures.Vector2dTest.class
 })

@@ -1,3 +1,4 @@
+
 /*
  *  Projet Angry Birds
  */
@@ -85,3 +86,4 @@ public class LinearMovement extends Movement {
     }
 
 }
+

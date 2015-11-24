@@ -31,14 +31,23 @@ public class ParabolicMovementTest {
     @Test
     public void testA() {
         System.out.println("Test parabolique en x1 pour m1 (valoir 0)");
-        assertEquals(0, mvt1.findY((int)mvt1.xDecale()));
+        assertEquals(0, mvt1.findY((int) mvt1.xDecale()));
     }
 
     // it should be equals to 0
     @Test
     public void testB() {
-                System.out.println("Test parabolique en x2 (valoir 0)");
-        assertEquals(0, mvt2.findY((int)mvt2.xDecale()));
+        System.out.println("Test parabolique en x2 (valoir 0)");
+        assertEquals(0, mvt2.findY((int) mvt2.xDecale()));
     }
 
+    @Test
+    public void testC() {
+        assertEquals(264,mvt1.findY(25));
+    }
+    
+    @Test
+    public void testD() {
+        assertEquals(0,mvt1.findY(0));
+    }
 }

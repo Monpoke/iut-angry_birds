@@ -94,7 +94,7 @@ public class MovementApplyer {
         g.setColor(Color.DARK_GRAY);
         movement.setMvtApplyer(this);
         for (double x = startPosition.getX(); x <= (Constants.DEBUG_TRAJECTORY ? Constants.WINDOW_WIDTH: model.getPosition().getX()); x += 20) {
-            g.fillOval((int) x, (int) (startPosition.getY() - movement.processY(x)), 5, 5);
+            g.fillOval((int) x - 3, (int) (startPosition.getY() - movement.processY(x - startPosition.getX()) - 3), 6, 6);
         }
     }
 
