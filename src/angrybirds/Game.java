@@ -16,6 +16,7 @@ import angrybirds.trajectories.MovementApplyer;
 import angrybirds.trajectories.curves.LinearMovement;
 import angrybirds.trajectories.curves.ObsLinearMovementHorizontal;
 import angrybirds.trajectories.curves.ObsLinearMovementVertical;
+import angrybirds.trajectories.curves.ObsVectorMovement;
 import angrybirds.trajectories.curves.ParabolicMovement;
 import angrybirds.views.Bird;
 import angrybirds.views.CircleObstacle;
@@ -106,8 +107,8 @@ public class Game extends BaseGame {
         window.refreshScene(this);
 
         if (!Constants.DEBUG_MODE) {
-           // launchAutomatic();
-           dragAndDrop();
+            // launchAutomatic();
+            dragAndDrop();
         }
     }
 
@@ -124,23 +125,24 @@ public class Game extends BaseGame {
                     Constants.WINDOW_WIDTH - 200 - rnd.nextInt(400),
                     100 + ((10 + rnd.nextInt(250)))
             ), 10 + rnd.nextInt(10));
-           
+
             ObstacleController obsController = new ObstacleController(obsModel);
             CircleObstacle obsView = new CircleObstacle(obsModel, obsController);
             obsModel.addView(obsView);
-            
-            if( i%2 == 0) {
-            	LinearMovement mouvementVertical = new ObsLinearMovementHorizontal();
-            	MovementApplyer mvt = new MovementApplyer(mouvementVertical,obsModel);
-            	obsController.addMovement(mvt);
-            } else {
-            	LinearMovement mouvementVertical = new ObsLinearMovementVertical();
-            	MovementApplyer mvt = new MovementApplyer(mouvementVertical,obsModel);
-            	obsController.addMovement(mvt);
-            	
+
+            Movement mType;
+            if(i%5 > 0){
+                mType = new  ObsVectorMovement(new Vector2d(10, 10));
             }
-            	
-            
+            else if (i % 5 == 0) {
+                mType = new ObsLinearMovementHorizontal();
+            } else {
+                mType = new ObsLinearMovementVertical();
+            }
+
+            MovementApplyer mvt = new MovementApplyer(mType, obsModel);
+            obsController.addMovement(mvt);
+
             // add the view to object to draw
             objects.add(obsView);
         }
@@ -150,7 +152,7 @@ public class Game extends BaseGame {
      * This function creates a Bird.
      */
     private void createBird() {
-        BirdModel birdModel = new BirdModel(new Vector2d(120, Constants.WINDOW_HEIGHT - 150));
+        BirdModel birdModel = new BirdModel(new Vector2d(Constants.BIRD_START_X, Constants.WINDOW_HEIGHT - Constants.BIRD_START_Y_FROM_BOTTOM));
         BirdController birdController = new BirdController(birdModel);
         bird = new Bird(birdModel, birdController);
         birdModel.addView(bird);
@@ -198,14 +200,8 @@ public class Game extends BaseGame {
      */
     public void updateElements() {
         // update bird
-    	
-        bird.getController().update();
 
-        for (GameObjectView object : objects) {
-            if (object.getModel().hasCollision()) {
-                object.getModel().getHitbox().setCollided(false);
-            }
-        }
+        bird.getController().update();
 
         // update objects
         for (GameObjectView currentObject : objects) {
@@ -340,8 +336,7 @@ public class Game extends BaseGame {
      * Enable drag and drop.
      */
     private void dragAndDrop() {
-        
+
     }
 
 }
-

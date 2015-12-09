@@ -7,6 +7,8 @@ package angrybirds.models;
 import angrybirds.events.AngryEvent;
 import angrybirds.structures.Vector2d;
 import angrybirds.views.Bird;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  *
@@ -18,6 +20,11 @@ public class BirdModel extends GameObjectModel {
      * Sets the bird alive or not
      */
     protected boolean isAlive = true;
+    
+    /**
+     * Has the bird been launched?
+     */
+    protected boolean hasBeenLaunched = false;
     
     /**
      * Sets bird position
@@ -49,7 +56,18 @@ public class BirdModel extends GameObjectModel {
     public void setIsAlive(boolean isAlive) {
         this.isAlive = isAlive;
     }
+
+    public boolean isHasBeenLaunched() {
+        return hasBeenLaunched;
+    }
+
+    public void setHasBeenLaunched(boolean hasBeenLaunched) {
+        this.hasBeenLaunched = hasBeenLaunched;
+    }
+
     
+    
+ 
     
     
 }

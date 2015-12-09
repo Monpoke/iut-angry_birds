@@ -43,7 +43,7 @@ public abstract class GameObjectView extends JPanel implements Observer {
     public boolean isHidden() {
         return hidden;
     }
-
+    
     public void setHidden(boolean hidden) {
         this.hidden = hidden;
     }
@@ -58,7 +58,7 @@ public abstract class GameObjectView extends JPanel implements Observer {
         if((Constants.ENABLE_PAINT_TRAJECTORIES || Constants.DEBUG_MODE) &&controller.hasMovement()){
                 controller.getMovement().paintDebug(g);
         }
-        if(Constants.DEBUG_MODE){
+        if(Constants.DEBUG_MODE || Constants.DEBUG_HITBOX){
             if(model.hasCollision()){
                 model.getHitbox().debugPaint(g);
             } 

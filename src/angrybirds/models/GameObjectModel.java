@@ -6,6 +6,8 @@ import angrybirds.controllers.GameObjectController;
 import angrybirds.hitbox.HitBox;
 import angrybirds.structures.Vector2d;
 import angrybirds.views.GameObjectView;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Observable;
 
 /*
@@ -28,6 +30,13 @@ public abstract class GameObjectModel extends Observable {
      * Object angle.
      */
     protected double angle;
+    
+    
+    /**
+     * Contains last positions.
+     */
+    protected List<Vector2d> positions = new ArrayList<>();
+    
     
     /**
      * Contains view.
@@ -112,6 +121,14 @@ public abstract class GameObjectModel extends Observable {
     }
     
     
+    
+    public List<Vector2d> getPositions() {
+        return positions;
+    }
+
+    public void setPositions(List<Vector2d> positions) {
+        this.positions = positions;
+    }
     
     
 }

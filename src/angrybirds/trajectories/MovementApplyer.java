@@ -10,6 +10,7 @@ import angrybirds.structures.Vector2d;
 import angrybirds.views.Window;
 import java.awt.Color;
 import java.awt.Graphics;
+import javax.swing.JOptionPane;
 
 /**
  * Apply a movement to a game object.
@@ -46,6 +47,11 @@ public class MovementApplyer {
     public void apply() {
         if (!stopped) {
             movement.process(model, this);
+            // save position in model
+            
+            if(getEllapsedTime()%5==0){
+                model.getPositions().add(new Vector2d(model.getPosition().getX(), model.getPosition().getY()));
+            }
         }
     }
 
@@ -92,10 +98,16 @@ public class MovementApplyer {
      */
     public void paintDebug(Graphics g) {
         g.setColor(Color.DARK_GRAY);
-        movement.setMvtApplyer(this);
+        
+        for (Vector2d pos : model.getPositions()) {
+            g.fillOval((int)pos.getX(), (int)pos.getY(), 6, 6);
+        }
+        
+        
+        /*movement.setMvtApplyer(this);
         for (double x = startPosition.getX(); x <= (Constants.DEBUG_TRAJECTORY ? Constants.WINDOW_WIDTH: model.getPosition().getX()); x += 20) {
             g.fillOval((int) x - 3, (int) (startPosition.getY() - movement.processY(x - startPosition.getX()) - 3), 6, 6);
-        }
+        }*/
     }
 
 }
