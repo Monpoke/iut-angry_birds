@@ -55,9 +55,9 @@ public abstract class GameObjectView extends JPanel implements Observer {
      * @param g 
      */
     public void draw(Graphics g){
-        if((Constants.ENABLE_PAINT_TRAJECTORIES || Constants.DEBUG_MODE) &&controller.hasMovement()){
+      /*  if((Constants.ENABLE_PAINT_TRAJECTORIES || Constants.DEBUG_MODE) &&controller.hasMovement()){
                 controller.getMovement().paintDebug(g);
-        }
+        }*/
         if(Constants.DEBUG_MODE || Constants.DEBUG_HITBOX){
             if(model.hasCollision()){
                 model.getHitbox().debugPaint(g);
