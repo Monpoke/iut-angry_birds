@@ -134,7 +134,7 @@ public class Game extends BaseGame {
             
             
             // mouvement diagonal
-            // mType = new  ObsVectorMovement(new Vector2d(10, 10,5,0.2));
+             mType = new  ObsVectorMovement(new Vector2d(10, 10,2,3));
                 
             //mouvement vertical
             // mType = new  ObsVectorMovement(new Vector2d(10, 10,0,2));
@@ -143,7 +143,7 @@ public class Game extends BaseGame {
            // mType = new  ObsVectorMovement(new Vector2d(10, 10,2,0));
            
             //sans mouvement
-            mType = new  ObsVectorMovement(new Vector2d(10, 10,0,0));
+           // mType = new  ObsVectorMovement(new Vector2d(10, 10,0,0));
 
             MovementApplyer mvt = new MovementApplyer(mType, obsModel);
             obsController.addMovement(mvt);
