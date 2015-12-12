@@ -131,14 +131,19 @@ public class Game extends BaseGame {
             obsModel.addView(obsView);
 
             Movement mType;
-            if(i%5 > 0){
-                mType = new  ObsVectorMovement(new Vector2d(10, 10));
-            }
-            else if (i % 5 == 0) {
-                mType = new ObsLinearMovementHorizontal();
-            } else {
-                mType = new ObsLinearMovementVertical();
-            }
+            
+            
+            // mouvement diagonal
+             mType = new  ObsVectorMovement(new Vector2d(10, 10,2,3));
+                
+            //mouvement vertical
+            // mType = new  ObsVectorMovement(new Vector2d(10, 10,0,2));
+            
+           //mouvement horizontal
+           // mType = new  ObsVectorMovement(new Vector2d(10, 10,2,0));
+           
+            //sans mouvement
+           // mType = new  ObsVectorMovement(new Vector2d(10, 10,0,0));
 
             MovementApplyer mvt = new MovementApplyer(mType, obsModel);
             obsController.addMovement(mvt);
