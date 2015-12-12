@@ -10,6 +10,7 @@ import angrybirds.structures.Vector2d;
 import angrybirds.views.Window;
 import java.awt.Color;
 import java.awt.Graphics;
+import java.util.Iterator;
 import javax.swing.JOptionPane;
 
 /**
@@ -99,10 +100,13 @@ public class MovementApplyer {
     public void paintDebug(Graphics g) {
         g.setColor(Color.DARK_GRAY);
         
-        for (Vector2d pos : model.getPositions()) {
+        Iterator<Vector2d> iterator = model.getPositions().iterator();
+        
+        while(iterator.hasNext()){
+            Vector2d pos = iterator.next();
             g.fillOval((int)pos.getX(), (int)pos.getY(), 6, 6);
         }
-        
+                
         
         /*movement.setMvtApplyer(this);
         for (double x = startPosition.getX(); x <= (Constants.DEBUG_TRAJECTORY ? Constants.WINDOW_WIDTH: model.getPosition().getX()); x += 20) {
