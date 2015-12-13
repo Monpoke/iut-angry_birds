@@ -34,7 +34,6 @@ public class GravityMovement extends Movement {
         this.angle = angle;
         this.angle=angle;
         
-        angle=90;
         v0 = Math.sqrt(Math.pow(force.getX(), 2) + Math.pow(force.getY(), 2));
         
         v0 = Math.max(1, v0);
@@ -78,12 +77,6 @@ public class GravityMovement extends Movement {
     @Override
     public int findX() {
 
-        x = v0 * mvtApplyer.getEllapsedTime() * Math.cos(angle) + mvtApplyer.getStartPosition().getY();
-
-        System.out.println(v0 + "*" + mvtApplyer.getEllapsedTime() + "*" + Math.cos(angle) + "+" + mvtApplyer.getStartPosition().getY() + " / " + rapportX);
-
-        x /= rapportX;
-
         return (int) x;
     }
 
@@ -102,26 +95,7 @@ public class GravityMovement extends Movement {
 
     public int findY(int x) {
 
-        double y0 = mvtApplyer.getStartPosition().getY();
-
-        y = -(1 / 2) * g * Math.pow(mvtApplyer.getEllapsedTime() / rapportTime, 2)
-                + v0 * mvtApplyer.getEllapsedTime() / rapportTime * Math.sin(angle) + y0;
-
-        System.out.print(-(0.5) + "*" + g + "*" + Math.pow(mvtApplyer.getEllapsedTime() / rapportTime, 2) + " + "
-                + v0 + "*" + (mvtApplyer.getEllapsedTime() / rapportTime) + "*" + "sin(" + angle + ") + " + y0);
-        y /= rapportY;
-
-        System.out.println("\n\n");
-
         return (int) y;
-    }
-
-    private static void scaleAddAssign(
-            Vector2d result, double factor, Vector2d addend, int fctEnd) {
-        double x = result.getX() + factor * addend.getX();
-        double y = result.getY() + factor * addend.getY() * fctEnd;
-        result.setX(x);
-        result.setY(y);
     }
 
 }

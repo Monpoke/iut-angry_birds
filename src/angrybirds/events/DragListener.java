@@ -84,19 +84,8 @@ public class DragListener implements AngryEvent, MouseListener, MouseMotionListe
             Vector2d force = new Vector2d(birdPosition.getX() - pOri.getX(),
                     (pOri.getY() - birdPosition.getY()));
 
-            
-            // ANGLE
-            float angle = (float) Math.toDegrees(Math.atan2(pOri.getY() - birdPosition.getY(), pOri.getX() - birdPosition.getX()));
-            if(angle < 0){
-            //    angle += 360;
-            }
-            angle -= 90;
-            if(angle < 0){
-              //  angle += 360;
-            }
-            
-            System.out.println("AngleDep: " + angle);
-            
+            double angle = getCurrentAngle();
+
             this.launchMovement(force, angle);
 
             birdPosition = null;
@@ -132,6 +121,7 @@ public class DragListener implements AngryEvent, MouseListener, MouseMotionListe
             po.setX(nX);
             po.setY(nY);
         }
+        getCurrentAngle();
 
     }
 
@@ -159,6 +149,35 @@ public class DragListener implements AngryEvent, MouseListener, MouseMotionListe
         GravityMovement gm = new GravityMovement(force, angle);
         MovementApplyer ma = new MovementApplyer(gm, bird.getModel());
         bird.getController().addMovement(ma);
+    }
+
+    private double getCurrentAngle() {
+
+        // bird has been released
+        // calcul du vecteur
+        Vector2d pOri = game.getBird().getModel().getPosition();
+        Vector2d force = new Vector2d(birdPosition.getX() - pOri.getX(),
+                (pOri.getY() - birdPosition.getY()));
+
+        // ANGLE
+        float angle = (float) Math.toDegrees(Math.atan2(birdPosition.getY() - pOri.getY(), birdPosition.getX() - pOri.getX()));
+        
+        angle+=180;
+        
+        if(angle < 0){
+            angle+=360;
+        }
+        
+        angle = (-angle + 180 + 360) % 360;
+        
+        
+        
+        
+        System.out.println("AngleCurrent:: " + angle);
+
+        
+        return angle;
+
     }
 
 }
