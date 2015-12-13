@@ -3,6 +3,7 @@
  */
 package angrybirds.events;
 
+import angrybirds.Constants;
 import angrybirds.Game;
 import angrybirds.Tools;
 import angrybirds.models.BirdModel;
@@ -55,7 +56,6 @@ public class DragListener implements AngryEvent, MouseListener, MouseMotionListe
 
         int mouseX = e.getX();
         int mouseY = e.getY();
-        System.out.println("MouseX: " + mouseX + "; MouseY: " + mouseY);
 
         Bird bird = game.getBird();
 
@@ -77,7 +77,7 @@ public class DragListener implements AngryEvent, MouseListener, MouseMotionListe
     public void mouseReleased(MouseEvent e) {
         pan.setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
 
-        if (birdPosition != null) {
+        if (!Constants.DEBUG_DRAG && birdPosition != null) {
             // bird has been released
             // calcul du vecteur
             Vector2d pOri = game.getBird().getModel().getPosition();
@@ -86,6 +86,7 @@ public class DragListener implements AngryEvent, MouseListener, MouseMotionListe
 
             double angle = getCurrentAngle();
 
+            
             this.launchMovement(force, angle);
 
             birdPosition = null;
@@ -117,11 +118,10 @@ public class DragListener implements AngryEvent, MouseListener, MouseMotionListe
         double nX = birdPosition.getX() - decalX;
         double nY = birdPosition.getY() - decalY;
 
-        if (Tools.distancePoints(birdPosition.getX(), nX, birdPosition.getY(), nY) <= 8000) {
+        if (Constants.DEBUG_DRAG || Tools.distancePoints(birdPosition.getX(), nX, birdPosition.getY(), nY) <= 8000) {
             po.setX(nX);
             po.setY(nY);
         }
-        getCurrentAngle();
 
     }
 
@@ -170,11 +170,6 @@ public class DragListener implements AngryEvent, MouseListener, MouseMotionListe
         
         angle = (-angle + 180 + 360) % 360;
         
-        
-        
-        
-        System.out.println("AngleCurrent:: " + angle);
-
         
         return angle;
 

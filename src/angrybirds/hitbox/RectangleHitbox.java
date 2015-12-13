@@ -62,36 +62,56 @@ public class RectangleHitbox extends HitBox {
 
     private boolean checkIntersect_Circle(CircleHitbox circle) {
 
+        Vector2d pCir = circle.getModel().getPosition();
+        Vector2d pRect = this.getModel().getPosition();
+
+        boolean c = Tools.intersectionCircleAndRectangle(
+                (int) pCir.getX(),
+                (int) pCir.getY(),
+                circle.getDiameter() / 2,
+                (int) pRect.getX(),
+                (int) pRect.getY(),
+                width,
+                height
+        );
+        
+        System.out.println("Rect: " + pRect.getX() + ":" + pRect.getY() + " - " + width + ":" + height);
+        
+        return c;
+    }
+
+    private void test() {/*
         Vector2d circlePos = circle.getModel().getPosition();
         Vector2d rectPos = model.getPosition();
 
-        double w2 = ((ObstacleModel) model).getWidth() / 2;
-        double h2 = ((ObstacleModel) model).getHeight() / 2;
+        double circleDistanceX = Math.abs(circlePos.getX() - rectPos.getX());
+        double circleDistanceY = Math.abs(circlePos.getY() - rectPos.getY());
 
-        double circleDistanceX = Math.abs(circlePos.getX() - (rectPos.getX() + w2));
-        double circleDistanceY = Math.abs(circlePos.getY() - (rectPos.getY()));
-
-        if (circleDistanceX > (w2 + circle.getDiameter())) {
+        
+        double circleR = circle.getDiameter();
+        
+        double rectWidth2 = this.width / 2;
+        double rectHeight2 = this.height / 2;
+        
+        if (circleDistanceX > (rectWidth2 + circleR)) {
             return false;
         }
-        if (circleDistanceY > (h2 + circle.getDiameter())) {
+        if (circleDistanceY > (rectHeight2+ circleR)) {
             return false;
         }
 
-        if (circleDistanceX <= w2) {
-            return true;
+        if (circleDistanceX <= (rectWidth2)) {
+           // return true;
+        }
+        if (circleDistanceY <= (rectHeight2)) {
+           // return true;
         }
 
-        if (circleDistanceY <= h2) {
-            return true;
-        }
+        double cornerDistance_sq = Math.pow((circleDistanceX - rectWidth2), 2)
+                + Math.pow((circleDistanceY - rectHeight2),2);
 
-//   double cornerDistance_sq = (circleDistanceX - Math.pow((ObstacleModel)model).getWidth()/2,2) +
-//                         (circleDistanceY - Math.pow((ObstacleModel)model).getHeight()/2,2);
-        double cornerDistance_sq = Math.pow(circleDistanceX - ((ObstacleModel) model).getWidth() / 2, 2)
-                + Math.pow(circleDistanceY - ((ObstacleModel) model).getHeight() / 2, 2);
+        return (cornerDistance_sq <= (Math.pow(circleR,2)));*/
 
-        return (cornerDistance_sq <= Math.pow(circle.getDiameter(), 2));
     }
 
 }

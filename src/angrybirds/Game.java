@@ -209,12 +209,16 @@ public class Game extends BaseGame {
                 controller.update();
             }
 
+            ((BirdModel) bird.getModel()).setIsAlive(true);
+
             // Foreach for collisions
             if (currentObject.getModel().hasCollision()) {
                 for (GameObjectView objectCollided : objects) {
                     if (objectCollided == currentObject) {
                         break; // because all objects are organised by order
                     } else if (objectCollided.getModel().hasCollision()) {
+
+                        currentObject.getModel().getHitbox().setCollided(false);
 
                         // if there are collisions 
                         if (objectCollided.getModel().getHitbox().intersect(currentObject.getModel().getHitbox())) {
@@ -242,8 +246,9 @@ public class Game extends BaseGame {
     private void createHitbox() {
         createHit(1, 0, "v");
         createHit(Constants.WINDOW_WIDTH - 10, 0, "v");
+
         createHit(0, 0, "h");
-        createHit(0, Constants.WINDOW_HEIGHT - 30, "h");
+        createHit(0, Constants.WINDOW_HEIGHT - 50, "h");
 
     }
 
@@ -258,8 +263,26 @@ public class Game extends BaseGame {
 
         ObstacleModel obsModel = new ObstacleModel(new Vector2d(x, y));
 
-        obsModel.setHeight((v.equals("v") ? Constants.WINDOW_HEIGHT : 1));
-        obsModel.setWidth((!v.equals("v") ? Constants.WINDOW_WIDTH : 1));
+        obsModel.setHeight((v.equals("v") ? Constants.WINDOW_HEIGHT : 15));
+        obsModel.setWidth((!v.equals("v") ? Constants.WINDOW_WIDTH : 15));
+
+        ObstacleController obsController = new ObstacleController(obsModel);
+        RectangleObstacle obsView = new RectangleObstacle(obsModel, obsController);
+
+        // hide the obstacle
+        obsView.setHidden(true);
+
+        obsModel.addView(obsView);
+        // add the view to object to draw
+        objects.add(obsView);
+    }
+
+    private void createHitTest() {
+
+        ObstacleModel obsModel = new ObstacleModel(new Vector2d(150, 150));
+
+        obsModel.setHeight(100);
+        obsModel.setWidth(550);
 
         ObstacleController obsController = new ObstacleController(obsModel);
         RectangleObstacle obsView = new RectangleObstacle(obsModel, obsController);

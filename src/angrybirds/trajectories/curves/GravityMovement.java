@@ -3,13 +3,10 @@
  */
 package angrybirds.trajectories.curves;
 
-import angrybirds.Tools;
 import angrybirds.models.GameObjectModel;
 import angrybirds.structures.Vector2d;
 import angrybirds.trajectories.Movement;
 import angrybirds.trajectories.MovementApplyer;
-import java.awt.geom.AffineTransform;
-import java.awt.geom.Point2D;
 
 /**
  *
@@ -38,7 +35,6 @@ public class GravityMovement extends Movement {
         
         v0 = Math.max(1, v0);
         
-        System.out.println("Vitesse: " + v0 + "\nAngle:" + angle);
 
     }
 
@@ -90,11 +86,15 @@ public class GravityMovement extends Movement {
     }
 
     public int findNextY(int time) {
+        System.out.println("Appel");
         return findY(findNextX(time));
     }
 
     public int findY(int x) {
 
+        
+        
+        
         return (int) y;
     }
 

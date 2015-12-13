@@ -3,6 +3,7 @@
  */
 package angrybirds.controllers;
 
+import angrybirds.Constants;
 import angrybirds.events.AngryEvent;
 import angrybirds.models.BirdModel;
 import angrybirds.models.GameObjectModel;
@@ -21,7 +22,7 @@ public class BirdController extends GameObjectController {
     @Override
     public void update() {
         super.update();
-        if(!((BirdModel)model).isAlive()){
+        if(Constants.ENABLE_DEATH && !((BirdModel)model).isAlive()){
             deathEvent.notif("dead");
         }
     }
