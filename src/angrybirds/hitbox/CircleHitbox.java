@@ -34,12 +34,10 @@ public class CircleHitbox extends HitBox {
         return diameter;
     }
 
-    
-    
     @Override
     public void debugPaint(Graphics g) {
-        if(collided){
-        g.setColor(Color.RED);
+        if (collided) {
+            g.setColor(Color.RED);
         } else {
             g.setColor(Color.GREEN);
         }
@@ -55,16 +53,16 @@ public class CircleHitbox extends HitBox {
         // calcul de la distance des centres
         Vector2d p1 = model.getPosition();
         Vector2d p2 = h.getModel().getPosition();
-        
+
         double dist = Tools.distancePoints(p1.getX(), p2.getX(), p1.getY(), p2.getY());
-        
+
         /**
          * Precision of 40%
          */
-        double radius = 0.3*Math.pow((((CircleHitbox)h).getDiameter() +
-                getDiameter()), 2);
-        
-        return dist<radius;
+        double radius = 0.3 * Math.pow((((CircleHitbox) h).getDiameter()
+                + getDiameter()), 2);
+
+        return dist < radius;
     }
 
 }

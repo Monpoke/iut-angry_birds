@@ -15,8 +15,6 @@ public class ObsLinearMovementHorizontal extends LinearMovement {
 		super(1, 1, 1);
 		z = rnd.nextInt(100);
 		e = rnd.nextInt(100);
-		System.out.println("Z : " + z + " E : " + e);
-		// TODO Auto-generated constructor stub
 	}
 
 	

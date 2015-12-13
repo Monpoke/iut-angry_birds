@@ -120,25 +120,33 @@ public class Game extends BaseGame {
         for (int i = 0; Constants.ENABLE_OBSTACLES && i < nbObs; i++) {
 
             ObstacleModel obsModel = new ObstacleModel(new Vector2d(
-                    Constants.WINDOW_WIDTH - 200 - rnd.nextInt(400),
-                    100 + ((10 + rnd.nextInt(250)))
+                    Constants.WINDOW_WIDTH - 150 - rnd.nextInt(400),
+                    100 + ((10 + rnd.nextInt(350)))
             ), 10 + rnd.nextInt(10));
+            obsModel.setEnableTrajectory(false);
 
             ObstacleController obsController = new ObstacleController(obsModel);
-            CircleObstacle obsView = new CircleObstacle(obsModel, obsController);
+
+            GameObjectView obsView;
+
+            int type = rnd.nextInt(7);
+
+            if (type < 3) {
+                obsModel.setWidth(70);
+                obsModel.setHeight(70);
+                obsView = new RectangleObstacle(obsModel, obsController);
+                obsView.setHidden(false);
+            } else {
+                obsView = new CircleObstacle(obsModel, obsController);
+            }
+
             obsModel.addView(obsView);
 
             Movement mType;
 
             // mouvement diagonal
-            mType = new ObsVectorMovement(new Vector2d(20, 10, 1, 1));
+            mType = new ObsVectorMovement(new Vector2d(rnd.nextInt(5),  rnd.nextInt(30), 1, 1));
 
-            //mouvement vertical
-            // mType = new  ObsVectorMovement(new Vector2d(10, 10,0,2));
-            //mouvement horizontal
-            // mType = new  ObsVectorMovement(new Vector2d(10, 10,2,0));
-            //sans mouvement
-            // mType = new  ObsVectorMovement(new Vector2d(10, 10,0,0));
             MovementApplyer mvt = new MovementApplyer(mType, obsModel);
             obsController.addMovement(mvt);
 

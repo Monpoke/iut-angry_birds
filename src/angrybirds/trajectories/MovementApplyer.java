@@ -95,6 +95,10 @@ public class MovementApplyer {
      * @param g
      */
     public void paintDebug(Graphics g) {
+        if(!getModel().isEnableTrajectory()){
+            return;
+        }
+        
         g.setColor(Color.DARK_GRAY);
         
         Iterator<Vector2d> iterator = model.getPositions().iterator();

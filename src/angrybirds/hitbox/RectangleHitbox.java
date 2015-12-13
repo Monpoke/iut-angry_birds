@@ -75,8 +75,6 @@ public class RectangleHitbox extends HitBox {
                 height
         );
         
-        System.out.println("Rect: " + pRect.getX() + ":" + pRect.getY() + " - " + width + ":" + height);
-        
         return c;
     }
 
