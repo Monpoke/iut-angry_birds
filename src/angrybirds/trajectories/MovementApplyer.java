@@ -3,15 +3,12 @@
  */
 package angrybirds.trajectories;
 
-import angrybirds.Constants;
-import angrybirds.Tools;
 import angrybirds.models.GameObjectModel;
 import angrybirds.structures.Vector2d;
 import angrybirds.views.Window;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.util.Iterator;
-import javax.swing.JOptionPane;
 
 /**
  * Apply a movement to a game object.

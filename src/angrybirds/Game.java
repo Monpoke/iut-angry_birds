@@ -14,8 +14,6 @@ import angrybirds.structures.Vector2d;
 import angrybirds.trajectories.Movement;
 import angrybirds.trajectories.MovementApplyer;
 import angrybirds.trajectories.curves.LinearMovement;
-import angrybirds.trajectories.curves.ObsLinearMovementHorizontal;
-import angrybirds.trajectories.curves.ObsLinearMovementVertical;
 import angrybirds.trajectories.curves.ObsVectorMovement;
 import angrybirds.trajectories.curves.ParabolicMovement;
 import angrybirds.views.Bird;
@@ -131,20 +129,16 @@ public class Game extends BaseGame {
             obsModel.addView(obsView);
 
             Movement mType;
-            
-            
+
             // mouvement diagonal
-             mType = new  ObsVectorMovement(new Vector2d(10, 10,2,3));
-                
+            mType = new ObsVectorMovement(new Vector2d(20, 10, 1, 1));
+
             //mouvement vertical
             // mType = new  ObsVectorMovement(new Vector2d(10, 10,0,2));
-            
-           //mouvement horizontal
-           // mType = new  ObsVectorMovement(new Vector2d(10, 10,2,0));
-           
+            //mouvement horizontal
+            // mType = new  ObsVectorMovement(new Vector2d(10, 10,2,0));
             //sans mouvement
-           // mType = new  ObsVectorMovement(new Vector2d(10, 10,0,0));
-
+            // mType = new  ObsVectorMovement(new Vector2d(10, 10,0,0));
             MovementApplyer mvt = new MovementApplyer(mType, obsModel);
             obsController.addMovement(mvt);
 

@@ -28,7 +28,7 @@ public class DragListener implements AngryEvent, MouseListener, MouseMotionListe
     private int mouseX;
     private int mouseY;
     private Vector2d birdPosition;
-    
+
     /**
      *
      * @param game
@@ -49,7 +49,7 @@ public class DragListener implements AngryEvent, MouseListener, MouseMotionListe
 
     @Override
     public void mousePressed(MouseEvent e) {
-        if (((BirdModel)game.getBird().getModel()).isHasBeenLaunched() == true) {
+        if (((BirdModel) game.getBird().getModel()).isHasBeenLaunched() == true) {
             return;
         }
 
@@ -82,12 +82,26 @@ public class DragListener implements AngryEvent, MouseListener, MouseMotionListe
             // calcul du vecteur
             Vector2d pOri = game.getBird().getModel().getPosition();
             Vector2d force = new Vector2d(birdPosition.getX() - pOri.getX(),
-                    ( pOri.getY() - birdPosition.getY()));
+                    (pOri.getY() - birdPosition.getY()));
 
-            this.launchMovement(force);
+            
+            // ANGLE
+            float angle = (float) Math.toDegrees(Math.atan2(pOri.getY() - birdPosition.getY(), pOri.getX() - birdPosition.getX()));
+            if(angle < 0){
+            //    angle += 360;
+            }
+            angle -= 90;
+            if(angle < 0){
+              //  angle += 360;
+            }
+            
+            System.out.println("AngleDep: " + angle);
+            
+            this.launchMovement(force, angle);
 
             birdPosition = null;
-            ((BirdModel)game.getBird().getModel()).setHasBeenLaunched(true);
+            ((BirdModel) game.getBird().getModel()).setHasBeenLaunched(true);
+
         }
 
     }
@@ -137,12 +151,12 @@ public class DragListener implements AngryEvent, MouseListener, MouseMotionListe
      *
      * @param force
      */
-    private void launchMovement(Vector2d force) {
-        System.out.println("Force: "+ force.toString());
+    private void launchMovement(Vector2d force, double angle) {
+        System.out.println("Force: " + force.toString());
 
         Bird bird = game.getBird();
 
-        GravityMovement gm = new GravityMovement(force);
+        GravityMovement gm = new GravityMovement(force, angle);
         MovementApplyer ma = new MovementApplyer(gm, bird.getModel());
         bird.getController().addMovement(ma);
     }
