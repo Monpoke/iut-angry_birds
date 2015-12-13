@@ -4,7 +4,6 @@
  */
 package angrybirds.controllers;
 
-import angrybirds.Tools;
 import angrybirds.models.GameObjectModel;
 import angrybirds.trajectories.MovementApplyer;
 

@@ -72,10 +72,6 @@ public class Bird extends GameObjectView implements IDrawable, Observer {
         }
 
         Vector2d position = model.getPosition();
-
-        position.setLength(90);
-        position.setWidth(90);
-        
         position.scale(50);
 
         
