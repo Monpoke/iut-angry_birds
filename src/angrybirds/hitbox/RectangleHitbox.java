@@ -78,38 +78,4 @@ public class RectangleHitbox extends HitBox {
         return c;
     }
 
-    private void test() {/*
-        Vector2d circlePos = circle.getModel().getPosition();
-        Vector2d rectPos = model.getPosition();
-
-        double circleDistanceX = Math.abs(circlePos.getX() - rectPos.getX());
-        double circleDistanceY = Math.abs(circlePos.getY() - rectPos.getY());
-
-        
-        double circleR = circle.getDiameter();
-        
-        double rectWidth2 = this.width / 2;
-        double rectHeight2 = this.height / 2;
-        
-        if (circleDistanceX > (rectWidth2 + circleR)) {
-            return false;
-        }
-        if (circleDistanceY > (rectHeight2+ circleR)) {
-            return false;
-        }
-
-        if (circleDistanceX <= (rectWidth2)) {
-           // return true;
-        }
-        if (circleDistanceY <= (rectHeight2)) {
-           // return true;
-        }
-
-        double cornerDistance_sq = Math.pow((circleDistanceX - rectWidth2), 2)
-                + Math.pow((circleDistanceY - rectHeight2),2);
-
-        return (cornerDistance_sq <= (Math.pow(circleR,2)));*/
-
-    }
-
 }

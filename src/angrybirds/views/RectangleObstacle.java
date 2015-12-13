@@ -24,8 +24,6 @@ public class RectangleObstacle extends GameObjectView implements Observer, IDraw
     public RectangleObstacle(GameObjectModel model, GameObjectController controller) {
         super(model, controller);
         
-        System.out.println("Wid: " + ((ObstacleModel) model).getWidth());
-        
         // set a rectangle hitbox
         model.setHitbox(new RectangleHitbox(model, ((ObstacleModel) model).getWidth(), ((ObstacleModel) model).getHeight()));
     }
