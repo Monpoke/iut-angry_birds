@@ -19,7 +19,7 @@ import java.util.Observer;
  *
  * @author Pierre
  */
-public class CircleObstacle extends GameObjectView implements Observer, IDrawable {
+public class CircleObstacle extends ShapeObstacle {
 
     private int cpt = 0;
     private int[] coords;

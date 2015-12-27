@@ -19,7 +19,7 @@ import java.util.Observer;
  *
  * @author Pierre
  */
-public class RectangleObstacle extends GameObjectView implements Observer, IDrawable {
+public class RectangleObstacle extends ShapeObstacle {
 
     public RectangleObstacle(GameObjectModel model, GameObjectController controller) {
         super(model, controller);
