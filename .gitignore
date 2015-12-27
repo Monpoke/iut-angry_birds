@@ -7,4 +7,5 @@ build/
 .project
 /dist/
 .idea/
+out/
 Final/
