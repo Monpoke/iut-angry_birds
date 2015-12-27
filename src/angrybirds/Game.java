@@ -4,6 +4,7 @@
  */
 package angrybirds;
 
+import angrybirds.builders.ObstacleFactory;
 import angrybirds.events.AngryEvent;
 import angrybirds.controllers.BirdController;
 import angrybirds.controllers.GameObjectController;
@@ -16,11 +17,8 @@ import angrybirds.trajectories.MovementApplyer;
 import angrybirds.trajectories.curves.LinearMovement;
 import angrybirds.trajectories.curves.ObsVectorMovement;
 import angrybirds.trajectories.curves.ParabolicMovement;
-import angrybirds.views.Bird;
-import angrybirds.views.CircleObstacle;
-import angrybirds.views.GameObjectView;
-import angrybirds.views.RectangleObstacle;
-import angrybirds.views.Window;
+import angrybirds.views.*;
+
 import java.awt.Graphics;
 import java.util.ArrayList;
 import java.util.List;
@@ -29,7 +27,6 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 /**
- *
  * @author Pierre
  */
 public class Game extends BaseGame {
@@ -38,14 +35,14 @@ public class Game extends BaseGame {
      * Parameters
      */
     double[][] parameters = new double[][]{
-        {-0.0035, 1.5, -3, 4},
-        {-0.0035, 2.5, -2, 4},
-        {-0.0035, 2.5, -2, 4},
-        {-0.0035, 3, -1, 4},
-        {-0.004, 3, -1, 4},
-        {-0.005, 3, -1, 4},
-        {-0.005, 2, -1, 4},
-        {-0.005, 1, -1, 4}};
+            {-0.0035, 1.5, -3, 4},
+            {-0.0035, 2.5, -2, 4},
+            {-0.0035, 2.5, -2, 4},
+            {-0.0035, 3, -1, 4},
+            {-0.004, 3, -1, 4},
+            {-0.005, 3, -1, 4},
+            {-0.005, 2, -1, 4},
+            {-0.005, 1, -1, 4}};
 
     ArrayList<Movement> movements;
 
@@ -119,39 +116,31 @@ public class Game extends BaseGame {
 
         for (int i = 0; Constants.ENABLE_OBSTACLES && i < nbObs; i++) {
 
-            ObstacleModel obsModel = new ObstacleModel(new Vector2d(
-                    Constants.WINDOW_WIDTH - 150 - rnd.nextInt(400),
-                    100 + ((10 + rnd.nextInt(350)))
-            ), 10 + rnd.nextInt(10));
-            obsModel.setEnableTrajectory(false);
+            int x = Constants.WINDOW_WIDTH - 150 - rnd.nextInt(400),
+                    y = 100 + ((10 + rnd.nextInt(350)));
 
-            ObstacleController obsController = new ObstacleController(obsModel);
 
-            GameObjectView obsView;
-
-            int type = rnd.nextInt(7);
-
-            if (type < 3) {
-                obsModel.setWidth(70);
-                obsModel.setHeight(70);
-                obsView = new RectangleObstacle(obsModel, obsController);
-                obsView.setHidden(false);
+            /**
+             * USE SOME FACTORY.
+             */
+            ShapeObstacle so;
+            if(rnd.nextInt(10)<5){
+                so = ObstacleFactory.createObstacle("CIRCLE", x,  y);
             } else {
-                obsView = new CircleObstacle(obsModel, obsController);
+                so = ObstacleFactory.createObstacle("SQUARE", x,  y);
             }
 
-            obsModel.addView(obsView);
 
             Movement mType;
 
             // mouvement diagonal
-            mType = new ObsVectorMovement(new Vector2d(rnd.nextInt(5),  rnd.nextInt(30), 1, 1));
+            mType = new ObsVectorMovement(new Vector2d(rnd.nextInt(5), rnd.nextInt(30), 1, 1));
 
-            MovementApplyer mvt = new MovementApplyer(mType, obsModel);
-            obsController.addMovement(mvt);
+            MovementApplyer mvt = new MovementApplyer(mType, so.getModel());
+            so.getController().addMovement(mvt);
 
             // add the view to object to draw
-            objects.add(obsView);
+            objects.add(so);
         }
     }
 
