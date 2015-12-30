@@ -23,6 +23,7 @@ public abstract class Constants {
     public static final int MAX_OBSTACLES = 3;
     public static boolean DEBUG_TRAJECTORY = true;
     public static boolean DEBUG_HITBOX = false;
+    public static boolean DEBUG_INFOS = true;
     public static boolean DEBUG_DRAG = false;
     static double BIRD_START_X = 180;
     static double BIRD_START_Y_FROM_BOTTOM = 210;

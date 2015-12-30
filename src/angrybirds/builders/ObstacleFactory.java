@@ -38,6 +38,8 @@ public class ObstacleFactory {
         // CIRCLE
         else {
             obsView = new CircleObstacle(obsModel, obsController);
+
+
         }
 
         obsModel.addView(obsView);

@@ -8,10 +8,11 @@ import angrybirds.Constants;
 import angrybirds.controllers.GameObjectController;
 import angrybirds.hitbox.CircleHitbox;
 import angrybirds.hitbox.HitBox;
+import angrybirds.images.Ennemy;
 import angrybirds.models.GameObjectModel;
 import angrybirds.models.ObstacleModel;
-import java.awt.Color;
-import java.awt.Graphics;
+
+import java.awt.*;
 import java.util.Observable;
 import java.util.Observer;
 
@@ -21,6 +22,7 @@ import java.util.Observer;
  */
 public class CircleObstacle extends ShapeObstacle {
 
+    private final Image image;
     private int cpt = 0;
     private int[] coords;
 
@@ -28,6 +30,8 @@ public class CircleObstacle extends ShapeObstacle {
         super(model, controller);
         model.setHitbox(new CircleHitbox(model, ((ObstacleModel) model).getDiameter()));
         coords = new int[3];
+
+        image = Ennemy.ROUND_BLUE.getImage();
     }
 
     @Override
@@ -49,6 +53,9 @@ public class CircleObstacle extends ShapeObstacle {
                 d,
                 d
         );
+
+        g.drawImage(image, x-d/2, y -d/2, d, d, this);
+
 
         cpt++;
         g.setColor(Color.WHITE);

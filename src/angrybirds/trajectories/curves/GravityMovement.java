@@ -3,6 +3,7 @@
  */
 package angrybirds.trajectories.curves;
 
+import angrybirds.PhysicsConstants;
 import angrybirds.models.GameObjectModel;
 import angrybirds.structures.Vector2d;
 import angrybirds.trajectories.Movement;
@@ -20,7 +21,7 @@ public class GravityMovement extends Movement {
     private double x, y;
     private int xBy;
 
-    private final double g = 9;
+    private final double g = PhysicsConstants.G;
 
     private double v0, angle;
 

@@ -7,7 +7,9 @@ package angrybirds.views;
 import angrybirds.Constants;
 import angrybirds.controllers.GameObjectController;
 import angrybirds.models.GameObjectModel;
-import java.awt.Graphics;
+import com.sun.xml.internal.bind.v2.runtime.reflect.opt.Const;
+
+import java.awt.*;
 import java.util.Observer;
 import javax.swing.JPanel;
 
@@ -20,6 +22,9 @@ public abstract class GameObjectView extends JPanel implements Observer {
     protected final GameObjectModel model;
     private final GameObjectController controller;
     protected boolean hidden = false;
+
+
+    private static Font f = new Font("Arial", Font.PLAIN, 12);
 
     /**
      * Gives a model to the view.
@@ -59,10 +64,18 @@ public abstract class GameObjectView extends JPanel implements Observer {
         }
         
         if ((Constants.DEBUG_MODE || Constants.DEBUG_HITBOX)) {
-            System.out.println("Je m'affiche...");
             if (model.hasCollision()) {
                 model.getHitbox().debugPaint(g);
             }
+
+        }
+
+        if(Constants.DEBUG_INFOS){
+            g.setFont(f);
+            g.setColor(Color.BLACK);
+            g.drawString("x:" + model.getPosition().getX(), (int)model.getPosition().getX()-5, (int)model.getPosition().getY()-55);
+            g.drawString("y:" + model.getPosition().getY(), (int)model.getPosition().getX()-5, (int)model.getPosition().getY()-45);
+            g.drawString("m:" + model.getMass(), (int)model.getPosition().getX()-5, (int)model.getPosition().getY()- 35);
 
         }
 

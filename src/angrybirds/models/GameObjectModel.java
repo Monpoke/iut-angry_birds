@@ -5,6 +5,7 @@ import angrybirds.controllers.GameObjectController;
 import angrybirds.hitbox.HitBox;
 import angrybirds.structures.Vector2d;
 import angrybirds.views.GameObjectView;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Observable;
@@ -13,6 +14,7 @@ import java.util.Observable;
  *  Projet AngryBirds
  *  DUT Informatique - 2e
  */
+
 /**
  * Represents basic views.
  *
@@ -34,6 +36,11 @@ public abstract class GameObjectModel extends Observable {
      * Contains last positions.
      */
     protected List<Vector2d> positions = new ArrayList<>();
+
+    /**
+     * Contains the mass of entity
+     */
+    protected double mass;
 
     /**
      * Enable trajectory paint
@@ -136,4 +143,11 @@ public abstract class GameObjectModel extends Observable {
         this.enabledTrajectory = enableTrajectory;
     }
 
+    public double getMass() {
+        return mass;
+    }
+
+    public void setMass(double mass) {
+        this.mass = mass;
+    }
 }
