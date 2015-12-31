@@ -7,6 +7,8 @@ package angrybirds.views;
 import angrybirds.Constants;
 import angrybirds.controllers.GameObjectController;
 import angrybirds.models.GameObjectModel;
+import angrybirds.trajectories.physic.Force;
+import angrybirds.trajectories.physic.Motor;
 import com.sun.xml.internal.bind.v2.runtime.reflect.opt.Const;
 
 import java.awt.*;
@@ -14,7 +16,6 @@ import java.util.Observer;
 import javax.swing.JPanel;
 
 /**
- *
  * @author Pierre
  */
 public abstract class GameObjectView extends JPanel implements Observer {
@@ -62,7 +63,7 @@ public abstract class GameObjectView extends JPanel implements Observer {
         if ((Constants.ENABLE_PAINT_TRAJECTORIES || Constants.DEBUG_MODE) && controller.hasMovement()) {
             controller.getMovement().paintDebug(g);
         }
-        
+
         if ((Constants.DEBUG_MODE || Constants.DEBUG_HITBOX)) {
             if (model.hasCollision()) {
                 model.getHitbox().debugPaint(g);
@@ -70,12 +71,20 @@ public abstract class GameObjectView extends JPanel implements Observer {
 
         }
 
-        if(Constants.DEBUG_INFOS){
+        if (Constants.DEBUG_INFOS) {
             g.setFont(f);
             g.setColor(Color.BLACK);
-            g.drawString("x:" + model.getPosition().getX(), (int)model.getPosition().getX()-5, (int)model.getPosition().getY()-55);
-            g.drawString("y:" + model.getPosition().getY(), (int)model.getPosition().getX()-5, (int)model.getPosition().getY()-45);
-            g.drawString("m:" + model.getMass(), (int)model.getPosition().getX()-5, (int)model.getPosition().getY()- 35);
+            g.drawString("x:" + model.getPosition().getX(), (int) model.getPosition().getX() - 5, (int) model.getPosition().getY() - 55);
+            g.drawString("y:" + model.getPosition().getY(), (int) model.getPosition().getX() - 5, (int) model.getPosition().getY() - 45);
+            g.drawString("m:" + model.getMass(), (int) model.getPosition().getX() - 5, (int) model.getPosition().getY() - 35);
+
+
+            //force result
+            if (getController().hasMovement() && getController().getMovement().getMovement() instanceof Motor) {
+                Force f = ((Motor) getController().getMovement().getMovement()).getForceResult();
+
+                g.drawString("ForceResult: " + f.toString(), (int) model.getPosition().getX() - 5, (int) model.getPosition().getY() - 75);
+            }
 
         }
 

@@ -31,7 +31,22 @@ public class CircleObstacle extends ShapeObstacle {
         model.setHitbox(new CircleHitbox(model, ((ObstacleModel) model).getDiameter()));
         coords = new int[3];
 
-        image = Ennemy.ROUND_BLUE.getImage();
+        switch(((ObstacleModel) model).getColor()){
+            case "green":
+                image = Ennemy.ROUND_GREEN.getImage();
+                break;
+            case "blue":
+                image = Ennemy.ROUND_BLUE.getImage();
+                break;
+            case "yellow":
+                image = Ennemy.ROUND_YELLOW.getImage();
+                break;
+            default:
+                image = Ennemy.ROUND_PINK.getImage();
+                break;
+        }
+
+
     }
 
     @Override

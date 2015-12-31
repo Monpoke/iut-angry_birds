@@ -17,6 +17,7 @@ import angrybirds.trajectories.MovementApplyer;
 import angrybirds.trajectories.curves.LinearMovement;
 import angrybirds.trajectories.curves.ObsVectorMovement;
 import angrybirds.trajectories.curves.ParabolicMovement;
+import angrybirds.trajectories.physic.Motor;
 import angrybirds.views.*;
 
 import java.awt.Graphics;
@@ -133,8 +134,9 @@ public class Game extends BaseGame {
 
             Movement mType;
 
-            // mouvement diagonal
-            mType = new ObsVectorMovement(new Vector2d(rnd.nextInt(5), rnd.nextInt(30), 1, 1));
+            //mouvement physique
+            mType = new Motor();
+
 
             MovementApplyer mvt = new MovementApplyer(mType, so.getModel());
             so.getController().addMovement(mvt);

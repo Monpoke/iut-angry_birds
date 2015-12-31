@@ -20,6 +20,8 @@ public class ObstacleModel extends GameObjectModel {
     protected int width;
     protected int height;
 
+    protected String color = "pink";
+
     public ObstacleModel(Vector2d position) {
         this.diameter = Constants.OBSTACLE_DIAMETER;
         this.position = position;
@@ -53,8 +55,14 @@ public class ObstacleModel extends GameObjectModel {
     public void setHeight(int height) {
         this.height = height;
     }
-    
-    
+
+    public void setColor(String color) {
+        this.color = color;
+    }
+
+    public String getColor() {
+        return color;
+    }
 
     public void addView(GameObjectView obsView) {
         this.addObserver(obsView);

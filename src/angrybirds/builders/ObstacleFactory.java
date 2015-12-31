@@ -10,6 +10,7 @@ import angrybirds.views.RectangleObstacle;
 import angrybirds.views.ShapeObstacle;
 
 import java.awt.*;
+import java.util.Random;
 
 /**
  * Created by Pierre on 27/12/2015.
@@ -37,8 +38,19 @@ public class ObstacleFactory {
         }
         // CIRCLE
         else {
-            obsView = new CircleObstacle(obsModel, obsController);
+            Random rnd = new Random();
+            int a = rnd.nextInt(3);
+            if(a==0){
+                obsModel.setColor("yellow");
+            } else if(a==1){
+                obsModel.setColor("blue");
+            } else if(a==2){
+                obsModel.setColor("pink");
+            } else {
+                obsModel.setColor("green");
+            }
 
+            obsView = new CircleObstacle(obsModel, obsController);
 
         }
 
