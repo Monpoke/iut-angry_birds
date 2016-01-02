@@ -65,6 +65,8 @@ public class RectangleHitbox extends HitBox {
         Vector2d pCir = circle.getModel().getPosition();
         Vector2d pRect = this.getModel().getPosition();
 
+
+
         boolean c = Tools.intersectionCircleAndRectangle(
                 (int) pCir.getX(),
                 (int) pCir.getY(),

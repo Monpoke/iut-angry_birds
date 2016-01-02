@@ -49,9 +49,7 @@ public class Tools {
      * @return
      */
     public static boolean intersectionCircleAndRectangle(int circleX, int circleY, int circleR, int rectangleX, int rectangleY, int rectangleWidth, int rectangleHeight) {
-
         double angle = 0;
-
         double rectCenterX = rectangleX + rectangleWidth / 2;
         double rectCenterY = rectangleY + rectangleHeight / 2;
 
@@ -85,8 +83,7 @@ public class Tools {
         // Determine collision
         boolean collision = false;
 
-        
-        
+
         double radius = circleR*2;
         
         double distance = distancePoints(unrotatedCircleX, closestX, unrotatedCircleY, closestY);
@@ -95,7 +92,17 @@ public class Tools {
         } else {
             collision = false;
         }
-        
+
+
+        /**
+         * Check collision
+         */
+        if(collision==true){
+            Game.BLOCK_STATUS=true;
+            System.out.println("Collision");
+        }
+
+
         return collision;
 
     }

@@ -108,11 +108,55 @@ public class Game extends BaseGame {
         }
     }
 
+
+    /**
+     * Create one object
+     */
+    private void debug_object() {
+        int x = 500,
+                y = 50;
+
+
+        /**
+         * USE SOME FACTORY.
+         */
+        ShapeObstacle so;
+        so = ObstacleFactory.createObstacle("CIRCLE", x, y);
+        System.out.println("Initialie avec " + x +";"+y);
+
+        Movement mType;
+
+        //mouvement physique
+        mType = new Motor(so.getModel().getMass());
+
+
+        MovementApplyer mvt = new MovementApplyer(mType, so.getModel());
+        so.getController().addMovement(mvt);
+        System.out.println("ApresMotor " + so.getModel().getPosition().toString());
+
+        // add the view to object to draw
+        objects.add(so);
+
+
+
+
+        // create cube
+        so = ObstacleFactory.createObstacle("CIRCLE", x, y + 400);
+        mvt = new MovementApplyer(new Motor(), so.getModel());
+        so.getController().addMovement(mvt);
+        objects.add(so);
+
+
+
+    }
+
+
     /**
      * Create obstacles
      */
     private void createObstacles() {
-
+        debug_object();
+        /*
         int nbObs = Constants.MIN_OBSTACLES + rnd.nextInt(Constants.MAX_OBSTACLES - Constants.MIN_OBSTACLES + 1);
 
         for (int i = 0; Constants.ENABLE_OBSTACLES && i < nbObs; i++) {
@@ -123,12 +167,12 @@ public class Game extends BaseGame {
 
             /**
              * USE SOME FACTORY.
-             */
+             *
             ShapeObstacle so;
-            if(rnd.nextInt(10)<5){
-                so = ObstacleFactory.createObstacle("CIRCLE", x,  y);
+            if (rnd.nextInt(10) < 5) {
+                so = ObstacleFactory.createObstacle("CIRCLE", x, y);
             } else {
-                so = ObstacleFactory.createObstacle("SQUARE", x,  y);
+                so = ObstacleFactory.createObstacle("SQUARE", x, y);
             }
 
 
@@ -143,7 +187,7 @@ public class Game extends BaseGame {
 
             // add the view to object to draw
             objects.add(so);
-        }
+        }*/
     }
 
     /**
@@ -247,7 +291,20 @@ public class Game extends BaseGame {
         createHit(Constants.WINDOW_WIDTH - 10, 0, "v");
 
         createHit(0, 0, "h");
-        createHit(0, Constants.WINDOW_HEIGHT - 50, "h");
+
+        // Ground
+        createGround();
+
+    }
+
+    /**
+     * Create ground on scene
+     */
+    private void createGround() {
+        ShapeObstacle rectangle = ObstacleFactory.createObstacle("square", 0, Constants.WINDOW_HEIGHT - 50);
+        ((ObstacleModel) rectangle.getModel()).setWidth(Constants.WINDOW_WIDTH);
+        objects.add(rectangle);
+        // add some hitbox to ground
 
     }
 

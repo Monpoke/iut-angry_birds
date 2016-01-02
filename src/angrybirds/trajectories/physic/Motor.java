@@ -1,5 +1,6 @@
 package angrybirds.trajectories.physic;
 
+import angrybirds.Constants;
 import angrybirds.models.GameObjectModel;
 import angrybirds.trajectories.Movement;
 import angrybirds.trajectories.MovementApplyer;
@@ -18,8 +19,16 @@ public class Motor extends Movement {
     private List<Force> forces = new ArrayList<>();
 
 
-    public Motor() {
-        addForce(new Gravity());
+    /**
+     * Gravity is the default
+     */
+    public Motor(double mass) {
+        addForce(new Gravity(mass));
+
+    }
+
+    public Motor(){
+
     }
 
 
@@ -31,11 +40,11 @@ public class Motor extends Movement {
         int yDiv = 0;
 
         for (Force force : forces) {
-            xDiv += Math.abs(force.getX());
-            yDiv += Math.abs(force.getY());
+            xDiv += (force.getX());
+            yDiv += (force.getY());
         }
 
-        return new Force(xDiv / forcesNb, yDiv / forcesNb, 0);
+        return new Force(xDiv / Math.max(1, forcesNb), yDiv / Math.max(1, forcesNb));
 
     }
 
@@ -49,28 +58,54 @@ public class Motor extends Movement {
     }
 
 
+    /**
+     * Process positions
+     *
+     * @param model
+     * @param mvt
+     * @todo Have to include forces
+     */
     @Override
     public void process(GameObjectModel model, MovementApplyer mvt) {
+        for (Force force : forces) {
+            force.update();
+        }
 
+        // Raccourcis vers variables
         double v0_x = 0,
                 v0_y = 0,
                 t = mvt.getEllapsedTime(),
                 g = 9.81,
                 x0 = mvt.getStartPosition().getX(),
-                y0 = mvt.getStartPosition().getY();
+                y0 = mvt.getStartPosition().getY(),
+                mass = model.getMass(),
+        angle = Math.toRadians(90);
+        //System.out.println("MoveInit: " + x0 + ";"+y0);
 
 
-        double x = v0_x * t +  x0;
-        double y =  (0.5) * g * Math.pow(t,2) + v0_y * t +  y0;
+        Force forceResult = getForceResult();
+
+        double sumForcesX = forceResult.getX(),
+                sumForcesY = forceResult.getY();
+
+
+        /**
+         * On ignore les x0 et y0
+         */
+        // mouvement axe X
+        double x = 0.5 * (sumForcesX / mass) * Math.pow(t, 2) + v0_x * t * Math.cos(angle);
+
+        // mouvement Y
+        double y = 0.5 * (sumForcesY / mass) * Math.pow(t, 2) + v0_y * t * Math.sin(angle);
 
         // rapidité de mouvement
-        y/=50;
+        x /= 50;
+        y /= 50;
 
 
-        System.out.println("Time: " + t + " | SystemeX:"+x + "|"+y);
-
-        model.getPosition().setPosition(x,y);
-
+        model.getPosition().setPosition(
+                x0 + x, y0 + y
+        );
     }
 
     @Override

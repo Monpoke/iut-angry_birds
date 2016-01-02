@@ -19,8 +19,8 @@ public abstract class Constants {
     public static boolean ENABLE_PAINT_TRAJECTORIES = true;
     public static int PLAY_LAUNCH_AFTER = 1000; // 2 seconds
     public static int PLAY_RESET_AFTER = 1000; // 11 seconds
-    public static int MIN_OBSTACLES = 2;
-    public static final int MAX_OBSTACLES = 3;
+    public static int MIN_OBSTACLES = 1;
+    public static final int MAX_OBSTACLES = 1;
     public static boolean DEBUG_TRAJECTORY = true;
     public static boolean DEBUG_HITBOX = false;
     public static boolean DEBUG_INFOS = true;

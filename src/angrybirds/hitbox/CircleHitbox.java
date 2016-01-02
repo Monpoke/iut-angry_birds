@@ -3,6 +3,7 @@
  */
 package angrybirds.hitbox;
 
+import angrybirds.Game;
 import angrybirds.Tools;
 import angrybirds.models.GameObjectModel;
 import angrybirds.structures.Vector2d;
@@ -57,12 +58,19 @@ public class CircleHitbox extends HitBox {
         double dist = Tools.distancePoints(p1.getX(), p2.getX(), p1.getY(), p2.getY());
 
         /**
-         * Precision of 40%
+         * Precision of 30%
          */
         double radius = 0.3 * Math.pow((((CircleHitbox) h).getDiameter()
                 + getDiameter()), 2);
 
-        return dist < radius;
+        boolean collision = dist <= radius;
+
+        if(collision){
+            Game.BLOCK_STATUS=true;
+            System.out.println("COLLISIOOOOON");
+        }
+
+        return collision;
     }
 
 }

@@ -72,7 +72,7 @@ public class ParabolicMovement extends Movement {
 
         int xPos = (int) mvtApplyer.getStartPosition().getX() + findX();
         int yPos = (int) mvtApplyer.getStartPosition().getY() - findY();
-        int lenght = (int) mvtApplyer.getStartPosition().getX() + findNextX(2) - xPos;
+        int length = (int) mvtApplyer.getStartPosition().getX() + findNextX(2) - xPos;
         int width = (int) mvtApplyer.getStartPosition().getY() - findNextY(2) - yPos;
 //        Tools.debug(xPos+":"+yPos);
         
@@ -81,7 +81,7 @@ public class ParabolicMovement extends Movement {
         model.getPosition().setX(xPos);
         model.getPosition().setY(yPos);
         
-        model.getPosition().setLength(lenght);
+        model.getPosition().setLength(length);
         model.getPosition().setWidth(width);
     }
 

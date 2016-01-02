@@ -144,7 +144,7 @@ public abstract class GameObjectModel extends Observable {
     }
 
     public double getMass() {
-        return mass;
+        return Math.max(1,mass);
     }
 
     public void setMass(double mass) {
