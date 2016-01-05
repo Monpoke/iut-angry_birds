@@ -11,12 +11,14 @@ import angrybirds.controllers.GameObjectController;
 import angrybirds.controllers.ObstacleController;
 import angrybirds.models.BirdModel;
 import angrybirds.models.ObstacleModel;
+import angrybirds.motors.PhysicMotor;
 import angrybirds.structures.Vector2d;
 import angrybirds.trajectories.Movement;
 import angrybirds.trajectories.MovementApplyer;
 import angrybirds.trajectories.curves.LinearMovement;
 import angrybirds.trajectories.curves.ObsVectorMovement;
 import angrybirds.trajectories.curves.ParabolicMovement;
+import angrybirds.trajectories.physic.Gravity;
 import angrybirds.trajectories.physic.Motor;
 import angrybirds.views.*;
 
@@ -124,29 +126,27 @@ public class Game extends BaseGame {
         so = ObstacleFactory.createObstacle("CIRCLE", x, y);
         System.out.println("Initialie avec " + x +";"+y);
 
-        Movement mType;
 
-        //mouvement physique
-        mType = new Motor(so.getModel().getMass());
-
-
-        MovementApplyer mvt = new MovementApplyer(mType, so.getModel());
-        so.getController().addMovement(mvt);
         System.out.println("ApresMotor " + so.getModel().getPosition().toString());
 
         // add the view to object to draw
         objects.add(so);
 
 
+        // Add to physic motor
+        so.getModel().addConstantForce(new Gravity(so.getModel().getMass()));
+        PhysicMotor.registerGameobject(so.getModel());
 
 
+
+/*
         // create cube
         so = ObstacleFactory.createObstacle("CIRCLE", x, y + 400);
         mvt = new MovementApplyer(new Motor(), so.getModel());
         so.getController().addMovement(mvt);
         objects.add(so);
 
-
+*/
 
     }
 
@@ -241,15 +241,19 @@ public class Game extends BaseGame {
      * This function is called before repaint. It allows the processing of data.
      */
     public void updateElements() {
-        // update bird
+        // Update World
+        PhysicMotor.applyForces();
 
-        bird.getController().update();
+
+
+        // update bird
+//        bird.getController().update();
 
         // update objects
         for (GameObjectView currentObject : objects) {
             GameObjectController controller = currentObject.getController();
             if (controller != null) {
-                controller.update();
+  //              controller.update();
             }
 
             ((BirdModel) bird.getModel()).setIsAlive(true);

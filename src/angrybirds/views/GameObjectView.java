@@ -80,11 +80,8 @@ public abstract class GameObjectView extends JPanel implements Observer {
 
 
             //force result
-            if (getController().hasMovement() && getController().getMovement().getMovement() instanceof Motor) {
-                Force f = ((Motor) getController().getMovement().getMovement()).getForceResult();
-
-                g.drawString("ForceResult: " + f.toString(), (int) model.getPosition().getX() - 5, (int) model.getPosition().getY() - 75);
-            }
+            g.drawString("Acceleration: " + model.getAcceleration().toString(), (int) model.getPosition().getX() - 5, (int) model.getPosition().getY() - 75);
+            g.drawString("Velocity: " + model.getVelocity().toString(), (int) model.getPosition().getX() - 5, (int) model.getPosition().getY() - 105);
 
         }
 

@@ -231,4 +231,16 @@ public abstract class GameObjectModel extends Observable {
         }
         return f;
     }
+
+    public void removeForces(){
+        forces.clear();
+    }
+
+    public void addConstantForce(Force f){
+        constantsForces.add(f);
+    }
+
+    public void addForce(Force f){
+        forces.add(f);
+    }
 }

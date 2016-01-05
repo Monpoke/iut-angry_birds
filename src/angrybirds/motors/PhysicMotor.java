@@ -18,13 +18,14 @@ public class PhysicMotor implements Motor {
     private double currentTime=0f;
 
     public final static List<GameObjectModel> gameobjects = new ArrayList<>();
-    private double deltaTime;
+    private static double deltaTime;
 
 
     /**
      * Apply forces to every objects
      */
-    public void applyForces() {
+    public static void applyForces() {
+        System.out.println("Application des forces");
 
         Force Acceleration, AccelerationAngu;
         Force Velocity, VitesseAngu;
@@ -95,6 +96,7 @@ public class PhysicMotor implements Motor {
 
 
                 Velocity = new Force(v_x,v_y);
+                currentObject.setVelocity(Velocity);
 
                 /**
                  * @TODO: Check si problème de position
@@ -109,8 +111,8 @@ public class PhysicMotor implements Motor {
                         + Velocity.getY() * getDeltaTime()
                         + currentObject.getPosition().getY();
 
-
-
+                Position = new Vector2d(x,y);
+                currentObject.getPosition().setPosition(x,y);
 
             }
 
@@ -118,10 +120,15 @@ public class PhysicMotor implements Motor {
         }
 
 
+        // Deltatime
+        deltaTime+=0.01;
     }
 
+    public static void registerGameobject(GameObjectModel gameObjectModel){
+        gameobjects.add(gameObjectModel);
+    }
 
-    public double getDeltaTime() {
+    public static double getDeltaTime() {
         return deltaTime;
     }
 }
