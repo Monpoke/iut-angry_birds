@@ -4,9 +4,11 @@ import angrybirds.Constants;
 import angrybirds.controllers.GameObjectController;
 import angrybirds.hitbox.HitBox;
 import angrybirds.structures.Vector2d;
+import angrybirds.trajectories.physic.Force;
 import angrybirds.views.GameObjectView;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Observable;
 
@@ -21,6 +23,25 @@ import java.util.Observable;
  * @author Pierre
  */
 public abstract class GameObjectModel extends Observable {
+
+    public enum TYPES {
+        SQUARE,
+        CIRCLE,
+        BIRD
+    }
+
+    protected TYPES type;
+
+    /**
+     * =================
+     * POSITIONS AND PHYSICS
+     * =================
+     */
+
+    protected Force acceleration = new Force(0f, 0f);
+    protected Force velocity = new Force(0f, 0f);
+    protected List<Force> forces = new ArrayList<>();
+    protected List<Force> constantsForces = new ArrayList<>();
 
     /**
      * Object position.
@@ -41,6 +62,8 @@ public abstract class GameObjectModel extends Observable {
      * Contains the mass of entity
      */
     protected double mass;
+
+    protected boolean canMove = true;
 
     /**
      * Enable trajectory paint
@@ -144,10 +167,68 @@ public abstract class GameObjectModel extends Observable {
     }
 
     public double getMass() {
-        return Math.max(1,mass);
+        return Math.max(1, mass);
     }
 
     public void setMass(double mass) {
         this.mass = mass;
+    }
+
+    public TYPES getType() {
+        return type;
+    }
+
+    public void setType(TYPES type) {
+        this.type = type;
+    }
+
+    public boolean canMove() {
+        return canMove;
+    }
+
+    public void setCanMove(boolean canMove) {
+        this.canMove = canMove;
+    }
+
+    public Force getAcceleration() {
+        return acceleration;
+    }
+
+    public void setAcceleration(Force acceleration) {
+        this.acceleration = acceleration;
+    }
+
+    public Force getVelocity() {
+        return velocity;
+    }
+
+    public void setVelocity(Force velocity) {
+        this.velocity = velocity;
+    }
+
+    public List<Force> getForces() {
+        return forces;
+    }
+
+    public void setForces(List<Force> forces) {
+        this.forces = forces;
+    }
+
+
+    public List<Force> getConstantsForces() {
+        return constantsForces;
+    }
+
+    public Force getTotalConstantsForces() {
+        Force f = new Force(0, 0);
+
+        Iterator<Force> iterator = constantsForces.iterator();
+        Force current;
+        while (iterator.hasNext()) {
+            current = iterator.next();
+            f.setX(f.getX() + current.getX());
+            f.setY(f.getY() + current.getY());
+        }
+        return f;
     }
 }

@@ -42,6 +42,20 @@ public class Force {
         y += decrY;
     }
 
+    public void setPosition(double x, double y){
+        setX(x);
+        setY(y);
+    }
+
+
+    public Force divide(Force f) {
+        return new Force(getX() / f.getX(), getY() / f.getY());
+    }
+
+    public Force divide(double a) {
+        return new Force(getX() / a, getY() / a);
+    }
+
 
     @Override
     public String toString() {

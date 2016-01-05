@@ -99,8 +99,8 @@ public class Motor extends Movement {
         double y = 0.5 * (sumForcesY / mass) * Math.pow(t, 2) + v0_y * t * Math.sin(angle);
 
         // rapidité de mouvement
-        x /= 50;
-        y /= 50;
+        x /= 30;
+        y /= 30;
 
 
         model.getPosition().setPosition(
