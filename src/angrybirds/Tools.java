@@ -94,15 +94,6 @@ public class Tools {
         }
 
 
-        /**
-         * Check collision
-         */
-        if(collision==true){
-            Game.BLOCK_STATUS=true;
-            System.out.println("Collision");
-        }
-
-
         return collision;
 
     }

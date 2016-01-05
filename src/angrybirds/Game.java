@@ -139,14 +139,13 @@ public class Game extends BaseGame {
 
 
 
-/*
-        // create cube
+
+        // create immobile circle
         so = ObstacleFactory.createObstacle("CIRCLE", x, y + 400);
-        mvt = new MovementApplyer(new Motor(), so.getModel());
-        so.getController().addMovement(mvt);
+        so.getModel().setCanMove(false);
         objects.add(so);
 
-*/
+
 
     }
 

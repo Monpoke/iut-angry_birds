@@ -66,7 +66,7 @@ public class CircleHitbox extends HitBox {
         boolean collision = dist <= radius;
 
         if(collision){
-            Game.BLOCK_STATUS=true;
+           // Game.BLOCK_STATUS=true;
             System.out.println("COLLISIOOOOON");
         }
 

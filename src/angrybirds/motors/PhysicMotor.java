@@ -14,8 +14,8 @@ import java.util.List;
  */
 public class PhysicMotor implements Motor {
 
-    private double timeElapsed=0f;
-    private double currentTime=0f;
+    private double timeElapsed = 0f;
+    private double currentTime = 0f;
 
     public final static List<GameObjectModel> gameobjects = new ArrayList<>();
     private static double deltaTime;
@@ -48,16 +48,19 @@ public class PhysicMotor implements Motor {
                 /**
                  * IS COLLIDING?
                  */
-                if (true == false) {
+                if (currentObject.hasCollision() && currentObject.getHitbox().isCollided()) {
                     // Gérer collisions
 
                     /**
                      * @1 accélération =0
                      **/
+                    currentObject.setAcceleration(new Force(0, 0));
 
                     /**
                      * @2: Vélocité de collision selon la masse des obhects
+                     * @TODO: Modifier
                      */
+                    currentObject.setVelocity(new Force(0, 0));
 
                     /**
                      * @3: Correction de position
@@ -95,7 +98,7 @@ public class PhysicMotor implements Motor {
                         + Acceleration.getY() * getDeltaTime();
 
 
-                Velocity = new Force(v_x,v_y);
+                Velocity = new Force(v_x, v_y);
                 currentObject.setVelocity(Velocity);
 
                 /**
@@ -103,7 +106,7 @@ public class PhysicMotor implements Motor {
                  */
 
                 // Position
-                double x = 0.5  * Acceleration.getX() * Math.pow(getDeltaTime(),2)
+                double x = 0.5 * Acceleration.getX() * Math.pow(getDeltaTime(), 2)
                         + Velocity.getX() * getDeltaTime()
                         + currentObject.getPosition().getX();
 
@@ -111,8 +114,8 @@ public class PhysicMotor implements Motor {
                         + Velocity.getY() * getDeltaTime()
                         + currentObject.getPosition().getY();
 
-                Position = new Vector2d(x,y);
-                currentObject.getPosition().setPosition(x,y);
+
+                currentObject.getPosition().setPosition(x, y);
 
             }
 
@@ -121,10 +124,10 @@ public class PhysicMotor implements Motor {
 
 
         // Deltatime
-        deltaTime+=0.01;
+        deltaTime += 0.01;
     }
 
-    public static void registerGameobject(GameObjectModel gameObjectModel){
+    public static void registerGameobject(GameObjectModel gameObjectModel) {
         gameobjects.add(gameObjectModel);
     }
 
