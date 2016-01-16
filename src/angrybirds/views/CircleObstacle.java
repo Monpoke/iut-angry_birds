@@ -28,6 +28,8 @@ public class CircleObstacle extends ShapeObstacle {
 
     public CircleObstacle(GameObjectModel model, GameObjectController controller) {
         super(model, controller);
+        model.setType(GameObjectModel.TYPES.CIRCLE);
+
         model.setHitbox(new CircleHitbox(model, ((ObstacleModel) model).getDiameter()));
         coords = new int[3];
 

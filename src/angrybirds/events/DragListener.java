@@ -10,6 +10,7 @@ import angrybirds.models.BirdModel;
 import angrybirds.structures.Vector2d;
 import angrybirds.trajectories.MovementApplyer;
 import angrybirds.trajectories.curves.GravityMovement;
+import angrybirds.trajectories.physic.Force;
 import angrybirds.views.Bird;
 import java.awt.Cursor;
 import java.awt.event.MouseEvent;
@@ -166,9 +167,14 @@ public class DragListener implements AngryEvent, MouseListener, MouseMotionListe
 
         Bird bird = game.getBird();
 
-        GravityMovement gm = new GravityMovement(force, angle);
+        /*GravityMovement gm = new GravityMovement(force, angle);
         MovementApplyer ma = new MovementApplyer(gm, bird.getModel());
         bird.getController().addMovement(ma);
+        */
+
+        bird.getModel().addForce(new Force(20,2));
+
+
     }
 
     private double getCurrentAngle() {

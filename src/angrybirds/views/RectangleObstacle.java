@@ -23,7 +23,8 @@ public class RectangleObstacle extends ShapeObstacle {
 
     public RectangleObstacle(GameObjectModel model, GameObjectController controller) {
         super(model, controller);
-        
+        model.setType(GameObjectModel.TYPES.SQUARE);
+
         // set a rectangle hitbox
         model.setHitbox(new RectangleHitbox(model, ((ObstacleModel) model).getWidth(), ((ObstacleModel) model).getHeight()));
     }

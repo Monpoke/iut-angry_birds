@@ -5,10 +5,10 @@
 package angrybirds;
 
 import angrybirds.builders.ObstacleFactory;
-import angrybirds.events.AngryEvent;
 import angrybirds.controllers.BirdController;
 import angrybirds.controllers.GameObjectController;
 import angrybirds.controllers.ObstacleController;
+import angrybirds.events.AngryEvent;
 import angrybirds.models.BirdModel;
 import angrybirds.models.ObstacleModel;
 import angrybirds.motors.PhysicMotor;
@@ -16,18 +16,14 @@ import angrybirds.structures.Vector2d;
 import angrybirds.trajectories.Movement;
 import angrybirds.trajectories.MovementApplyer;
 import angrybirds.trajectories.curves.LinearMovement;
-import angrybirds.trajectories.curves.ObsVectorMovement;
 import angrybirds.trajectories.curves.ParabolicMovement;
 import angrybirds.trajectories.physic.Gravity;
-import angrybirds.trajectories.physic.Motor;
 import angrybirds.views.*;
+import angrybirds.views.Window;
 
-import java.awt.Graphics;
-import java.util.ArrayList;
+import java.awt.*;
+import java.util.*;
 import java.util.List;
-import java.util.Random;
-import java.util.Timer;
-import java.util.TimerTask;
 
 /**
  * @author Pierre
@@ -271,12 +267,15 @@ public class Game extends BaseGame {
                             objectCollided.getModel().getHitbox().setCollided(true);
                             currentObject.getModel().getHitbox().setCollided(true);
 
+                            // Process collision
+                            PhysicMotor.processCollision(currentObject.getModel(), objectCollided.getModel());
+
+
                             // block on bird
                             if (objectCollided instanceof Bird) {
                                 ((BirdModel) objectCollided.getModel()).setIsAlive(false);
                             } else if (currentObject instanceof Bird) {
                                 ((BirdModel) currentObject.getModel()).setIsAlive(false);
-
                             }
                         }
                     }
