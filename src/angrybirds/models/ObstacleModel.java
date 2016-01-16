@@ -7,8 +7,7 @@ package angrybirds.models;
 
 import angrybirds.Constants;
 import angrybirds.structures.Vector2d;
-import angrybirds.views.CircleObstacle;
-import angrybirds.views.GameObjectView;
+import angrybirds.views.GameObject;
 
 /**
  *
@@ -64,7 +63,7 @@ public class ObstacleModel extends GameObjectModel {
         return color;
     }
 
-    public void addView(GameObjectView obsView) {
+    public void addView(GameObject obsView) {
         this.addObserver(obsView);
     }
 

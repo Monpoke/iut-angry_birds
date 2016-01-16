@@ -3,10 +3,12 @@ package angrybirds.motors;
 
 import angrybirds.Constants;
 import angrybirds.Game;
+import angrybirds.Tools;
 import angrybirds.models.GameObjectModel;
+import angrybirds.models.ObstacleModel;
 import angrybirds.structures.Vector2d;
 import angrybirds.trajectories.physic.Force;
-import angrybirds.views.GameObjectView;
+import angrybirds.views.GameObject;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -15,7 +17,7 @@ import java.util.List;
 /**
  * Created by Pierre on 04/01/2016.
  */
-public class PhysicMotor implements Motor {
+public class PhysicEngine implements Motor {
 
     private double timeElapsed = 0f;
     private double currentTime = 0f;
@@ -63,14 +65,31 @@ public class PhysicMotor implements Motor {
                      */
                     currentObject.setVelocity(new Force(0, 0));
 
-                    /**
-                     * @3: Correction de position
-                     */
-
 
                     /**
-                     * @4: si carré, alors modifier position
+                     * Looking for collisions
                      */
+                    Iterator<GameObjectModel> iterator = currentObject.getHitbox().getObjectsCollided().iterator();
+                    while(iterator.hasNext()){
+                        GameObjectModel c = iterator.next();
+                        System.out.println("Hello, i'm " + currentObject.getLabelName() + " and I collide with " + c.getLabelName());
+                        processCollision(currentObject, c);
+                    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
                 }
@@ -100,7 +119,7 @@ public class PhysicMotor implements Motor {
                 double v_y = currentObject.getVelocity().getY()
                         + Acceleration.getY() * getDeltaTime();
 
-                if (currentObject.getType().equals(GameObjectModel.TYPES.CIRCLE)) {
+                if (currentObject.getType().equals(GameObjectModel.TYPES.SQUARE)) {
                     //System.out.println("" + currentObject.getAcceleration().toString());
                     System.out.println("" + currentObject.getVelocity().toString());
                     //  System.out.println("" + currentObject.getPosition().toString());
@@ -159,8 +178,29 @@ public class PhysicMotor implements Motor {
     public static void processCollision(GameObjectModel currentObject, GameObjectModel objectCollided) {
         if (currentObject.getType().equals(GameObjectModel.TYPES.CIRCLE) && objectCollided.getType().equals(GameObjectModel.TYPES.CIRCLE)) {
             processCircleCollision(currentObject, objectCollided);
+        } else if (currentObject.getType().equals(GameObjectModel.TYPES.SQUARE) && objectCollided.getType().equals(GameObjectModel.TYPES.SQUARE)) {
+            processSquareCollision(currentObject, objectCollided);
         }
 
+    }
+
+    private static void processSquareCollision(GameObjectModel objectA, GameObjectModel objectB) {
+        if (Tools.intersectionRectangleAndRectangle(
+                (int) objectA.getPosition().getX(),
+                (int) objectA.getPosition().getY(),
+                ((ObstacleModel) objectA).getWidth(),
+                ((ObstacleModel) objectA).getHeight(),
+                (int) objectB.getPosition().getX(),
+                (int) objectB.getPosition().getY(),
+                ((ObstacleModel) objectB).getWidth(),
+                ((ObstacleModel) objectB).getHeight())
+                ) {
+            objectA.getHitbox().setCollided(true);
+            objectB.getHitbox().setCollided(true);
+
+            objectA.getHitbox().addCollided(objectB);
+            objectB.getHitbox().addCollided(objectA);
+        }
     }
 
     /**
@@ -216,4 +256,41 @@ public class PhysicMotor implements Motor {
 	Vector3 vReflechie2 = V2x+V2y;
          */
     }
+
+
+    private void resolveCollision(GameObjectModel A, GameObjectModel B) {
+
+        Vector2d normal = new Vector2d();
+
+        // Calculate relative velocity
+        Force rv = B.getVelocity().substract(A.getVelocity());
+
+        // Calculate relative velocity in terms of the normal direction
+        float velAlongNormal = 2;//DotProduct( rv, normal )
+
+        // Do not resolve if velocities are separating
+        //  if(velAlongNormal > 0)
+        //    return;
+
+        // Calculate restitution
+        float e = Math.min(A.restitution, B.restitution);
+
+        // Calculate impulse scalar
+        float j = -(1 + e) * velAlongNormal;
+        //  j /= 1 / A.getMass() + 1 / B.getMass()       ;
+        j /= A.getMass() + B.getMass();
+
+        // Apply impulse
+        Vector2d impulse = normal.multiply(j);
+
+
+        A.getVelocity().substract(impulse.multiply(A.getMass()));
+        B.getVelocity().add(impulse.multiply(B.getMass()));
+
+
+    }
 }
+
+
+
+

@@ -1,6 +1,6 @@
 package angrybirds.motors;
 
-import angrybirds.views.GameObjectView;
+import angrybirds.views.GameObject;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -10,7 +10,7 @@ import java.util.List;
  */
 public interface Motor {
 
-    List<GameObjectView> sceneObjects = new ArrayList<>();
+    List<GameObject> sceneObjects = new ArrayList<>();
 
     
 

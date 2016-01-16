@@ -9,9 +9,10 @@ import angrybirds.controllers.BirdController;
 import angrybirds.controllers.GameObjectController;
 import angrybirds.controllers.ObstacleController;
 import angrybirds.events.AngryEvent;
+import angrybirds.hitbox.RectangleHitbox;
 import angrybirds.models.BirdModel;
 import angrybirds.models.ObstacleModel;
-import angrybirds.motors.PhysicMotor;
+import angrybirds.motors.PhysicEngine;
 import angrybirds.structures.Vector2d;
 import angrybirds.trajectories.Movement;
 import angrybirds.trajectories.MovementApplyer;
@@ -55,7 +56,7 @@ public class Game extends BaseGame {
     /**
      * Contains all objects on scene. They will be printed.
      */
-    private List<GameObjectView> objects;
+    private List<GameObject> objects;
 
     /**
      * The bird object.
@@ -64,7 +65,10 @@ public class Game extends BaseGame {
     private final Window window;
     private final int fps;
 
-    public static boolean BLOCK_STATUS = false;
+    /**
+     * Check the availabity of game
+     */
+    public static boolean BLOCK_STATUS = true;
 
     public Game(int fps) {
         this.fps = fps;
@@ -100,10 +104,6 @@ public class Game extends BaseGame {
 
         window.refreshScene(this);
 
-        if (!Constants.DEBUG_MODE) {
-            // launchAutomatic();
-            dragAndDrop();
-        }
     }
 
 
@@ -119,28 +119,26 @@ public class Game extends BaseGame {
          * USE SOME FACTORY.
          */
         ShapeObstacle so;
-        so = ObstacleFactory.createObstacle("CIRCLE", x, y);
-        System.out.println("Initialie avec " + x +";"+y);
+        so = ObstacleFactory.createObstacle("SQUARE", x, y);
+        System.out.println("Initialie avec " + x + ";" + y);
 
 
         System.out.println("ApresMotor " + so.getModel().getPosition().toString());
 
+        so.getModel().setLabelName("topSquare");
         // add the view to object to draw
         objects.add(so);
 
 
         // Add to physic motor
         so.getModel().addConstantForce(new Gravity(so.getModel().getMass()));
-        PhysicMotor.registerGameobject(so.getModel());
-
-
+        PhysicEngine.registerGameobject(so.getModel());
 
 
         // create immobile circle
-        so = ObstacleFactory.createObstacle("CIRCLE", x, y + 400);
-        so.getModel().setCanMove(false);
-        objects.add(so);
-
+        //so = ObstacleFactory.createObstacle("CIRCLE", x, y + 400);
+        // so.getModel().setCanMove(false);
+        //  objects.add(so);
 
 
     }
@@ -193,6 +191,7 @@ public class Game extends BaseGame {
         BirdController birdController = new BirdController(birdModel);
         bird = new Bird(birdModel, birdController);
         birdModel.addView(bird);
+        birdModel.setLabelName("bird");
 
         birdModel.setController(birdController);
 
@@ -218,7 +217,7 @@ public class Game extends BaseGame {
      * @param g
      */
     public void loop(Graphics g) {
-        for (GameObjectView object : objects) {
+        for (GameObject object : objects) {
             object.draw(g);
         }
 
@@ -237,29 +236,44 @@ public class Game extends BaseGame {
      */
     public void updateElements() {
         // Update World
-        PhysicMotor.applyForces();
-
+        PhysicEngine.applyForces();
 
 
         // update bird
 //        bird.getController().update();
 
         // update objects
-        for (GameObjectView currentObject : objects) {
+        Iterator<GameObject> cur = objects.iterator();
+        while(cur.hasNext()) {
+            GameObject currentObject = cur.next();
             GameObjectController controller = currentObject.getController();
             if (controller != null) {
-  //              controller.update();
+                //              controller.update();
             }
 
             ((BirdModel) bird.getModel()).setIsAlive(true);
 
             // Foreach for collisions
             if (currentObject.getModel().hasCollision()) {
-                for (GameObjectView objectCollided : objects) {
+
+
+                Iterator<GameObject> it = objects.iterator();
+                while(it.hasNext()){
+                    GameObject objectCollided = it.next();
+                    if (currentObject.getModel().getLabelName().equals("topSquare")) {
+                       // System.out.println("Comparing with:" + objectCollided.getModel().getLabelName());
+
+
+                    }
+
+
                     if (objectCollided == currentObject) {
                         break; // because all objects are organised by order
                     } else if (objectCollided.getModel().hasCollision()) {
 
+                        PhysicEngine.processCollision(currentObject.getModel(),objectCollided.getModel());
+
+                        /*
                         currentObject.getModel().getHitbox().setCollided(false);
 
                         // if there are collisions 
@@ -268,7 +282,7 @@ public class Game extends BaseGame {
                             currentObject.getModel().getHitbox().setCollided(true);
 
                             // Process collision
-                            PhysicMotor.processCollision(currentObject.getModel(), objectCollided.getModel());
+                            PhysicEngine.processCollision(currentObject.getModel(), objectCollided.getModel());
 
 
                             // block on bird
@@ -277,7 +291,7 @@ public class Game extends BaseGame {
                             } else if (currentObject instanceof Bird) {
                                 ((BirdModel) currentObject.getModel()).setIsAlive(false);
                             }
-                        }
+                        }*/
                     }
                 }
             }
@@ -289,10 +303,10 @@ public class Game extends BaseGame {
      * World hitbox
      */
     private void createHitbox() {
-        createHit(1, 0, "v");
-        createHit(Constants.WINDOW_WIDTH - 10, 0, "v");
+        createHit(1, 0, "v", "hitTop");
+        createHit(Constants.WINDOW_WIDTH - 10, 0, "v", "hitRight");
 
-        createHit(0, 0, "h");
+        createHit(0, 0, "h", "hitLeft");
 
         // Ground
         createGround();
@@ -305,9 +319,13 @@ public class Game extends BaseGame {
     private void createGround() {
         ShapeObstacle rectangle = ObstacleFactory.createObstacle("square", 0, Constants.WINDOW_HEIGHT - 50);
         ((ObstacleModel) rectangle.getModel()).setWidth(Constants.WINDOW_WIDTH);
+        ((ObstacleModel) rectangle.getModel()).setHeight(30);
+        // Disable hide rectangle
+        rectangle.setHidden(false);
+        rectangle.getModel().setLabelName("floor");
         objects.add(rectangle);
         // add some hitbox to ground
-
+        rectangle.getModel().setHitbox(new RectangleHitbox(rectangle.getModel(), Constants.WINDOW_WIDTH, 30));
     }
 
     /**
@@ -317,10 +335,10 @@ public class Game extends BaseGame {
      * @param y
      * @param v
      */
-    private void createHit(int x, int y, String v) {
+    private void createHit(int x, int y, String v, String label) {
 
         ObstacleModel obsModel = new ObstacleModel(new Vector2d(x, y));
-
+        obsModel.setLabelName(label);
         obsModel.setHeight((v.equals("v") ? Constants.WINDOW_HEIGHT : 15));
         obsModel.setWidth((!v.equals("v") ? Constants.WINDOW_WIDTH : 15));
 
@@ -409,13 +427,6 @@ public class Game extends BaseGame {
             xBy = s[3];
             movements.add(new ParabolicMovement(a, b, c, xBy, div));
         }
-
-    }
-
-    /**
-     * Enable drag and drop.
-     */
-    private void dragAndDrop() {
 
     }
 

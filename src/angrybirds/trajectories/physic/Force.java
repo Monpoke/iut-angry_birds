@@ -1,13 +1,11 @@
 package angrybirds.trajectories.physic;
 
+import angrybirds.structures.Vector2d;
+
 /**
  * Created by Pierre on 30/12/2015.
  */
-public class Force {
-    private double x;
-    private double y;
-    private double decrX;
-    private double decrY;
+public class Force extends Vector2d {
 
 
     public Force(double x, double y) {
@@ -17,8 +15,11 @@ public class Force {
     public Force(double x, double y, double decrX, double decrY) {
         this.x = x;
         this.y = y;
-        this.decrX = decrX;
-        this.decrY = decrY;
+    }
+
+    public Force() {
+        this.x=0;
+        this.y=0;
     }
 
     public double getX() {
@@ -36,12 +37,6 @@ public class Force {
     public void setY(double y) {
         this.y = y;
     }
-
-    public void update() {
-        x += decrX;
-        y += decrY;
-    }
-
     public void setPosition(double x, double y){
         setX(x);
         setY(y);
@@ -53,8 +48,23 @@ public class Force {
     }
 
     public Force divide(double a) {
+        if(a==0){
+            return new Force(getX(),getY());
+        }
         return new Force(getX() / a, getY() / a);
     }
+
+
+    public Force substract(Vector2d b){
+        return new Force(x-b.getX(), y-b.getY());
+    }
+    public Force add(Vector2d b){
+        return new Force(x+b.getX(), y+b.getY());
+    }
+    public Force multiply(double b){
+        return new Force(x*b, y*b);
+    }
+
 
 
     @Override

@@ -5,12 +5,9 @@ import angrybirds.controllers.GameObjectController;
 import angrybirds.hitbox.HitBox;
 import angrybirds.structures.Vector2d;
 import angrybirds.trajectories.physic.Force;
-import angrybirds.views.GameObjectView;
+import angrybirds.views.GameObject;
 
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Observable;
+import java.util.*;
 
 /*
  *  Projet AngryBirds
@@ -23,6 +20,11 @@ import java.util.Observable;
  * @author Pierre
  */
 public abstract class GameObjectModel extends Observable {
+
+    public final UUID id = UUID.randomUUID();
+    public String labelName = "";
+
+    public static final int INFINITE_MASS = 0;
 
     public enum TYPES {
         SQUARE,
@@ -42,6 +44,7 @@ public abstract class GameObjectModel extends Observable {
     protected Force velocity = new Force(0f, 0f);
     protected List<Force> forces = new ArrayList<>();
     protected List<Force> constantsForces = new ArrayList<>();
+    public final float restitution = 10 ;
 
     /**
      * Object position.
@@ -70,10 +73,6 @@ public abstract class GameObjectModel extends Observable {
      */
     protected boolean enabledTrajectory = true;
 
-    /**
-     * Contains view.
-     */
-    protected GameObjectView view;
 
     protected GameObjectController controller;
 
@@ -130,10 +129,6 @@ public abstract class GameObjectModel extends Observable {
      *
      * @return
      */
-    public GameObjectView getView() {
-        return view;
-    }
-
     public void setHitbox(HitBox hitbox) {
         this.hitbox = hitbox;
     }
@@ -167,11 +162,15 @@ public abstract class GameObjectModel extends Observable {
     }
 
     public double getMass() {
-        return Math.max(1, mass);
+        return mass == 0 ? INFINITE_MASS : 1 / mass;
     }
 
     public void setMass(double mass) {
-        this.mass = mass;
+        if (mass == 0) {
+            this.mass = INFINITE_MASS;
+        } else {
+            this.mass = 1/mass;
+        }
     }
 
     public TYPES getType() {
@@ -232,15 +231,29 @@ public abstract class GameObjectModel extends Observable {
         return f;
     }
 
-    public void removeForces(){
+    public void removeForces() {
         forces.clear();
     }
 
-    public void addConstantForce(Force f){
+    public void addConstantForce(Force f) {
         constantsForces.add(f);
     }
 
-    public void addForce(Force f){
+    public void addForce(Force f) {
         forces.add(f);
     }
+
+
+    public UUID getId() {
+        return id;
+    }
+
+    public void setLabelName(String labelName) {
+        this.labelName = labelName;
+    }
+
+    public String getLabelName() {
+        return labelName.length() > 0 ? labelName: id.toString();
+    }
+
 }

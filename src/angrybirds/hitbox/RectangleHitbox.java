@@ -56,7 +56,14 @@ public class RectangleHitbox extends HitBox {
         if (h instanceof CircleHitbox) {
             return checkIntersect_Circle((CircleHitbox) h);
         }
+        else if (h instanceof RectangleHitbox) {
+            return checkIntersect_Rectangle((RectangleHitbox) h);
+        }
 
+        return false;
+    }
+
+    private boolean checkIntersect_Rectangle(RectangleHitbox h) {
         return false;
     }
 

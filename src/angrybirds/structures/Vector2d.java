@@ -12,8 +12,13 @@ import angrybirds.events.AngryEvent;
  */
 public class Vector2d {
 
-    private double x, y;
-    private double length = 20, width = 20;
+    protected double x, y;
+    protected double length = 20, width = 20;
+
+    public Vector2d(){
+        this.x=0;
+        this.y=0;
+    }
 
     public Vector2d(double x, double y) {
         this.x = x;
@@ -156,4 +161,7 @@ public class Vector2d {
     	return "x : " + x + ", y : " + y + ", length : " + length + ", width : " + width;
     }
 
+    public Vector2d multiply(double j) {
+        return new Vector2d(x*j,y*j);
+    }
 }

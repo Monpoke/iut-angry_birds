@@ -39,7 +39,11 @@ public class RectangleObstacle extends ShapeObstacle {
             int width = (int) ((ObstacleModel) model).getWidth();
             int height = (int) ((ObstacleModel) model).getHeight();
 
-            g.setColor(Color.BLACK);
+            if(model.getHitbox().isCollided()) {
+                g.setColor(Color.RED);
+            } else {
+                g.setColor(Color.BLACK);
+            }
             g.fillRect(x, y, width, height);
         }
     }

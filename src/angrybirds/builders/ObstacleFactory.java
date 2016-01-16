@@ -1,15 +1,12 @@
 package angrybirds.builders;
 
-import angrybirds.Constants;
 import angrybirds.controllers.ObstacleController;
 import angrybirds.models.ObstacleModel;
 import angrybirds.structures.Vector2d;
 import angrybirds.views.CircleObstacle;
-import angrybirds.views.GameObjectView;
 import angrybirds.views.RectangleObstacle;
 import angrybirds.views.ShapeObstacle;
 
-import java.awt.*;
 import java.util.Random;
 
 /**

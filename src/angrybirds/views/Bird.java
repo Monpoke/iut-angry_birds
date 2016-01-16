@@ -7,7 +7,6 @@ import java.util.Observer;
 
 import angrybirds.Constants;
 import angrybirds.controllers.BirdController;
-import angrybirds.events.DragListener;
 import angrybirds.hitbox.CircleHitbox;
 import angrybirds.models.BirdModel;
 import angrybirds.structures.Vector2d;
@@ -20,7 +19,7 @@ import angrybirds.structures.Vector2d;
 /**
  * @author Pierre
  */
-public class Bird extends GameObjectView implements IDrawable, Observer {
+public class Bird extends GameObject implements IDrawable, Observer {
 
     /**
      * Creates a bird

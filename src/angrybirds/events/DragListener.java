@@ -16,8 +16,7 @@ import java.awt.Cursor;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
-import javax.swing.JOptionPane;
-import javax.swing.JPanel;
+import javax.swing.*;
 
 /**
  * DragListener
@@ -51,6 +50,9 @@ public class DragListener implements AngryEvent, MouseListener, MouseMotionListe
 
     @Override
     public void mouseClicked(MouseEvent e) {
+        if(SwingUtilities.isMiddleMouseButton(e)){
+            Game.BLOCK_STATUS = !Game.BLOCK_STATUS;
+        }
     }
 
     /**

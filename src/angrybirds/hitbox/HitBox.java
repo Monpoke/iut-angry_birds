@@ -30,6 +30,15 @@ public abstract class HitBox {
         objectsCollided=new ArrayList<>();
     }
 
+    public void addCollided(GameObjectModel a){
+        objectsCollided.add(a);
+    }
+
+    public void clearCollided(){
+        objectsCollided.clear();
+        collided=false;
+    }
+
     public void setKiller(boolean killer) {
         this.killer = killer;
     }
@@ -46,8 +55,10 @@ public abstract class HitBox {
         this.collided = collided;
     }
 
-    
-    
+    public List<GameObjectModel> getObjectsCollided() {
+        return objectsCollided;
+    }
+
     public GameObjectModel getModel() {
         return model;
     }

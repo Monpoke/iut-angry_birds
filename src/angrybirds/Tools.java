@@ -4,10 +4,11 @@
  */
 package angrybirds;
 
+import angrybirds.structures.Vector2d;
+
 import java.util.Calendar;
 
 /**
- *
  * @author Pierre
  */
 public class Tools {
@@ -37,8 +38,13 @@ public class Tools {
         return (((Math.pow((x2 - x1), 2) + Math.pow((y2 - y1), 2))));
     }
 
+    public static boolean intersectionCircleAndCircle(Vector2d a, double radiusCircleA, Vector2d b, double radiusCircleB){
+        double r = radiusCircleA + radiusCircleB;
+        r *= r;
+        return r < Math.pow((a.getX() + b.getX()),2) + Math.pow((a.getY() + b.getY()),2);
+    }
+
     /**
-     *
      * @param circleX
      * @param circleY
      * @param circleR
@@ -84,8 +90,8 @@ public class Tools {
         boolean collision = false;
 
 
-        double radius = circleR*2;
-        
+        double radius = circleR * 2;
+
         double distance = distancePoints(unrotatedCircleX, closestX, unrotatedCircleY, closestY);
         if (distance < radius) {
             collision = true; // Collision
@@ -99,42 +105,15 @@ public class Tools {
     }
 
     public static boolean intersectionRectangleAndRectangle(int rectangleX, int rectangleY, int rectangleWidth, int rectangleHeight, int rectangleX2, int rectangleY2, int rectangleWidth2, int rectangleHeight2) {
-        boolean result = false;
 
-        float rectHalfWidth = rectangleWidth / 2.0f;
-        float rectHalfHeight = rectangleHeight / 2.0f;
-        float rectHalfWidth2 = rectangleWidth2 / 2.0f;
-        float rectHalfHeight2 = rectangleHeight2 / 2.0f;
+        if((rectangleX2 >=rectangleX + rectangleWidth)      // trop à droite
+                || (rectangleX2 + rectangleWidth2 <= rectangleX) // trop à gauche
+                || (rectangleY2 >= rectangleY + rectangleHeight) // trop en bas
+                || (rectangleY2 + rectangleHeight2 <= rectangleY))  // trop en haut
+            return false;
+        else
+            return true;
 
-        float deltax = Math.abs((rectangleX + rectHalfWidth) - (rectangleX2 + rectHalfWidth2));
-        float deltay = Math.abs((rectangleY + rectHalfHeight) - (rectangleY2 + rectHalfHeight2));
-
-        float lengthHypotenuseSqure = deltax * deltax + deltay * deltay;
-
-        do {
-            // check that distance between the centerse is more than the distance between the circumcircle
-            if (lengthHypotenuseSqure > ((rectHalfWidth + rectHalfWidth2) * (rectHalfWidth + rectHalfWidth2) + (rectHalfHeight + rectHalfHeight2) * (rectHalfHeight + rectHalfHeight2))) {
-                //System.out.println("distance between the centerse is more than the distance between the circumcircle");
-                break;
-            }
-
-            // check that distance between the centerse is less than the distance between the inscribed circle
-            float rectMinHalfSide = Math.min(rectHalfWidth, rectHalfHeight);
-            float rectMinHalfSide2 = Math.min(rectHalfWidth2, rectHalfHeight2);
-            if (lengthHypotenuseSqure < ((rectMinHalfSide + rectMinHalfSide2) * (rectMinHalfSide + rectMinHalfSide2))) {
-                //System.out.println("distance between the centerse is less than the distance between the inscribed circle");
-                result = true;
-                break;
-            }
-
-            // check that the squares relate to angles
-            if ((deltax > (rectHalfWidth + rectHalfWidth2) * 0.9) && (deltay > (rectHalfHeight + rectHalfHeight2) * 0.9)) {
-                //System.out.println("squares relate to angles");
-                result = true;
-            }
-        } while (false);
-
-        return result;
     }
 
 }
