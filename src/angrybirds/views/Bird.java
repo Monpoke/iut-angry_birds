@@ -74,7 +74,6 @@ public class Bird extends GameObject implements IDrawable, Observer {
         position.scale(50);
 
         
-        
         Vector2d perp = position.getPerpendicular();
         int pointsX[] = {(int) (position.getX() + (int) position.getLength()),
                 (int) (position.getX() + (int) (perp.getLength() * 0.5f)),

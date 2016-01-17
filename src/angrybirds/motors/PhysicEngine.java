@@ -4,11 +4,15 @@ package angrybirds.motors;
 import angrybirds.Constants;
 import angrybirds.Game;
 import angrybirds.Tools;
+import angrybirds.controllers.BirdController;
+import angrybirds.models.BirdModel;
 import angrybirds.models.GameObjectModel;
 import angrybirds.models.ObstacleModel;
 import angrybirds.structures.Vector2d;
 import angrybirds.trajectories.physic.Force;
+import oracle.jrockit.jfr.JFR;
 
+import javax.swing.*;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -26,16 +30,159 @@ public class PhysicEngine implements Motor {
 
 
     /**
+     * Process a step
+     */
+    public static void step() {
+
+        // clear collisions
+        Iterator<GameObjectModel> cle = gameobjects.iterator();
+        while (cle.hasNext()) {
+            cle.next().getHitbox().clearCollided();
+        }
+
+        // check collisions
+        checkCollisions();
+
+        Iterator<GameObjectModel> obj = gameobjects.iterator();
+        while (obj.hasNext()) {
+            GameObjectModel gom = obj.next();
+
+            if (!gom.canMove()) {
+                continue;
+            }
+
+            if (gom.getType().equals(GameObjectModel.TYPES.BIRD)) {
+                checkBirdCollision(((BirdModel) gom));
+            }
+
+
+            // sums
+            Force totalConstantsForces = gom.getTotalConstantsForces();
+
+            // some dynamic laws...
+
+            // acceleration
+            double accel_x = totalConstantsForces.getX();
+            double accel_y = totalConstantsForces.getY();
+
+            double velocity_x = gom.getVelocity().getX(),
+                    velocity_y = gom.getVelocity().getY();
+
+            // position
+            double x = gom.getPosition().getX() + velocity_x * deltaTime;
+            double y = gom.getPosition().getY() + velocity_y * deltaTime;
+
+            // velocity
+            velocity_x = accel_x * deltaTime + gom.getVelocity().getX();
+            velocity_y = accel_y * deltaTime + gom.getVelocity().getY();
+
+            // on ajoute la friction
+            if (gom.labelName.equals("bird")) {
+
+                // > 0
+                velocity_y += 3;
+
+
+            }
+
+
+            // set
+            gom.getAcceleration().setPosition(accel_x, accel_y);
+            gom.getVelocity().setPosition(velocity_x, velocity_y);
+            gom.getPosition().setPosition(x, y);
+
+
+            if (gom.getPosition().getY() > Constants.WINDOW_HEIGHT) {
+                Game.BLOCK_STATUS = !Game.BLOCK_STATUS;
+            }
+
+
+            // IF COLLISION
+            if (gom.getHitbox().isCollided()) {
+                Iterator<GameObjectModel> iterator = gom.getHitbox().getObjectsCollided().iterator();
+
+                while (iterator.hasNext()) {
+                    GameObjectModel objectCollided = iterator.next();
+                    processCollision2(gom, objectCollided);
+                }
+
+
+            }
+
+        }
+
+
+        deltaTime += 0.002;
+    }
+
+    /**
+     * This function checks if a bird is in collision. However, it should'nt be here.
+     *
+     * @param bird
+     */
+    private static void checkBirdCollision(BirdModel bird) {
+
+        double x = bird.getPosition().getX(),
+                y = bird.getPosition().getY();
+        boolean dead = (x < 0 || x > Constants.WINDOW_WIDTH) || (y < 0 || y > Constants.WINDOW_HEIGHT);
+
+        if (dead == true) {
+            JOptionPane.showMessageDialog(null, "You're died!");
+            System.exit(0);
+        }
+
+        if (!bird.getHitbox().isCollided() && !dead) {
+            return;
+        }
+
+        Iterator<GameObjectModel> iterator = bird.getHitbox().getObjectsCollided().iterator();
+        while (iterator.hasNext()) {
+            GameObjectModel n = iterator.next();
+            if (n.getHitbox().isKiller()) {
+                ((BirdController) bird.getController()).getDeathAction().notif("dead");
+            }
+        }
+
+
+    }
+
+    private static void processCollision2(GameObjectModel A, GameObjectModel B) {
+
+        // system mass
+        double total = A.getMass() + B.getMass();
+
+        //   System.out.println("TotalSysteme: " + total);
+
+        // Direction collision
+        Force direction = new Force(
+                (A.getMass() * A.getVelocity().getX() / total),
+                (A.getMass() * A.getVelocity().getY()) / total
+        );
+
+
+        //   System.out.println("Collision between " + A.getLabelName() + " et " + B.getLabelName());
+
+        double vx = -direction.getX(),
+                vy = -(direction.getY());
+
+        //System.out.println("ApplyForce: " + vx + ":" + vy);
+
+
+        if (A.canMove()) {
+            //    System.out.println("---------------");
+            A.getVelocity().setPosition(0, 0);
+            //    System.out.println("Force: " + A.getVelocity());
+        }
+
+    }
+
+    /**
      * Apply forces to every objects
      */
     public static void applyForces() {
-        Force Acceleration, AccelerationAngu;
-        Force Velocity, VitesseAngu;
-        Vector2d Position;
-
-        float vAngle;
-
-        Force forcesSums, forcesMoms;
+        Force Acceleration;
+        Force Velocity;
+        Force forcesSums;
 
         Iterator<GameObjectModel> allObjects = gameobjects.iterator();
 
@@ -43,11 +190,8 @@ public class PhysicEngine implements Motor {
         while (allObjects.hasNext()) {
             currentObject = allObjects.next();
 
-            System.out.println(currentObject.getLabelName());
-
             if (currentObject.canMove()) {
                 forcesSums = new Force(0f, 0f);
-                forcesMoms = new Force(0f, 0f);
 
                 /**
                  * IS COLLIDING?
@@ -172,10 +316,35 @@ public class PhysicEngine implements Motor {
      * @param objectCollided
      */
     public static boolean processCollision(GameObjectModel currentObject, GameObjectModel objectCollided) {
+
         if (currentObject.getType().equals(GameObjectModel.TYPES.CIRCLE) && objectCollided.getType().equals(GameObjectModel.TYPES.CIRCLE)) {
             return processCircleCollision(currentObject, objectCollided);
         } else if (currentObject.getType().equals(GameObjectModel.TYPES.SQUARE) && objectCollided.getType().equals(GameObjectModel.TYPES.SQUARE)) {
             return processSquareCollision(currentObject, objectCollided);
+        } else if (currentObject.getType().equals(GameObjectModel.TYPES.BIRD) && objectCollided.getType().equals(GameObjectModel.TYPES.SQUARE)) {
+
+            boolean t = Tools.intersectionCircleAndRectangle(
+                    (int) currentObject.getPosition().getX(),
+                    (int) currentObject.getPosition().getY(),
+                    Constants.BIRD_DIAMETER,
+                    (int) objectCollided.getPosition().getX(),
+                    (int) objectCollided.getPosition().getY(),
+                    ((ObstacleModel) objectCollided).getWidth(),
+                    ((ObstacleModel) objectCollided).getHeight());
+
+            /**
+             * Check
+             */
+            if (t) {
+                currentObject.getHitbox().setCollided(true);
+                currentObject.getHitbox().addCollided(objectCollided);
+
+                // second object
+                objectCollided.getHitbox().setCollided(true);
+                objectCollided.getHitbox().addCollided(currentObject);
+            }
+
+            return t;
         }
 
         return false;
@@ -312,110 +481,6 @@ public class PhysicEngine implements Motor {
 
 
     /**
-     * Process a step
-     */
-    public static void step() {
-        // check collisions
-        checkCollisions();
-
-        Iterator<GameObjectModel> obj = gameobjects.iterator();
-        while (obj.hasNext()) {
-            GameObjectModel gom = obj.next();
-            if (!gom.canMove()) {
-                continue;
-            }
-
-
-            // sums
-            Force totalConstantsForces = gom.getTotalConstantsForces();
-
-            // some dynamic laws...
-
-            // acceleration
-            double accel_x = totalConstantsForces.getX();
-            double accel_y = totalConstantsForces.getY();
-
-            double velocity_x = gom.getVelocity().getX(),
-                    velocity_y = gom.getVelocity().getY();
-
-            // position
-            double x = gom.getPosition().getX() + velocity_x * deltaTime;
-            double y = gom.getPosition().getY() + velocity_y * deltaTime;
-
-            // velocity
-            velocity_x = accel_x * deltaTime + gom.getVelocity().getX();
-            velocity_y = accel_y * deltaTime + gom.getVelocity().getY();
-
-            // set
-            gom.getAcceleration().setPosition(accel_x, accel_y);
-            gom.getVelocity().setPosition(velocity_x, velocity_y);
-            gom.getPosition().setPosition(x, y);
-
-            System.out.println(gom.getLabelName() + ": " + gom.getVelocity().toString());
-
-            if (gom.getPosition().getY() > Constants.WINDOW_HEIGHT) {
-                Game.BLOCK_STATUS = !Game.BLOCK_STATUS;
-            }
-
-
-            // IF COLLISION
-            if (gom.getHitbox().isCollided()) {
-                Iterator<GameObjectModel> iterator = gom.getHitbox().getObjectsCollided().iterator();
-
-                while (iterator.hasNext()) {
-                    GameObjectModel objectCollided = iterator.next();
-                    processCollision2(gom, objectCollided);
-                }
-
-
-            }
-
-        }
-
-
-        // clear collisions
-        Iterator<GameObjectModel> iterator = gameobjects.iterator();
-        while (iterator.hasNext()) {
-            iterator.next().getHitbox().clearCollided();
-        }
-
-
-        deltaTime += 0.002;
-    }
-
-    private static void processCollision2(GameObjectModel A, GameObjectModel B) {
-
-        // system mass
-        double total = A.getMass() + B.getMass();
-
-        System.out.println("TotalSysteme: " + total);
-
-        // Direction collision
-        Force direction = new Force(
-                (A.getMass() * A.getVelocity().getX() / total),
-                (A.getMass() * A.getVelocity().getY()) / total
-        );
-
-
-
-
-        System.out.println("Collision between " + A.getLabelName() + " et " + B.getLabelName());
-
-        double vx = -direction.getX(),
-                vy = -(direction.getY());
-
-        System.out.println("ApplyForce: " + vx + ":" + vy);
-
-
-        if (A.canMove()) {
-            System.out.println("---------------");
-            A.getVelocity().setPosition(vx, vy);
-            System.out.println("Force: " + A.getVelocity());
-        }
-
-    }
-
-    /**
      * Check collision
      */
     private static void checkCollisions() {
@@ -431,10 +496,9 @@ public class PhysicEngine implements Motor {
                     break;
                 }
 
-                if (processCollision(current, collided) == true) {
 
-                } else {
-                }
+                // test collisions
+                processCollision(current, collided);
             }
         }
     }

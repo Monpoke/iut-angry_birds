@@ -34,6 +34,9 @@ public class BirdController extends GameObjectController {
     public void setDeathAction(AngryEvent deathEvent) {
         this.deathEvent = deathEvent;
     }
-    
-    
+
+
+    public AngryEvent getDeathAction() {
+        return deathEvent;
+    }
 }

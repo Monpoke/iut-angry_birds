@@ -11,6 +11,7 @@ import angrybirds.controllers.ObstacleController;
 import angrybirds.events.AngryEvent;
 import angrybirds.hitbox.RectangleHitbox;
 import angrybirds.models.BirdModel;
+import angrybirds.models.GameObjectModel;
 import angrybirds.models.ObstacleModel;
 import angrybirds.motors.PhysicEngine;
 import angrybirds.structures.Vector2d;
@@ -22,9 +23,11 @@ import angrybirds.trajectories.physic.Gravity;
 import angrybirds.views.*;
 import angrybirds.views.Window;
 
+import javax.swing.*;
 import java.awt.*;
 import java.util.*;
 import java.util.List;
+import java.util.Timer;
 
 /**
  * @author Pierre
@@ -68,7 +71,7 @@ public class Game extends BaseGame {
     /**
      * Check the availabity of game
      */
-    public static boolean BLOCK_STATUS = true;
+    public static boolean BLOCK_STATUS = false;
 
     public Game(int fps) {
         this.fps = fps;
@@ -127,16 +130,17 @@ public class Game extends BaseGame {
         so.getModel().addConstantForce(new Gravity(so.getModel().getMass()));
         PhysicEngine.registerGameobject(so.getModel());
 
-        y=50;
-        so = ObstacleFactory.createObstacle("SQUARE", x, y);
+
+        x += 150;
+        y = 50;
+        so = ObstacleFactory.createObstacle("CIRCLE", x, y);
         so.getModel().setMass(1);
+        so.getModel().setCanMove(false);
         so.getModel().setLabelName("toptop");
-       // objects.add(so);
+        objects.add(so);
         // Add to physic motor
         so.getModel().addConstantForce(new Gravity(so.getModel().getMass()));
-       // PhysicEngine.registerGameobject(so.getModel());
-
-
+        PhysicEngine.registerGameobject(so.getModel());
 
     }
 
@@ -194,12 +198,21 @@ public class Game extends BaseGame {
 
         // ON DEATH, RESET SCENE.
         birdController.setDeathAction(new AngryEvent() {
-
             @Override
             public void notif(Object data) {
                 try {
                     Thread.sleep(Constants.PLAY_RESET_AFTER);
-                    resetScene();
+
+                    JOptionPane.showMessageDialog(null, "You're died! " +
+                            "Can't restart scene, exiting...\n Concurrent modification exception...");
+                    System.exit(0);
+
+                   // bird.getModel().getHitbox().clearCollided();
+                   // bird.getModel().getPosition().setPosition(Constants.BIRD_START_X, Constants.WINDOW_HEIGHT-Constants.BIRD_START_Y_FROM_BOTTOM);
+
+
+
+                   // resetScene();
                 } catch (InterruptedException ex) {
                 }
             }
@@ -238,7 +251,7 @@ public class Game extends BaseGame {
 
 
         // update bird
-//        bird.getController().update();
+        bird.getController().update();
 
         // update objects
         Iterator<GameObject> cur = objects.iterator();
@@ -246,7 +259,7 @@ public class Game extends BaseGame {
             GameObject currentObject = cur.next();
             GameObjectController controller = currentObject.getController();
             if (controller != null) {
-                //              controller.update();
+                //             controller.update();
             }
 
             ((BirdModel) bird.getModel()).setIsAlive(true);
@@ -260,10 +273,7 @@ public class Game extends BaseGame {
                     GameObject objectCollided = it.next();
                     if (currentObject.getModel().getLabelName().equals("topSquare")) {
                         // System.out.println("Comparing with:" + objectCollided.getModel().getLabelName());
-
-
                     }
-
 
                     if (objectCollided == currentObject) {
                         break; // because all objects are organised by order
@@ -275,6 +285,7 @@ public class Game extends BaseGame {
                 }
             }
         }
+
 
     }
 
@@ -299,13 +310,15 @@ public class Game extends BaseGame {
         ShapeObstacle rectangle = ObstacleFactory.createObstacle("square", 0, Constants.WINDOW_HEIGHT - 50);
         ((ObstacleModel) rectangle.getModel()).setWidth(Constants.WINDOW_WIDTH);
         ((ObstacleModel) rectangle.getModel()).setHeight(30);
+
         // Disable hide rectangle
-        rectangle.setHidden(false);
+        rectangle.setHidden(true);
         rectangle.getModel().setLabelName("floor");
         objects.add(rectangle);
         rectangle.getModel().setCanMove(false);
         // add some hitbox to ground
         rectangle.getModel().setHitbox(new RectangleHitbox(rectangle.getModel(), Constants.WINDOW_WIDTH, 30));
+        rectangle.getModel().getHitbox().setKiller(true);
         PhysicEngine.registerGameobject(rectangle.getModel());
     }
 
@@ -322,9 +335,9 @@ public class Game extends BaseGame {
         obsModel.setLabelName(label);
         obsModel.setHeight((v.equals("v") ? Constants.WINDOW_HEIGHT : 15));
         obsModel.setWidth((!v.equals("v") ? Constants.WINDOW_WIDTH : 15));
-
         ObstacleController obsController = new ObstacleController(obsModel);
         RectangleObstacle obsView = new RectangleObstacle(obsModel, obsController);
+        obsModel.getHitbox().setKiller(true);
 
         // hide the obstacle
         obsView.setHidden(true);

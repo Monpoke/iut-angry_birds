@@ -51,7 +51,7 @@ public class DragListener implements AngryEvent, MouseListener, MouseMotionListe
     @Override
     public void mouseClicked(MouseEvent e) {
         if(SwingUtilities.isMiddleMouseButton(e)){
-            Game.BLOCK_STATUS = !Game.BLOCK_STATUS;
+           // Game.BLOCK_STATUS = !Game.BLOCK_STATUS;
         }
     }
 
@@ -137,7 +137,9 @@ public class DragListener implements AngryEvent, MouseListener, MouseMotionListe
         double nX = birdPosition.getX() - decalX;
         double nY = birdPosition.getY() - decalY;
 
-        if (Constants.DEBUG_DRAG || Tools.distancePoints(birdPosition.getX(), nX, birdPosition.getY(), nY) <= 8000) {
+        if (Constants.DEBUG_DRAG || Tools.distancePoints(birdPosition.getX(), nX, birdPosition.getY(), nY) <= 8000
+                &&
+                decalX>0) {
             po.setX(nX);
             po.setY(nY);
         }
@@ -174,7 +176,7 @@ public class DragListener implements AngryEvent, MouseListener, MouseMotionListe
         bird.getController().addMovement(ma);
         */
 
-        bird.getModel().setVelocity(new Force(2,-0.9));
+        bird.getModel().setVelocity(new Force(force.getX(), -force.getY()));
         bird.getModel().setCanMove(true);
 
     }
