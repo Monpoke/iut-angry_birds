@@ -112,7 +112,7 @@ public class Game extends BaseGame {
      */
     private void debug_object() {
         int x = 500,
-                y = 50;
+                y = 400;
 
 
         /**
@@ -120,12 +120,23 @@ public class Game extends BaseGame {
          */
         ShapeObstacle so;
         so = ObstacleFactory.createObstacle("SQUARE", x, y);
-        so.getModel().setMass(500);
+        so.getModel().setMass(100);
         so.getModel().setLabelName("topSquare");
         objects.add(so);
         // Add to physic motor
         so.getModel().addConstantForce(new Gravity(so.getModel().getMass()));
         PhysicEngine.registerGameobject(so.getModel());
+
+        y=50;
+        so = ObstacleFactory.createObstacle("SQUARE", x, y);
+        so.getModel().setMass(1);
+        so.getModel().setLabelName("toptop");
+       // objects.add(so);
+        // Add to physic motor
+        so.getModel().addConstantForce(new Gravity(so.getModel().getMass()));
+       // PhysicEngine.registerGameobject(so.getModel());
+
+
 
     }
 
@@ -223,7 +234,7 @@ public class Game extends BaseGame {
      */
     public void updateElements() {
         // Update World
-        PhysicEngine.applyForces();
+        PhysicEngine.step();
 
 
         // update bird
@@ -292,8 +303,10 @@ public class Game extends BaseGame {
         rectangle.setHidden(false);
         rectangle.getModel().setLabelName("floor");
         objects.add(rectangle);
+        rectangle.getModel().setCanMove(false);
         // add some hitbox to ground
         rectangle.getModel().setHitbox(new RectangleHitbox(rectangle.getModel(), Constants.WINDOW_WIDTH, 30));
+        PhysicEngine.registerGameobject(rectangle.getModel());
     }
 
     /**

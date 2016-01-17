@@ -174,4 +174,13 @@ public class Vector2d {
     public Vector2d normal() {
         return new Vector2d(-x,y);
     }
+
+    /**
+     * Dot product
+     * @param normal
+     * @return
+     */
+    public double dotProduct(Vector2d normal) {
+        return x * normal.getX() + y * normal.getY();
+    }
 }

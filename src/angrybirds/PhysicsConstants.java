@@ -9,5 +9,5 @@ package angrybirds;
  * @author Pierre
  */
 public abstract class PhysicsConstants {
-    public static double G = 9;
+    public static double G = 9.81;
 }

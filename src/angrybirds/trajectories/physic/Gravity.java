@@ -10,7 +10,7 @@ public class Gravity extends Force {
     private double mass;
 
     public Gravity(double mass) {
-        super(0, PhysicsConstants.G *mass);
-        this.mass=mass;
+        super(0, PhysicsConstants.G * mass);
+        this.mass = mass;
     }
 }

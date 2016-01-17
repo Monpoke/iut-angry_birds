@@ -170,7 +170,7 @@ public abstract class GameObjectModel extends Observable {
         if (mass == 0) {
             this.mass = INFINITE_MASS;
         } else {
-            this.mass = 1.0 / mass;
+            this.mass = mass;
 
             System.out.println("Mass: " + this.mass);
         }

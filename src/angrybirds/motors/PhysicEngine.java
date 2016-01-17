@@ -2,6 +2,7 @@ package angrybirds.motors;
 
 
 import angrybirds.Constants;
+import angrybirds.Game;
 import angrybirds.Tools;
 import angrybirds.models.GameObjectModel;
 import angrybirds.models.ObstacleModel;
@@ -63,16 +64,16 @@ public class PhysicEngine implements Motor {
                      * @2: Vélocité de collision selon la masse des obhects
                      * @TODO: Modifier
                      */
-                   // currentObject.setVelocity(new Force(0, 0));
+                    // currentObject.setVelocity(new Force(0, 0));
 
 
                     /**
                      * Looking for collisions
                      */
                     Iterator<GameObjectModel> iterator = currentObject.getHitbox().getObjectsCollided().iterator();
-                    while(iterator.hasNext()){
+                    while (iterator.hasNext()) {
                         GameObjectModel c = iterator.next();
-                        if(c==currentObject){
+                        if (c == currentObject) {
                             break;
                         }
                         System.out.println("Hello, i'm " + currentObject.getLabelName() + " and I collide with " + c.getLabelName());
@@ -137,9 +138,9 @@ public class PhysicEngine implements Motor {
                 currentObject.getPosition().setPosition(x, y);
 
                 if (y > Constants.WINDOW_HEIGHT) {
-                  //  Game.BLOCK_STATUS = true;
+                    //  Game.BLOCK_STATUS = true;
                     // delete object from motor
-                   // unregisterGameobject(currentObject);
+                    // unregisterGameobject(currentObject);
                 }
             }
 
@@ -155,6 +156,7 @@ public class PhysicEngine implements Motor {
     public static void registerGameobject(GameObjectModel gameObjectModel) {
         gameobjects.add(gameObjectModel);
     }
+
     public static void unregisterGameobject(GameObjectModel gameObjectModel) {
         gameobjects.remove(gameObjectModel);
     }
@@ -169,16 +171,17 @@ public class PhysicEngine implements Motor {
      * @param currentObject
      * @param objectCollided
      */
-    public static void processCollision(GameObjectModel currentObject, GameObjectModel objectCollided) {
+    public static boolean processCollision(GameObjectModel currentObject, GameObjectModel objectCollided) {
         if (currentObject.getType().equals(GameObjectModel.TYPES.CIRCLE) && objectCollided.getType().equals(GameObjectModel.TYPES.CIRCLE)) {
-            processCircleCollision(currentObject, objectCollided);
+            return processCircleCollision(currentObject, objectCollided);
         } else if (currentObject.getType().equals(GameObjectModel.TYPES.SQUARE) && objectCollided.getType().equals(GameObjectModel.TYPES.SQUARE)) {
-            processSquareCollision(currentObject, objectCollided);
+            return processSquareCollision(currentObject, objectCollided);
         }
 
+        return false;
     }
 
-    private static void processSquareCollision(GameObjectModel objectA, GameObjectModel objectB) {
+    private static boolean processSquareCollision(GameObjectModel objectA, GameObjectModel objectB) {
         if (Tools.intersectionRectangleAndRectangle(
                 (int) objectA.getPosition().getX(),
                 (int) objectA.getPosition().getY(),
@@ -194,7 +197,10 @@ public class PhysicEngine implements Motor {
 
             objectA.getHitbox().addCollided(objectB);
             objectB.getHitbox().addCollided(objectA);
+
+            return true;
         }
+        return false;
     }
 
     /**
@@ -203,7 +209,7 @@ public class PhysicEngine implements Motor {
      * @param objectA
      * @param objectB
      */
-    private static void processCircleCollision(GameObjectModel objectA, GameObjectModel objectB) {
+    private static boolean processCircleCollision(GameObjectModel objectA, GameObjectModel objectB) {
 
         Force velocityA, velocityB;
 
@@ -248,6 +254,7 @@ public class PhysicEngine implements Motor {
 	Vector3 vReflechie1 = V1x+V1y;
 	Vector3 vReflechie2 = V2x+V2y;
          */
+        return true;
     }
 
 
@@ -274,8 +281,8 @@ public class PhysicEngine implements Motor {
         float j = -(1 + e) * velAlongNormal;
 
 
-         //  j /= 1 / A.getMass() + 1 / B.getMass()          ;
-       // j /= A.getMass() + B.getMass();
+        //  j /= 1 / A.getMass() + 1 / B.getMass()          ;
+        // j /= A.getMass() + B.getMass();
 
         // Apply impulse
         Vector2d impulse = normal.multiply(j);
@@ -286,12 +293,12 @@ public class PhysicEngine implements Motor {
         B.setVelocity(B.getVelocity().add(impulse.multiply(B.getMass())));
 
 
-       // correctPosition(A,B,normal);
+        // correctPosition(A,B,normal);
     }
 
-    private static void correctPosition(GameObjectModel A, GameObjectModel B,Vector2d normal){
+    private static void correctPosition(GameObjectModel A, GameObjectModel B, Vector2d normal) {
         final double percent = 0.2; // usually 20% to 80%
-        double penetrationDepth=15;
+        double penetrationDepth = 15;
 
 
         double coeff = (penetrationDepth / (A.getMass() + B.getMass())) * percent;
@@ -301,6 +308,157 @@ public class PhysicEngine implements Motor {
         Vector2d bPo = B.getPosition().substract(correction.multiply(B.getMass()));
         A.getPosition().setPosition(aPo.getX(), aPo.getY());
         B.getPosition().setPosition(bPo.getX(), bPo.getY());
+    }
+
+
+    /**
+     * Process a step
+     */
+    public static void step() {
+        // check collisions
+        checkCollisions();
+
+        Iterator<GameObjectModel> obj = gameobjects.iterator();
+        while (obj.hasNext()) {
+            GameObjectModel gom = obj.next();
+            if (!gom.canMove()) {
+                continue;
+            }
+
+
+            // sums
+            Force totalConstantsForces = gom.getTotalConstantsForces();
+
+            // some dynamic laws...
+
+            // acceleration
+            double accel_x = totalConstantsForces.getX();
+            double accel_y = totalConstantsForces.getY();
+
+            double velocity_x = gom.getVelocity().getX(),
+                    velocity_y = gom.getVelocity().getY();
+
+            // position
+            double x = gom.getPosition().getX() + velocity_x * deltaTime;
+            double y = gom.getPosition().getY() + velocity_y * deltaTime;
+
+            // velocity
+            velocity_x = accel_x * deltaTime + gom.getVelocity().getX();
+            velocity_y = accel_y * deltaTime + gom.getVelocity().getY();
+
+            // set
+            gom.getAcceleration().setPosition(accel_x, accel_y);
+            gom.getVelocity().setPosition(velocity_x, velocity_y);
+            gom.getPosition().setPosition(x, y);
+
+            System.out.println(gom.getLabelName() + ": " + gom.getVelocity().toString());
+
+            if (gom.getPosition().getY() > Constants.WINDOW_HEIGHT) {
+                Game.BLOCK_STATUS = !Game.BLOCK_STATUS;
+            }
+
+
+            // IF COLLISION
+            if (gom.getHitbox().isCollided()) {
+                Iterator<GameObjectModel> iterator = gom.getHitbox().getObjectsCollided().iterator();
+
+                while (iterator.hasNext()) {
+                    GameObjectModel objectCollided = iterator.next();
+                    processCollision2(gom, objectCollided);
+                }
+
+
+            }
+
+        }
+
+
+        // clear collisions
+        Iterator<GameObjectModel> iterator = gameobjects.iterator();
+        while (iterator.hasNext()) {
+            iterator.next().getHitbox().clearCollided();
+        }
+
+
+        deltaTime += 0.002;
+    }
+
+    private static void processCollision2(GameObjectModel A, GameObjectModel B) {
+
+        // system mass
+        double total = A.getMass() + B.getMass();
+
+        System.out.println("TotalSysteme: " + total);
+
+        // Direction collision
+        Force direction = new Force(
+                (A.getMass() * A.getVelocity().getX() / total),
+                (A.getMass() * A.getVelocity().getY()) / total
+        );
+
+
+
+
+        System.out.println("Collision between " + A.getLabelName() + " et " + B.getLabelName());
+
+        double vx = -direction.getX(),
+                vy = -(direction.getY());
+
+        System.out.println("ApplyForce: " + vx + ":" + vy);
+
+
+        if (A.canMove()) {
+            System.out.println("---------------");
+            A.getVelocity().setPosition(vx, vy);
+            System.out.println("Force: " + A.getVelocity());
+        }
+
+    }
+
+    /**
+     * Check collision
+     */
+    private static void checkCollisions() {
+        Iterator<GameObjectModel> currentob = gameobjects.iterator();
+        while (currentob.hasNext()) {
+            GameObjectModel current = currentob.next();
+            Iterator<GameObjectModel> others = gameobjects.iterator();
+
+            // CHECK COLLIDED
+            while (others.hasNext()) {
+                GameObjectModel collided = others.next();
+                if (collided == current) {
+                    break;
+                }
+
+                if (processCollision(current, collided) == true) {
+
+                } else {
+                }
+            }
+        }
+    }
+
+    private static void processImpulse(GameObjectModel A, GameObjectModel B) {
+        Vector2d rv = B.getVelocity().substract(A.getVelocity());
+        Vector2d normal = rv.normal();
+        double contactVel = rv.dotProduct(normal);
+
+        // Do not resolve if velocities are separating
+        if (contactVel > 0)
+            return;
+
+        // Calculate restitution
+        double e = Math.min(A.restitution, B.restitution);
+
+        // Calculate impulse scalar
+        double j = -(1.0f + e) * contactVel;
+        j /= A.getMass() + B.getMass();
+
+        // Apply impulse
+        Vector2d impulse = normal.multiply(j);
+        A.getVelocity().substract(impulse.multiply(A.getMass()));
+        B.getVelocity().add(impulse.multiply(B.getMass()));
     }
 }
 
