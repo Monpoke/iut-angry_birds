@@ -170,4 +170,8 @@ public class Vector2d {
     public Vector2d substract(Vector2d multiply) {
         return new Vector2d(x - multiply.getX(), y-multiply.getY());
     }
+
+    public Vector2d normal() {
+        return new Vector2d(-x,y);
+    }
 }

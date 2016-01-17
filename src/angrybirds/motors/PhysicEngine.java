@@ -2,7 +2,6 @@ package angrybirds.motors;
 
 
 import angrybirds.Constants;
-import angrybirds.Game;
 import angrybirds.Tools;
 import angrybirds.models.GameObjectModel;
 import angrybirds.models.ObstacleModel;
@@ -43,7 +42,9 @@ public class PhysicEngine implements Motor {
         while (allObjects.hasNext()) {
             currentObject = allObjects.next();
 
-            if (currentObject.getType() != GameObjectModel.TYPES.BIRD && currentObject.canMove()) {
+            System.out.println(currentObject.getLabelName());
+
+            if (currentObject.canMove()) {
                 forcesSums = new Force(0f, 0f);
                 forcesMoms = new Force(0f, 0f);
 
@@ -71,6 +72,9 @@ public class PhysicEngine implements Motor {
                     Iterator<GameObjectModel> iterator = currentObject.getHitbox().getObjectsCollided().iterator();
                     while(iterator.hasNext()){
                         GameObjectModel c = iterator.next();
+                        if(c==currentObject){
+                            break;
+                        }
                         System.out.println("Hello, i'm " + currentObject.getLabelName() + " and I collide with " + c.getLabelName());
                         resolveCollision(currentObject, c);
                     }
@@ -97,7 +101,6 @@ public class PhysicEngine implements Motor {
                 Acceleration = forcesSums.divide(currentObject.getMass());
                 currentObject.setAcceleration(Acceleration);
 
-                System.out.println("Accel: " + Acceleration);
 
                 // velocity
                 double v_x = currentObject.getVelocity().getX()
@@ -108,7 +111,6 @@ public class PhysicEngine implements Motor {
 
                 if (currentObject.getType().equals(GameObjectModel.TYPES.SQUARE)) {
                     //System.out.println("" + currentObject.getAcceleration().toString());
-                    System.out.println("" + currentObject.getVelocity().toString());
                     //  System.out.println("" + currentObject.getPosition().toString());
                     // System.out.println("");
                 }
@@ -135,8 +137,9 @@ public class PhysicEngine implements Motor {
                 currentObject.getPosition().setPosition(x, y);
 
                 if (y > Constants.WINDOW_HEIGHT) {
-                    System.out.println("Sortie de scene");
-                    Game.BLOCK_STATUS = true;
+                  //  Game.BLOCK_STATUS = true;
+                    // delete object from motor
+                   // unregisterGameobject(currentObject);
                 }
             }
 
@@ -151,6 +154,9 @@ public class PhysicEngine implements Motor {
 
     public static void registerGameobject(GameObjectModel gameObjectModel) {
         gameobjects.add(gameObjectModel);
+    }
+    public static void unregisterGameobject(GameObjectModel gameObjectModel) {
+        gameobjects.remove(gameObjectModel);
     }
 
     public static double getDeltaTime() {
@@ -217,7 +223,6 @@ public class PhysicEngine implements Motor {
         objectB.setVelocity(new Force(-V_x * velocityB.getX(), -V_y * velocityB.getY()));
 
 
-        System.out.println("---------------------------------------------------");
         // update des positions pour éviter les entrées de collision
 
         // Force de reaction
@@ -248,10 +253,11 @@ public class PhysicEngine implements Motor {
 
     private static void resolveCollision(GameObjectModel A, GameObjectModel B) {
 
-        Vector2d normal = new Vector2d(0,-10);
 
         // Calculate relative velocity
         Force rv = B.getVelocity().substract(A.getVelocity());
+
+        Vector2d normal = rv.normal();
 
         // Calculate relative velocity in terms of the normal direction
         float velAlongNormal = 2;//DotProduct( rv, normal )
@@ -263,7 +269,6 @@ public class PhysicEngine implements Motor {
         // Calculate restitution
         float e = Math.min(A.restitution, B.restitution);
 
-        System.out.println("restitution: " + e);
 
         // Calculate impulse scalar
         float j = -(1 + e) * velAlongNormal;
@@ -272,29 +277,22 @@ public class PhysicEngine implements Motor {
          //  j /= 1 / A.getMass() + 1 / B.getMass()          ;
        // j /= A.getMass() + B.getMass();
 
-        System.out.println("j="+(A.getMass() + B.getMass()));
         // Apply impulse
         Vector2d impulse = normal.multiply(j);
 
-        Vector2d imp = impulse.multiply(250*A.getMass());
+        Vector2d imp = impulse.multiply(A.getMass());
 
-        System.out.println("Avant: " + A.getVelocity());
-        System.out.println("AddAnImpulseOnA: " + imp);
         A.setVelocity(A.getVelocity().substract(imp));
-
-        System.out.println("Apres: " + A.getVelocity());
-
         B.setVelocity(B.getVelocity().add(impulse.multiply(B.getMass())));
 
 
-        correctPosition(A,B);
+       // correctPosition(A,B,normal);
     }
 
-    private static void correctPosition(GameObjectModel A, GameObjectModel B){
+    private static void correctPosition(GameObjectModel A, GameObjectModel B,Vector2d normal){
         final double percent = 0.2; // usually 20% to 80%
         double penetrationDepth=15;
 
-        Vector2d normal = new Vector2d();
 
         double coeff = (penetrationDepth / (A.getMass() + B.getMass())) * percent;
 

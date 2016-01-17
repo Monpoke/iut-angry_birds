@@ -127,22 +127,6 @@ public class Game extends BaseGame {
         so.getModel().addConstantForce(new Gravity(so.getModel().getMass()));
         PhysicEngine.registerGameobject(so.getModel());
 
-
-        /**
-         * Square 2
-         */
-        x = 300;
-        y=150;
-        so = ObstacleFactory.createObstacle("SQUARE", x, y);
-        so.getModel().setMass(500);
-        so.getModel().setLabelName("topSquare");
-        objects.add(so);
-        // Add to physic motor
-        so.getModel().addConstantForce(new Gravity(so.getModel().getMass()));
-        PhysicEngine.registerGameobject(so.getModel());
-
-
-
     }
 
 
@@ -194,7 +178,7 @@ public class Game extends BaseGame {
         bird = new Bird(birdModel, birdController);
         birdModel.addView(bird);
         birdModel.setLabelName("bird");
-
+        birdModel.setCanMove(false);
         birdModel.setController(birdController);
 
         // ON DEATH, RESET SCENE.
@@ -211,6 +195,7 @@ public class Game extends BaseGame {
         });
 
         objects.add(bird);
+        PhysicEngine.registerGameobject(bird.getModel());
     }
 
     /**
@@ -246,7 +231,7 @@ public class Game extends BaseGame {
 
         // update objects
         Iterator<GameObject> cur = objects.iterator();
-        while(cur.hasNext()) {
+        while (cur.hasNext()) {
             GameObject currentObject = cur.next();
             GameObjectController controller = currentObject.getController();
             if (controller != null) {
@@ -260,10 +245,10 @@ public class Game extends BaseGame {
 
 
                 Iterator<GameObject> it = objects.iterator();
-                while(it.hasNext()){
+                while (it.hasNext()) {
                     GameObject objectCollided = it.next();
                     if (currentObject.getModel().getLabelName().equals("topSquare")) {
-                       // System.out.println("Comparing with:" + objectCollided.getModel().getLabelName());
+                        // System.out.println("Comparing with:" + objectCollided.getModel().getLabelName());
 
 
                     }
@@ -273,7 +258,7 @@ public class Game extends BaseGame {
                         break; // because all objects are organised by order
                     } else if (objectCollided.getModel().hasCollision()) {
 
-                        PhysicEngine.processCollision(currentObject.getModel(),objectCollided.getModel());
+                        PhysicEngine.processCollision(currentObject.getModel(), objectCollided.getModel());
 
                     }
                 }

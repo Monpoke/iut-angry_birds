@@ -44,8 +44,9 @@ public abstract class GameObjectModel extends Observable {
     protected Force velocity = new Force(0f, 0f);
     protected List<Force> forces = new ArrayList<>();
     protected List<Force> constantsForces = new ArrayList<>();
-    public final float restitution = 10 ;
-
+    public final float restitution = 0.2f;
+    public final float staticFriction = 0.5f;
+    public final float dynamicFriction = 0.3f;
     /**
      * Object position.
      */
@@ -169,7 +170,7 @@ public abstract class GameObjectModel extends Observable {
         if (mass == 0) {
             this.mass = INFINITE_MASS;
         } else {
-            this.mass = 1.0/mass;
+            this.mass = 1.0 / mass;
 
             System.out.println("Mass: " + this.mass);
         }
@@ -255,7 +256,7 @@ public abstract class GameObjectModel extends Observable {
     }
 
     public String getLabelName() {
-        return labelName.length() > 0 ? labelName: id.toString();
+        return labelName.length() > 0 ? labelName : id.toString();
     }
 
 }

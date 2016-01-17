@@ -174,8 +174,8 @@ public class DragListener implements AngryEvent, MouseListener, MouseMotionListe
         bird.getController().addMovement(ma);
         */
 
-        bird.getModel().addForce(new Force(20,2));
-
+        bird.getModel().setVelocity(new Force(2,-0.9));
+        bird.getModel().setCanMove(true);
 
     }
 
