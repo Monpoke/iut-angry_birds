@@ -8,7 +8,6 @@ import angrybirds.models.GameObjectModel;
 import angrybirds.models.ObstacleModel;
 import angrybirds.structures.Vector2d;
 import angrybirds.trajectories.physic.Force;
-import angrybirds.views.GameObject;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -63,7 +62,7 @@ public class PhysicEngine implements Motor {
                      * @2: Vélocité de collision selon la masse des obhects
                      * @TODO: Modifier
                      */
-                    currentObject.setVelocity(new Force(0, 0));
+                   // currentObject.setVelocity(new Force(0, 0));
 
 
                     /**
@@ -73,24 +72,11 @@ public class PhysicEngine implements Motor {
                     while(iterator.hasNext()){
                         GameObjectModel c = iterator.next();
                         System.out.println("Hello, i'm " + currentObject.getLabelName() + " and I collide with " + c.getLabelName());
-                        processCollision(currentObject, c);
+                        resolveCollision(currentObject, c);
                     }
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+                    currentObject.getHitbox().clearCollided();
 
                 }
 
@@ -111,6 +97,7 @@ public class PhysicEngine implements Motor {
                 Acceleration = forcesSums.divide(currentObject.getMass());
                 currentObject.setAcceleration(Acceleration);
 
+                System.out.println("Accel: " + Acceleration);
 
                 // velocity
                 double v_x = currentObject.getVelocity().getX()
@@ -126,6 +113,7 @@ public class PhysicEngine implements Motor {
                     // System.out.println("");
                 }
 
+                currentObject.setAcceleration(Acceleration);
 
                 Velocity = new Force(v_x, v_y);
                 currentObject.setVelocity(Velocity);
@@ -258,9 +246,9 @@ public class PhysicEngine implements Motor {
     }
 
 
-    private void resolveCollision(GameObjectModel A, GameObjectModel B) {
+    private static void resolveCollision(GameObjectModel A, GameObjectModel B) {
 
-        Vector2d normal = new Vector2d();
+        Vector2d normal = new Vector2d(0,-10);
 
         // Calculate relative velocity
         Force rv = B.getVelocity().substract(A.getVelocity());
@@ -275,19 +263,46 @@ public class PhysicEngine implements Motor {
         // Calculate restitution
         float e = Math.min(A.restitution, B.restitution);
 
+        System.out.println("restitution: " + e);
+
         // Calculate impulse scalar
         float j = -(1 + e) * velAlongNormal;
-        //  j /= 1 / A.getMass() + 1 / B.getMass()       ;
-        j /= A.getMass() + B.getMass();
 
+
+         //  j /= 1 / A.getMass() + 1 / B.getMass()          ;
+       // j /= A.getMass() + B.getMass();
+
+        System.out.println("j="+(A.getMass() + B.getMass()));
         // Apply impulse
         Vector2d impulse = normal.multiply(j);
 
+        Vector2d imp = impulse.multiply(250*A.getMass());
 
-        A.getVelocity().substract(impulse.multiply(A.getMass()));
-        B.getVelocity().add(impulse.multiply(B.getMass()));
+        System.out.println("Avant: " + A.getVelocity());
+        System.out.println("AddAnImpulseOnA: " + imp);
+        A.setVelocity(A.getVelocity().substract(imp));
+
+        System.out.println("Apres: " + A.getVelocity());
+
+        B.setVelocity(B.getVelocity().add(impulse.multiply(B.getMass())));
 
 
+        correctPosition(A,B);
+    }
+
+    private static void correctPosition(GameObjectModel A, GameObjectModel B){
+        final double percent = 0.2; // usually 20% to 80%
+        double penetrationDepth=15;
+
+        Vector2d normal = new Vector2d();
+
+        double coeff = (penetrationDepth / (A.getMass() + B.getMass())) * percent;
+
+        Vector2d correction = normal.multiply(coeff);
+        Vector2d aPo = A.getPosition().substract(correction.multiply(A.getMass()));
+        Vector2d bPo = B.getPosition().substract(correction.multiply(B.getMass()));
+        A.getPosition().setPosition(aPo.getX(), aPo.getY());
+        B.getPosition().setPosition(bPo.getX(), bPo.getY());
     }
 }
 

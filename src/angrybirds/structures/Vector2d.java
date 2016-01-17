@@ -162,6 +162,12 @@ public class Vector2d {
     }
 
     public Vector2d multiply(double j) {
+
+
         return new Vector2d(x*j,y*j);
+    }
+
+    public Vector2d substract(Vector2d multiply) {
+        return new Vector2d(x - multiply.getX(), y-multiply.getY());
     }
 }

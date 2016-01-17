@@ -120,25 +120,27 @@ public class Game extends BaseGame {
          */
         ShapeObstacle so;
         so = ObstacleFactory.createObstacle("SQUARE", x, y);
-        System.out.println("Initialie avec " + x + ";" + y);
-
-
-        System.out.println("ApresMotor " + so.getModel().getPosition().toString());
-
+        so.getModel().setMass(500);
         so.getModel().setLabelName("topSquare");
-        // add the view to object to draw
         objects.add(so);
-
-
         // Add to physic motor
         so.getModel().addConstantForce(new Gravity(so.getModel().getMass()));
         PhysicEngine.registerGameobject(so.getModel());
 
 
-        // create immobile circle
-        //so = ObstacleFactory.createObstacle("CIRCLE", x, y + 400);
-        // so.getModel().setCanMove(false);
-        //  objects.add(so);
+        /**
+         * Square 2
+         */
+        x = 300;
+        y=150;
+        so = ObstacleFactory.createObstacle("SQUARE", x, y);
+        so.getModel().setMass(500);
+        so.getModel().setLabelName("topSquare");
+        objects.add(so);
+        // Add to physic motor
+        so.getModel().addConstantForce(new Gravity(so.getModel().getMass()));
+        PhysicEngine.registerGameobject(so.getModel());
+
 
 
     }
@@ -273,25 +275,6 @@ public class Game extends BaseGame {
 
                         PhysicEngine.processCollision(currentObject.getModel(),objectCollided.getModel());
 
-                        /*
-                        currentObject.getModel().getHitbox().setCollided(false);
-
-                        // if there are collisions 
-                        if (objectCollided.getModel().getHitbox().intersect(currentObject.getModel().getHitbox())) {
-                            objectCollided.getModel().getHitbox().setCollided(true);
-                            currentObject.getModel().getHitbox().setCollided(true);
-
-                            // Process collision
-                            PhysicEngine.processCollision(currentObject.getModel(), objectCollided.getModel());
-
-
-                            // block on bird
-                            if (objectCollided instanceof Bird) {
-                                ((BirdModel) objectCollided.getModel()).setIsAlive(false);
-                            } else if (currentObject instanceof Bird) {
-                                ((BirdModel) currentObject.getModel()).setIsAlive(false);
-                            }
-                        }*/
                     }
                 }
             }

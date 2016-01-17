@@ -162,14 +162,16 @@ public abstract class GameObjectModel extends Observable {
     }
 
     public double getMass() {
-        return mass == 0 ? INFINITE_MASS : 1 / mass;
+        return mass == 0 ? INFINITE_MASS : mass;
     }
 
     public void setMass(double mass) {
         if (mass == 0) {
             this.mass = INFINITE_MASS;
         } else {
-            this.mass = 1/mass;
+            this.mass = 1.0/mass;
+
+            System.out.println("Mass: " + this.mass);
         }
     }
 
